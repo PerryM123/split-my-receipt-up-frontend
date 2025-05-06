@@ -7,21 +7,26 @@
 ## Needed Features:
 - [ ] Upload images to S3 container
 - [ ] CRUD for receipt info
-- [ ] Designing database 
+- [x] Designing database
 - [ ] Add redis and authentication
 
 ## frontend
-- add tailwind
-- implement designs
-- passing image to backend successfully
-- mock open ai requests
-- create pages:
-  - top: /
-  - receipt list: /receipts
-  - receipt details: /receipts/:receipt-id
-  - preparation: /save-receipt
+- [x] add tailwind
+- [x] add vitest
+- [x] passing image to backend successfully
+- [ ] implement designs
+- [ ] mock open ai requests
+- [ ] create pages:
+  - [ ] preparation: /save-receipt
 
 ## backend
-- setup an s3 container
-- passing image to s3
-- swagger (with node??? or laravel???)
+- [x] setup an dockerized s3 container(minIO)
+- [x] passing image to s3
+- [ ] Add image info to database
+
+## When I have time
+- [ ] swagger (with node??? or laravel???)
+- [ ] create pages:
+  - [ ] top: /
+  - [ ] receipt list: /receipts
+  - [ ] receipt details: /receipts/:receipt-id
