@@ -43,7 +43,7 @@ const analyzeReceipt = async () => {
   formData.append('image', selectedFile.value)
   try {
     // TODO: maybe axios is better? Or using a composable?
-    const response = await fetch('https://localhost:3001/analyze-receipt', {
+    const response = await fetch('http://local.memories.com/api/receipt-info', {
       method: 'POST',
       body: formData
     })
