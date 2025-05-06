@@ -18,6 +18,7 @@
 - [ ] mock open ai requests
 - [ ] create pages:
   - [ ] preparation: /save-receipt
+  - [ ] receipt list: /receipts
 
 ## backend
 - [x] setup an dockerized s3 container(minIO)
@@ -28,5 +29,4 @@
 - [ ] swagger (with node??? or laravel???)
 - [ ] create pages:
   - [ ] top: /
-  - [ ] receipt list: /receipts
   - [ ] receipt details: /receipts/:receipt-id
