@@ -26,7 +26,11 @@
 - [ ] Add image info to database
 
 ## When I have time
+- [ ] Make Open AI API response include a confidence/accuracy rating
+  - [ ] If the rating is too low, throw an error
+  - [ ] If there is no receipt shown in the image, then throw an error
 - [ ] swagger (with node??? or laravel???)
+- [ ] i18 for localization
 - [ ] create pages:
   - [ ] top: /
   - [ ] receipt details: /receipts/:receipt-id
