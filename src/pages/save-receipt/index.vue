@@ -3,11 +3,15 @@
     <img v-if="isLoading" src="/loading.gif" alt="Analyzing Receipt" />
     <template v-else>
       <h2>レシート保存</h2>
+      <p>Receipt Title</p>
+      <input v-model="receiptTitle" />
+
       <fieldset>
         <legend>Who paid?</legend>
         <div>
           <input
             id="perry"
+            v-model="userWhoPaid"
             type="radio"
             name="who-paid"
             value="perry"
@@ -16,7 +20,13 @@
           <label for="perry">Perry</label>
         </div>
         <div>
-          <input id="hannah" type="radio" name="who-paid" value="hannah" />
+          <input
+            id="hannah"
+            v-model="userWhoPaid"
+            type="radio"
+            name="who-paid"
+            value="hannah"
+          />
           <label for="hannah">Hannah</label>
         </div>
       </fieldset>
@@ -31,9 +41,12 @@
   </div>
 </template>
 <script setup lang="ts">
+const DEFAULT_WHO_PAID = 'perry'
 const imageSrc = ref('')
 const selectedFile = ref<File | null>(null)
 const isLoading = ref(false)
+const receiptTitle = ref('')
+const userWhoPaid = ref(DEFAULT_WHO_PAID)
 
 const previewImage = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
@@ -51,6 +64,8 @@ const analyzeReceipt = async () => {
   }
   const formData = new FormData()
   formData.append('image', selectedFile.value)
+  formData.append('title', receiptTitle.value)
+  formData.append('user_who_paid', userWhoPaid.value)
   try {
     isLoading.value = true
     // TODO: maybe axios is better? Or using a composable?
