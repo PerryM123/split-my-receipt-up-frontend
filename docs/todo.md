@@ -23,7 +23,8 @@
 ## backend
 - [x] setup an dockerized s3 container(minIO)
 - [x] passing image to s3
-- [ ] Add image info to database
+- [x] Add image info to database
+- [ ] Make a request to example.com's API as a test for OpenAI API
 
 ## When I have time
 - [ ] Make Open AI API response include a confidence/accuracy rating
