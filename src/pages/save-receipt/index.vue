@@ -17,7 +17,6 @@ TODO:
       <h2>レシート保存</h2>
       <p>Receipt Title</p>
       <input v-model="receiptTitle" />
-
       <fieldset>
         <legend>Who paid?</legend>
         <div>
@@ -52,42 +51,81 @@ TODO:
     </template>
     <template v-else-if="currentStep === STEP_2">
       <h2>Scanned Items</h2>
+      <!-- TODO: 動作確認が終わり次第以下の要素を削除 -->
+      <div class="debug-mode">
+        <p>=========</p>
+        <p>receiptInfo: {{ receiptInfo }}</p>
+        <p>receiptTotal: {{ receiptTotal }}</p>
+        <p>whoPaidForTheItem: {{ whoPaidForTheItem }}</p>
+        <p>perryCount: {{ perryCount }}</p>
+        <p>hannahCount: {{ hannahCount }}</p>
+        <p>bothCount: {{ bothCount }}</p>
+        <p>perry = {{ perryTotal }}</p>
+        <p>hannah = {{ hannahTotal }}</p>
+        <p>
+          perry + hannah = {{ perryTotal + hannahTotal }} (メモ: tax and other
+          must be 256 then?? So receiptTotal - perryTotal - hannahTotal is the
+          tax?)
+        </p>
+        <p>bothTotal = {{ receiptTotal - (perryTotal + hannahTotal) }}</p>
+        <p>=========</p>
+      </div>
       <div>
         <ul>
-          <li>Perry: 260円</li>
-          <li>Hannah: 260円</li>
+          <li>Perry: {{ formatPrice(perryTotal) }}</li>
+          <li>Hannah: {{ formatPrice(hannahTotal) }}</li>
           <li>Total: {{ formatPrice(receiptTotal) }}</li>
         </ul>
         <div>
           <button @click="addScannedItem">Add Item</button>
         </div>
-        <table class="theActualPriceTable">
+        <table>
           <tbody>
-            <tr class="tableRow">
+            <tr>
               <th>Name</th>
               <th>Price</th>
+              <th>Who Paid?</th>
             </tr>
-            <template v-for="(person, personIndex) in [hannahData, perryData]">
-              <tr
-                v-for="(item, itemIndex) in person.items"
-                :key="itemIndex"
-                class="tableRow"
-                :class="`tableRow__person${personIndex}`"
-              >
-                <td>{{ item.productName }}</td>
-                <td>{{ formatPrice(item.price) }}</td>
-                <td class="buttonTableItem">
-                  <button
-                    :data-index="itemIndex"
-                    :data-user-type="person.name"
-                    class="editButton"
-                    @click="(event) => handleOpenEditModal(event, item)"
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            </template>
+            <tr v-for="(item, itemIndex) in receiptInfo.items" :key="itemIndex">
+              <td>{{ item.name }}</td>
+              <td>{{ formatPrice(item.price_total) }}</td>
+              <td>
+                <input
+                  :id="`perry-${itemIndex}`"
+                  v-model="whoPaidForTheItem[itemIndex]"
+                  type="radio"
+                  :name="`who-paid-${itemIndex}`"
+                  :value="`perry`"
+                />
+                <label :for="`perry-${itemIndex}`">P</label>
+                <input
+                  :id="`hannah-${itemIndex}`"
+                  v-model="whoPaidForTheItem[itemIndex]"
+                  type="radio"
+                  :name="`who-paid-${itemIndex}`"
+                  :value="`hannah`"
+                />
+                <label :for="`hannah-${itemIndex}`">H</label>
+                <input
+                  :id="`both-${itemIndex}`"
+                  v-model="whoPaidForTheItem[itemIndex]"
+                  type="radio"
+                  :name="`who-paid-${itemIndex}`"
+                  :value="`both`"
+                  checked
+                />
+                <label :for="`both-${itemIndex}`">両方</label>
+              </td>
+              <td>
+                <button
+                  :data-index="itemIndex"
+                  :data-user-type="item.name"
+                  @click="(event) => handleOpenEditModal(event, item)"
+                >
+                  Edit
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
         <div>
@@ -104,14 +142,15 @@ TODO:
 import { USERS } from '~/constants'
 import type { ItemData, ShoppingData } from '~/interfaces/shopping'
 
-// TODO: Change to type instead???
+// TODO: Instead of interface, is it better to change to type instead???
 interface ReceiptInfo {
-  item: ItemInfo[]
+  items: ItemInfo[]
   receipt_total: number
 }
 interface ItemInfo {
   name: string
   price_total: number
+  whoPaid?: string
 }
 interface ReceiptInfoResponse {
   message: string
@@ -125,18 +164,149 @@ const selectedFile = ref<File | null>(null)
 const isLoading = ref(false)
 const receiptTitle = ref('')
 const userWhoPaid = ref(DEFAULT_WHO_PAID)
-const receiptInfo = ref<ReceiptInfo>()
-const receiptTotal = ref(0)
-const perryData = ref<ShoppingData>({
-  displayName: USERS.PERRY.DISPLAY_NAME,
-  name: USERS.PERRY.NAME,
-  items: []
+// const receiptInfo = ref<ReceiptInfo>()
+// TODO:
+const receiptInfo = ref<ReceiptInfo>({
+  items: [
+    {
+      name: 'ハーゲンミニCロウチャクリキーウカ',
+      price_total: 218,
+      whoPaid: 'both'
+    },
+    {
+      name: 'オリジナルスフラッドオレンジ',
+      price_total: 204,
+      whoPaid: 'both'
+    },
+    {
+      name: 'オカメ スコイサットS-903',
+      price_total: 264,
+      whoPaid: 'both'
+    },
+    {
+      name: 'アタックウオシEXヘヤカカ850g',
+      price_total: 308,
+      whoPaid: 'both'
+    },
+    {
+      name: 'コウサンウオトンジヤ玉150×3',
+      price_total: 78,
+      whoPaid: 'both'
+    },
+    {
+      name: 'セブンスターリサンゴールド',
+      price_total: 499,
+      whoPaid: 'both'
+    },
+    {
+      name: 'ワイドハイターEXパワー820ml',
+      price_total: 328,
+      whoPaid: 'both'
+    },
+    {
+      name: 'サラヤ テイユコット100ムコち56',
+      price_total: 280,
+      whoPaid: 'both'
+    },
+    {
+      name: 'バナナ',
+      price_total: 256,
+      whoPaid: 'both'
+    },
+    {
+      name: 'ハウスバイング35g',
+      price_total: 100,
+      whoPaid: 'both'
+    },
+    {
+      name: 'トマト コツコ',
+      price_total: 398,
+      whoPaid: 'both'
+    },
+    {
+      name: 'タンノンビオカセイタクブドウ',
+      price_total: 326,
+      whoPaid: 'both'
+    },
+    {
+      name: 'タンノンビオ シチリアレモン 4コ',
+      price_total: 163,
+      whoPaid: 'both'
+    },
+    {
+      name: 'コイワイヨーグルトホンボウ400g',
+      price_total: 199,
+      whoPaid: 'both'
+    },
+    {
+      name: 'ミヤマ イチオシムキチ 200g',
+      price_total: 153,
+      whoPaid: 'both'
+    },
+    {
+      name: 'コウサンウオカトリムネニク',
+      price_total: 596,
+      whoPaid: 'both'
+    }
+  ],
+  receipt_total: 4626
 })
-const hannahData = ref<ShoppingData>({
-  displayName: USERS.HANNAH.DISPLAY_NAME,
-  name: USERS.HANNAH.NAME,
-  items: []
+// const receiptTotal = ref(0)
+// TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
+const receiptTotal = ref(4626)
+// TODO: perryTotal & hannahTotal have nearlyy the same logic. Need to make more DRY
+const perryTotal = computed(() => {
+  return receiptInfo.value.items.reduce((total, item, index) => {
+    if (whoPaidForTheItem.value[index] === 'perry') {
+      return total + item.price_total
+    } else if (whoPaidForTheItem.value[index] === 'both') {
+      return total + item.price_total / 2
+    }
+    return total
+  }, 0)
 })
+const hannahTotal = computed(() => {
+  return receiptInfo.value.items.reduce((total, item, index) => {
+    if (whoPaidForTheItem.value[index] === 'hannah') {
+      return total + item.price_total
+    } else if (whoPaidForTheItem.value[index] === 'both') {
+      return total + item.price_total / 2
+    }
+    return total
+  }, 0)
+})
+// const whoPaidForTheItem = ref<string[]>([])
+// TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
+const whoPaidForTheItem = ref<string[]>([
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both',
+  'both'
+])
+const perryCount = computed(
+  // TODO: magic stringの代わりにちゃんと変数に変更
+  () => whoPaidForTheItem.value.filter((item) => item === 'perry').length
+)
+const hannahCount = computed(
+  // TODO: magic stringの代わりにちゃんと変数に変更
+  () => whoPaidForTheItem.value.filter((item) => item === 'hannah').length
+)
+const bothCount = computed(
+  // TODO: magic stringの代わりにちゃんと変数に変更
+  () => whoPaidForTheItem.value.filter((item) => item === 'both').length
+)
 
 const STEP_1 = 'step1'
 const STEP_2 = 'step2'
@@ -175,6 +345,9 @@ const analyzeReceipt = async () => {
     const receiptInfoResponse: ReceiptInfoResponse = await response.json()
     receiptInfo.value = receiptInfoResponse.receipt_info
     receiptTotal.value = receiptInfoResponse.receipt_info.receipt_total
+    whoPaidForTheItem.value = receiptInfoResponse.receipt_info.items.map(
+      () => 'both'
+    )
     currentStep = STEP_2
   } catch (error) {
     console.error('Error analyzing receipt:', error)
@@ -189,7 +362,8 @@ const addScannedItem = () => {
 const seeFinalResults = () => {
   console.log('perry: seeFinalResults function')
 }
-const handleOpenEditModal = (event: MouseEvent, data: ItemData) => {
+// TODO: any変数型
+const handleOpenEditModal = (event: MouseEvent, data) => {
   console.log('perry: handleOpenEditModal function: ', {
     event,
     data
