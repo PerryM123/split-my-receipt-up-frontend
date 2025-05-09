@@ -2,7 +2,8 @@
 TODO:
 - High priority:
   - [ ] Add validation for input text box and image
-  - [ ] Consider having a text box for receipt total amount
+  - [ ] Consider having a text box for receipt total amount or an edit button for total amount
+  - [ ] Fix bug where there are odd numbers involved (refer to /docs/odd-numbers-bug.png)
 
 - Low priority:
   - [ ] Add design
