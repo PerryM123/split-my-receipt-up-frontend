@@ -6,5 +6,9 @@ export const USERS = {
   HANNAH: {
     DISPLAY_NAME: 'Hannah',
     NAME: 'hannah'
+  },
+  BOTH: {
+    DISPLAY_NAME: 'Both',
+    NAME: 'both'
   }
 } as const

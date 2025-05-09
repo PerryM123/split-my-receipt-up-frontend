@@ -158,7 +158,7 @@ interface ReceiptInfoResponse {
   error_info?: string
 }
 
-const DEFAULT_WHO_PAID = 'perry'
+const DEFAULT_WHO_PAID = USERS.PERRY.NAME
 const imageSrc = ref('')
 const selectedFile = ref<File | null>(null)
 const isLoading = ref(false)
@@ -171,82 +171,82 @@ const receiptInfo = ref<ReceiptInfo>({
     {
       name: 'ハーゲンミニCロウチャクリキーウカ',
       price_total: 218,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'オリジナルスフラッドオレンジ',
       price_total: 204,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'オカメ スコイサットS-903',
       price_total: 264,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'アタックウオシEXヘヤカカ850g',
       price_total: 308,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'コウサンウオトンジヤ玉150×3',
       price_total: 78,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'セブンスターリサンゴールド',
       price_total: 499,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'ワイドハイターEXパワー820ml',
       price_total: 328,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'サラヤ テイユコット100ムコち56',
       price_total: 280,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'バナナ',
       price_total: 256,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'ハウスバイング35g',
       price_total: 100,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'トマト コツコ',
       price_total: 398,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'タンノンビオカセイタクブドウ',
       price_total: 326,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'タンノンビオ シチリアレモン 4コ',
       price_total: 163,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'コイワイヨーグルトホンボウ400g',
       price_total: 199,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'ミヤマ イチオシムキチ 200g',
       price_total: 153,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     },
     {
       name: 'コウサンウオカトリムネニク',
       price_total: 596,
-      whoPaid: 'both'
+      whoPaid: USERS.BOTH.NAME
     }
   ],
   receipt_total: 4626
@@ -258,45 +258,45 @@ const getUserTotal = (whoPaidName: string) => {
   return receiptInfo.value.items.reduce((total, item, index) => {
     if (whoPaidForTheItem.value[index] === whoPaidName) {
       return total + item.price_total
-    } else if (whoPaidForTheItem.value[index] === 'both') {
+    } else if (whoPaidForTheItem.value[index] === USERS.BOTH.NAME) {
       return total + item.price_total / 2
     }
     return total
   }, 0)
 }
-const perryTotal = computed(() => getUserTotal('perry'))
-const hannahTotal = computed(() => getUserTotal('hannah'))
+const perryTotal = computed(() => getUserTotal(USERS.PERRY.NAME))
+const hannahTotal = computed(() => getUserTotal(USERS.HANNAH.NAME))
 // const whoPaidForTheItem = ref<string[]>([])
 // TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
 const whoPaidForTheItem = ref<string[]>([
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both',
-  'both'
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME,
+  USERS.BOTH.NAME
 ])
 const perryCount = computed(
-  // TODO: magic stringの代わりにちゃんと変数に変更
-  () => whoPaidForTheItem.value.filter((item) => item === 'perry').length
+  () =>
+    whoPaidForTheItem.value.filter((item) => item === USERS.PERRY.NAME).length
 )
 const hannahCount = computed(
-  // TODO: magic stringの代わりにちゃんと変数に変更
-  () => whoPaidForTheItem.value.filter((item) => item === 'hannah').length
+  () =>
+    whoPaidForTheItem.value.filter((item) => item === USERS.HANNAH.NAME).length
 )
 const bothCount = computed(
-  // TODO: magic stringの代わりにちゃんと変数に変更
-  () => whoPaidForTheItem.value.filter((item) => item === 'both').length
+  () =>
+    whoPaidForTheItem.value.filter((item) => item === USERS.BOTH.NAME).length
 )
 
 const STEP_1 = 'step1'
@@ -337,7 +337,7 @@ const analyzeReceipt = async () => {
     receiptInfo.value = receiptInfoResponse.receipt_info
     receiptTotal.value = receiptInfoResponse.receipt_info.receipt_total
     whoPaidForTheItem.value = receiptInfoResponse.receipt_info.items.map(
-      () => 'both'
+      () => USERS.BOTH.NAME
     )
     currentStep = STEP_2
   } catch (error) {
