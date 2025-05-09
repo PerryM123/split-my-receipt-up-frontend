@@ -8,8 +8,18 @@ export default withNuxt({
     'object-curly-newline': [
       'error',
       {
-        multiline: true,
-        minProperties: 2
+        ObjectExpression: {
+          multiline: true,
+          minProperties: 2
+        },
+        ObjectPattern: {
+          multiline: true,
+          minProperties: 2
+        },
+        ExportDeclaration: {
+          multiline: true,
+          minProperties: 2
+        }
       }
     ]
   }
