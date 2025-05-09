@@ -254,27 +254,18 @@ const receiptInfo = ref<ReceiptInfo>({
 // const receiptTotal = ref(0)
 // TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
 const receiptTotal = ref(4626)
-// TODO: perryTotal & hannahTotal have nearlyy the same logic. Need to make more DRY
-const perryTotal = computed(() => {
+const getUserTotal = (whoPaidName: string) => {
   return receiptInfo.value.items.reduce((total, item, index) => {
-    if (whoPaidForTheItem.value[index] === 'perry') {
+    if (whoPaidForTheItem.value[index] === whoPaidName) {
       return total + item.price_total
     } else if (whoPaidForTheItem.value[index] === 'both') {
       return total + item.price_total / 2
     }
     return total
   }, 0)
-})
-const hannahTotal = computed(() => {
-  return receiptInfo.value.items.reduce((total, item, index) => {
-    if (whoPaidForTheItem.value[index] === 'hannah') {
-      return total + item.price_total
-    } else if (whoPaidForTheItem.value[index] === 'both') {
-      return total + item.price_total / 2
-    }
-    return total
-  }, 0)
-})
+}
+const perryTotal = computed(() => getUserTotal('perry'))
+const hannahTotal = computed(() => getUserTotal('hannah'))
 // const whoPaidForTheItem = ref<string[]>([])
 // TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
 const whoPaidForTheItem = ref<string[]>([
