@@ -2,8 +2,11 @@
 TODO:
 - High priority:
   - [ ] Add validation for input text box and image
+  - [ ] Add error pattern for API
   - [ ] Consider having a text box for receipt total amount or an edit button for total amount
   - [ ] Fix bug where there are odd numbers involved (refer to /docs/odd-numbers-bug.png)
+  - [ ] Need to verify the math at some point since I think the tax is not being divided properly
+  - [ ] Should we just use 
 
 - Low priority:
   - [ ] Add design
@@ -57,7 +60,6 @@ TODO:
         <p>=========</p>
         <p>receiptInfo: {{ receiptInfo }}</p>
         <p>receiptTotal: {{ receiptTotal }}</p>
-        <p>whoPaidForTheItem: {{ whoPaidForTheItem }}</p>
         <p>perryCount: {{ perryCount }}</p>
         <p>hannahCount: {{ hannahCount }}</p>
         <p>bothCount: {{ bothCount }}</p>
@@ -73,8 +75,12 @@ TODO:
       </div>
       <div>
         <ul>
-          <li>Perry: {{ formatPrice(perryTotal) }}</li>
-          <li>Hannah: {{ formatPrice(hannahTotal) }}</li>
+          <li>Perry: {{ formatPrice(Math.ceil(perryTotal)) }}</li>
+          <li>Hannah: {{ formatPrice(Math.floor(hannahTotal)) }}</li>
+          <li>
+            Other (taxなど):
+            {{ formatPrice(receiptTotal - (perryTotal + hannahTotal)) }}
+          </li>
           <li>Total: {{ formatPrice(receiptTotal) }}</li>
         </ul>
         <div>
@@ -93,7 +99,7 @@ TODO:
               <td>
                 <input
                   :id="`perry-${itemIndex}`"
-                  v-model="whoPaidForTheItem[itemIndex]"
+                  v-model="item.whoPaid"
                   type="radio"
                   :name="`who-paid-${itemIndex}`"
                   :value="`perry`"
@@ -101,7 +107,7 @@ TODO:
                 <label :for="`perry-${itemIndex}`">P</label>
                 <input
                   :id="`hannah-${itemIndex}`"
-                  v-model="whoPaidForTheItem[itemIndex]"
+                  v-model="item.whoPaid"
                   type="radio"
                   :name="`who-paid-${itemIndex}`"
                   :value="`hannah`"
@@ -109,7 +115,7 @@ TODO:
                 <label :for="`hannah-${itemIndex}`">H</label>
                 <input
                   :id="`both-${itemIndex}`"
-                  v-model="whoPaidForTheItem[itemIndex]"
+                  v-model="item.whoPaid"
                   type="radio"
                   :name="`who-paid-${itemIndex}`"
                   :value="`both`"
@@ -257,9 +263,9 @@ const receiptInfo = ref<ReceiptInfo>({
 const receiptTotal = ref(4626)
 const getUserTotal = (whoPaidName: string) => {
   return receiptInfo.value.items.reduce((total, item, index) => {
-    if (whoPaidForTheItem.value[index] === whoPaidName) {
+    if (receiptInfo.value.items[index].whoPaid === whoPaidName) {
       return total + item.price_total
-    } else if (whoPaidForTheItem.value[index] === USERS.BOTH.NAME) {
+    } else if (receiptInfo.value.items[index].whoPaid === USERS.BOTH.NAME) {
       return total + item.price_total / 2
     }
     return total
@@ -267,37 +273,20 @@ const getUserTotal = (whoPaidName: string) => {
 }
 const perryTotal = computed(() => getUserTotal(USERS.PERRY.NAME))
 const hannahTotal = computed(() => getUserTotal(USERS.HANNAH.NAME))
-// const whoPaidForTheItem = ref<string[]>([])
-// TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
-const whoPaidForTheItem = ref<string[]>([
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME,
-  USERS.BOTH.NAME
-])
 const perryCount = computed(
   () =>
-    whoPaidForTheItem.value.filter((item) => item === USERS.PERRY.NAME).length
+    receiptInfo.value.items.filter((item) => item.whoPaid === USERS.PERRY.NAME)
+      .length
 )
 const hannahCount = computed(
   () =>
-    whoPaidForTheItem.value.filter((item) => item === USERS.HANNAH.NAME).length
+    receiptInfo.value.items.filter((item) => item.whoPaid === USERS.HANNAH.NAME)
+      .length
 )
 const bothCount = computed(
   () =>
-    whoPaidForTheItem.value.filter((item) => item === USERS.BOTH.NAME).length
+    receiptInfo.value.items.filter((item) => item.whoPaid === USERS.BOTH.NAME)
+      .length
 )
 
 const STEP_1 = 'step1'
@@ -337,9 +326,6 @@ const analyzeReceipt = async () => {
     const receiptInfoResponse: ReceiptInfoResponse = await response.json()
     receiptInfo.value = receiptInfoResponse.receipt_info
     receiptTotal.value = receiptInfoResponse.receipt_info.receipt_total
-    whoPaidForTheItem.value = receiptInfoResponse.receipt_info.items.map(
-      () => USERS.BOTH.NAME
-    )
     currentStep = STEP_2
   } catch (error) {
     console.error('Error analyzing receipt:', error)
@@ -352,7 +338,10 @@ const addScannedItem = () => {
   console.log('perry: addScannedItem function')
 }
 const seeFinalResults = () => {
-  console.log('perry: seeFinalResults function')
+  console.log(
+    'perry: seeFinalResults function: receiptInfo: ',
+    receiptInfo.value
+  )
 }
 // TODO: any変数型
 const handleOpenEditModal = (event: MouseEvent, data) => {
