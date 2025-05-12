@@ -7,65 +7,64 @@ TODO:
   - [ ] Fix bug where there are odd numbers involved (refer to /docs/odd-numbers-bug.png)
   - [ ] Need to verify the math at some point since I think the tax is not being divided properly
   - [ ] Should we just use 
+  - [ ] Use <CommonButton> instead of <button>
+  - [ ] Make code more DRY
+  - [ ] Change naming convention (Edit Item Modal? Add Item Modal? Delete Modal?)
 
 - Low priority:
   - [ ] Add design
   - [ ] Fix nuxt so that it will explicitly import the functions and components instead of doing auto-imports
   - [ ] Need to convert to atomic design soon
+  - [ ] Need to do e2e tests for:
+    - Save-Receipt
+      - [ ] After scanning receipt, are the totals correct?
+      - [ ] Editing the item name and price. The totals are still correct?
 -->
 <template>
   <div>
     <CommonModal
-      :is-modal-open="isOpenEditModal || isOpenDeleteModal"
+      :is-modal-open="isOpenEditModal"
       @handle-click-black-overlay="handleClickBlackOverlay"
     >
       <template v-if="isOpenEditModal">
-        <h2 class="modalTitle">編集</h2>
-        <div class="menuItem">
-          <p class="menuTitle">Product Name</p>
-          <input
-            ref="editProductNameRef"
-            v-model="editProductName"
-            class="inputBox"
-            type="text"
-            @keydown.enter="editProductNameEnterKey"
-          />
-        </div>
-        <div class="menuItem">
-          <p class="menuTitle">Price</p>
-          <input
-            ref="editPriceRef"
-            v-model="editPrice"
-            class="inputBox"
-            type="number"
-            min="0"
-            @keydown.enter="editPriceEnterKey"
-          />
-        </div>
-        <div class="butonArea">
-          <CommonButton @click="handleModalCancel">キャンセル</CommonButton>
-          <CommonButton class="modalActionButton" @click="handleEditItem">
-            編集
-          </CommonButton>
-        </div>
-      </template>
-      <template v-if="isOpenDeleteModal">
-        <div>
-          <h2 class="modalTitle">削除</h2>
+        <template v-if="isDeleteModal">
+          <div>Are you sure?</div>
+          <div>
+            <button @click="handleCancelDeleteConfirmation">Cancel</button>
+            <button @click="handleAcceptDeleteConfirmation">Delete</button>
+          </div>
+        </template>
+        <template v-else>
+          <button @click="handleDeleteItem">Delete Item</button>
+          <h2 class="modalTitle">編集</h2>
           <div class="menuItem">
             <p class="menuTitle">Product Name</p>
-            <span>{{ nameToDelete }}</span>
-            <p class="menuTitle" style="margin-top: 10px">Price</p>
-            <span>{{ formatPrice(priceToDelete) }}</span>
-            <p>上記を削除しますか？</p>
+            <input
+              ref="editProductNameRef"
+              v-model="editProductName"
+              class="inputBox"
+              type="text"
+              @keydown.enter="editProductNameEnterKey"
+            />
+          </div>
+          <div class="menuItem">
+            <p class="menuTitle">Price</p>
+            <input
+              ref="editPriceRef"
+              v-model="editPrice"
+              class="inputBox"
+              type="number"
+              min="0"
+              @keydown.enter="editPriceEnterKey"
+            />
           </div>
           <div class="butonArea">
             <CommonButton @click="handleModalCancel">キャンセル</CommonButton>
-            <CommonButton class="modalActionButton" @click="handleDeleteItem">
-              削除
+            <CommonButton class="modalActionButton" @click="handleEditItem">
+              編集
             </CommonButton>
           </div>
-        </div>
+        </template>
       </template>
     </CommonModal>
     <img v-if="isLoading" src="/loading.gif" alt="Analyzing Receipt" />
@@ -123,7 +122,7 @@ TODO:
           <li>Total: {{ formatPrice(receiptTotal) }}</li>
         </ul>
         <div>
-          <button @click="addScannedItem">Add Item</button>
+          <button @click="handleOpenAddItemModal">Add Item</button>
         </div>
         <table>
           <tbody>
@@ -165,7 +164,7 @@ TODO:
               <td>
                 <button
                   :data-index="itemIndex"
-                  :data-user-type="item.name"
+                  :data-user-type="item.whoPaid"
                   @click="(event) => handleOpenEditModal(event, item)"
                 >
                   Edit
@@ -186,7 +185,6 @@ TODO:
 </template>
 <script setup lang="ts">
 import { USERS } from '~/constants'
-import type { ItemData, ShoppingData } from '~/interfaces/shopping'
 import CommonModal from '@/components/organisms/CommonModal.vue'
 import CommonButton from '@/components/atoms/CommonButton.vue'
 
@@ -212,21 +210,18 @@ const selectedFile = ref<File | null>(null)
 const isLoading = ref(false)
 const receiptTitle = ref('')
 const userWhoPaid = ref(DEFAULT_WHO_PAID)
-const userToDelete = ref<string>()
+const isOpenAddItemModal = ref(false)
 const editProductName = ref()
 const editPrice = ref()
 const isOpenEditModal = ref(false)
-const isOpenDeleteModal = ref(false)
-const priceToDelete = ref()
-const nameToDelete = ref()
 const editProductNameRef = ref()
 const editPriceRef = ref()
 const indexToEdit = ref<number>(0)
 const userToEdit = ref<string>()
-const indexToDelete = ref<number>()
+const isDeleteModal = ref(false)
 
 // const receiptInfo = ref<ReceiptInfo>()
-// TODO:
+// TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
 const receiptInfo = ref<ReceiptInfo>({
   items: [
     {
@@ -374,10 +369,13 @@ const analyzeReceipt = async () => {
   }
 }
 
-const addScannedItem = () => {
-  console.log('perry: addScannedItem function')
+const handleOpenAddItemModal = () => {
+  console.log('perry: handleOpenAddItemModal function')
+  isOpenEditModal.value = true
+  isOpenAddItemModal.value = true
 }
 const seeFinalResults = () => {
+  // TODO: Need validation for items total being high than receipt total
   console.log('perry: seeFinalResults function: ', {
     receiptInfo: receiptInfo.value,
     receiptTotal: receiptTotal.value,
@@ -387,16 +385,21 @@ const seeFinalResults = () => {
   })
 }
 // TODO: any変数型
-const handleOpenEditModal = (event: MouseEvent, data) => {
+const handleOpenEditModal = (event: MouseEvent, data: ItemInfo) => {
   isOpenEditModal.value = true
   console.log('perry: handleOpenEditModal function: ', {
     event,
     data
   })
+  const target = event.target as HTMLInputElement
+  indexToEdit.value = Number(target.dataset.index)
+  userToEdit.value = target.dataset.userType
+  editProductName.value = data.name
+  editPrice.value = data.price_total
+  isOpenEditModal.value = true
 }
 const closeModal = () => {
   isOpenEditModal.value = false
-  isOpenDeleteModal.value = false
   editProductName.value = ''
   editPrice.value = 0
 }
@@ -407,20 +410,19 @@ const editProductNameEnterKey = () => {
   editPriceRef.value.focus()
 }
 const handleDeleteItem = () => {
-  const indexDelete: number = indexToDelete.value ? indexToDelete.value : 0
-  console.log('perry: handleDeleteItem: indexDelete: ', indexDelete)
-  // const dataToChange =
-  //   userToDelete.value === USERS.PERRY.NAME ? perryData.value : hannahData.value
-  // dataToChange.items.splice(indexDelete, 1)
-  closeModal()
+  isDeleteModal.value = true
 }
 const handleEditItem = () => {
-  const index = indexToEdit.value
-  console.log('perry: handleEditItem: index: ', index)
-  // const dataToChange =
-  //   userToEdit.value === USERS.PERRY.NAME ? perryData.value : hannahData.value
-  // dataToChange.items[index].productName = editProductName.value
-  // dataToChange.items[index].price = editPrice.value
+  if (isOpenAddItemModal.value) {
+    receiptInfo.value.items.push({
+      name: editProductName.value,
+      price_total: editPrice.value
+    })
+  } else {
+    const index = indexToEdit.value
+    receiptInfo.value.items[index].name = editProductName.value
+    receiptInfo.value.items[index].price_total = editPrice.value
+  }
   closeModal()
 }
 const editPriceEnterKey = () => {
@@ -429,6 +431,14 @@ const editPriceEnterKey = () => {
 }
 const handleModalCancel = () => {
   isOpenEditModal.value = false
-  isOpenDeleteModal.value = false
+}
+const handleAcceptDeleteConfirmation = () => {
+  receiptInfo.value.items.splice(indexToEdit.value, 1)
+  isDeleteModal.value = false
+  closeModal()
+}
+const handleCancelDeleteConfirmation = () => {
+  isDeleteModal.value = false
+  closeModal()
 }
 </script>
