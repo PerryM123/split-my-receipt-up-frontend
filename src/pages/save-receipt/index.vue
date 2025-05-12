@@ -15,6 +15,59 @@ TODO:
 -->
 <template>
   <div>
+    <CommonModal
+      :is-modal-open="isOpenEditModal || isOpenDeleteModal"
+      @handle-click-black-overlay="handleClickBlackOverlay"
+    >
+      <template v-if="isOpenEditModal">
+        <h2 class="modalTitle">編集</h2>
+        <div class="menuItem">
+          <p class="menuTitle">Product Name</p>
+          <input
+            ref="editProductNameRef"
+            v-model="editProductName"
+            class="inputBox"
+            type="text"
+            @keydown.enter="editProductNameEnterKey"
+          />
+        </div>
+        <div class="menuItem">
+          <p class="menuTitle">Price</p>
+          <input
+            ref="editPriceRef"
+            v-model="editPrice"
+            class="inputBox"
+            type="number"
+            min="0"
+            @keydown.enter="editPriceEnterKey"
+          />
+        </div>
+        <div class="butonArea">
+          <CommonButton @click="handleModalCancel">キャンセル</CommonButton>
+          <CommonButton class="modalActionButton" @click="handleEditItem">
+            編集
+          </CommonButton>
+        </div>
+      </template>
+      <template v-if="isOpenDeleteModal">
+        <div>
+          <h2 class="modalTitle">削除</h2>
+          <div class="menuItem">
+            <p class="menuTitle">Product Name</p>
+            <span>{{ nameToDelete }}</span>
+            <p class="menuTitle" style="margin-top: 10px">Price</p>
+            <span>{{ formatPrice(priceToDelete) }}</span>
+            <p>上記を削除しますか？</p>
+          </div>
+          <div class="butonArea">
+            <CommonButton @click="handleModalCancel">キャンセル</CommonButton>
+            <CommonButton class="modalActionButton" @click="handleDeleteItem">
+              削除
+            </CommonButton>
+          </div>
+        </div>
+      </template>
+    </CommonModal>
     <img v-if="isLoading" src="/loading.gif" alt="Analyzing Receipt" />
     <template v-else-if="currentStep === STEP_1">
       <!-- TODO: Make a component of the 1st step -->
@@ -56,31 +109,17 @@ TODO:
     <template v-else-if="currentStep === STEP_2">
       <h2>Scanned Items</h2>
       <!-- TODO: 動作確認が終わり次第以下の要素を削除 -->
-      <div class="debug-mode">
-        <p>=========</p>
-        <p>receiptInfo: {{ receiptInfo }}</p>
-        <p>receiptTotal: {{ receiptTotal }}</p>
-        <p>perryCount: {{ perryCount }}</p>
-        <p>hannahCount: {{ hannahCount }}</p>
-        <p>bothCount: {{ bothCount }}</p>
-        <p>perry = {{ perryTotal }}</p>
-        <p>hannah = {{ hannahTotal }}</p>
-        <p>
-          perry + hannah = {{ perryTotal + hannahTotal }} (メモ: tax and other
-          must be 256 then?? So receiptTotal - perryTotal - hannahTotal is the
-          tax?)
-        </p>
-        <p>bothTotal = {{ receiptTotal - (perryTotal + hannahTotal) }}</p>
-        <p>=========</p>
-      </div>
       <div>
         <ul>
-          <li>Perry: {{ formatPrice(Math.ceil(perryTotal)) }}</li>
-          <li>Hannah: {{ formatPrice(Math.floor(hannahTotal)) }}</li>
           <li>
-            Other (taxなど):
-            {{ formatPrice(receiptTotal - (perryTotal + hannahTotal)) }}
+            Perry:
+            {{ formatPrice(Math.ceil(perryTotal + bothTotalSplitted)) }}
           </li>
+          <li>
+            Hannah:
+            {{ formatPrice(Math.floor(hannahTotal + bothTotalSplitted)) }}
+          </li>
+
           <li>Total: {{ formatPrice(receiptTotal) }}</li>
         </ul>
         <div>
@@ -148,6 +187,8 @@ TODO:
 <script setup lang="ts">
 import { USERS } from '~/constants'
 import type { ItemData, ShoppingData } from '~/interfaces/shopping'
+import CommonModal from '@/components/organisms/CommonModal.vue'
+import CommonButton from '@/components/atoms/CommonButton.vue'
 
 // TODO: Instead of interface, is it better to change to type instead???
 interface ReceiptInfo {
@@ -171,6 +212,19 @@ const selectedFile = ref<File | null>(null)
 const isLoading = ref(false)
 const receiptTitle = ref('')
 const userWhoPaid = ref(DEFAULT_WHO_PAID)
+const userToDelete = ref<string>()
+const editProductName = ref()
+const editPrice = ref()
+const isOpenEditModal = ref(false)
+const isOpenDeleteModal = ref(false)
+const priceToDelete = ref()
+const nameToDelete = ref()
+const editProductNameRef = ref()
+const editPriceRef = ref()
+const indexToEdit = ref<number>(0)
+const userToEdit = ref<string>()
+const indexToDelete = ref<number>()
+
 // const receiptInfo = ref<ReceiptInfo>()
 // TODO:
 const receiptInfo = ref<ReceiptInfo>({
@@ -265,30 +319,16 @@ const getUserTotal = (whoPaidName: string) => {
   return receiptInfo.value.items.reduce((total, item, index) => {
     if (receiptInfo.value.items[index].whoPaid === whoPaidName) {
       return total + item.price_total
-    } else if (receiptInfo.value.items[index].whoPaid === USERS.BOTH.NAME) {
-      return total + item.price_total / 2
     }
     return total
   }, 0)
 }
 const perryTotal = computed(() => getUserTotal(USERS.PERRY.NAME))
 const hannahTotal = computed(() => getUserTotal(USERS.HANNAH.NAME))
-const perryCount = computed(
-  () =>
-    receiptInfo.value.items.filter((item) => item.whoPaid === USERS.PERRY.NAME)
-      .length
+const bothTotal = computed(
+  () => receiptTotal.value - perryTotal.value - hannahTotal.value
 )
-const hannahCount = computed(
-  () =>
-    receiptInfo.value.items.filter((item) => item.whoPaid === USERS.HANNAH.NAME)
-      .length
-)
-const bothCount = computed(
-  () =>
-    receiptInfo.value.items.filter((item) => item.whoPaid === USERS.BOTH.NAME)
-      .length
-)
-
+const bothTotalSplitted = computed(() => bothTotal.value / 2)
 const STEP_1 = 'step1'
 const STEP_2 = 'step2'
 const STEP_3 = 'step3'
@@ -338,16 +378,57 @@ const addScannedItem = () => {
   console.log('perry: addScannedItem function')
 }
 const seeFinalResults = () => {
-  console.log(
-    'perry: seeFinalResults function: receiptInfo: ',
-    receiptInfo.value
-  )
+  console.log('perry: seeFinalResults function: ', {
+    receiptInfo: receiptInfo.value,
+    receiptTotal: receiptTotal.value,
+    perryTotal: perryTotal.value,
+    hannahTotal: hannahTotal.value,
+    bothTotal: bothTotal.value
+  })
 }
 // TODO: any変数型
 const handleOpenEditModal = (event: MouseEvent, data) => {
+  isOpenEditModal.value = true
   console.log('perry: handleOpenEditModal function: ', {
     event,
     data
   })
+}
+const closeModal = () => {
+  isOpenEditModal.value = false
+  isOpenDeleteModal.value = false
+  editProductName.value = ''
+  editPrice.value = 0
+}
+const handleClickBlackOverlay = () => {
+  closeModal()
+}
+const editProductNameEnterKey = () => {
+  editPriceRef.value.focus()
+}
+const handleDeleteItem = () => {
+  const indexDelete: number = indexToDelete.value ? indexToDelete.value : 0
+  console.log('perry: handleDeleteItem: indexDelete: ', indexDelete)
+  // const dataToChange =
+  //   userToDelete.value === USERS.PERRY.NAME ? perryData.value : hannahData.value
+  // dataToChange.items.splice(indexDelete, 1)
+  closeModal()
+}
+const handleEditItem = () => {
+  const index = indexToEdit.value
+  console.log('perry: handleEditItem: index: ', index)
+  // const dataToChange =
+  //   userToEdit.value === USERS.PERRY.NAME ? perryData.value : hannahData.value
+  // dataToChange.items[index].productName = editProductName.value
+  // dataToChange.items[index].price = editPrice.value
+  closeModal()
+}
+const editPriceEnterKey = () => {
+  handleEditItem()
+  editProductNameRef.value.focus()
+}
+const handleModalCancel = () => {
+  isOpenEditModal.value = false
+  isOpenDeleteModal.value = false
 }
 </script>
