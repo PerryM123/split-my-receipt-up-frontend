@@ -17,8 +17,11 @@
 - [ ] implement designs
 - [ ] mock open ai requests
 - [ ] create pages:
-  - [ ] preparation: /save-receipt
+  - [ ] top: /
   - [ ] receipt list: /receipts
+  - [ ] receipt details: /receipts/:receipt-id
+  - [x] preparation: /save-receipt
+  - [ ] Receipt Saved Successfully: /save-receipt/success
 
 ## backend
 - [x] setup an dockerized s3 container(minIO)
@@ -32,6 +35,3 @@
   - [ ] If there is no receipt shown in the image, then throw an error
 - [ ] swagger (with node??? or laravel???)
 - [ ] i18 for localization
-- [ ] create pages:
-  - [ ] top: /
-  - [ ] receipt details: /receipts/:receipt-id
