@@ -5,5 +5,8 @@
   },
   "[markdown]": {
     "editor.formatOnSave": false
+  },
+  "editor.quickSuggestions": {
+    "strings": true
   }
 }
