@@ -3,8 +3,8 @@
     <h1>Split Me Up Before You Go-Go</h1>
     <div class="px-2.5">
       <NuxtLink
-        v-for="link in linkInfo"
-        :key="link.url"
+        v-for="(link, linkKey) in linkInfo"
+        :key="linkKey"
         :to="link.url"
         class="block bg-sky-500 hover:bg-sky-700"
       >
