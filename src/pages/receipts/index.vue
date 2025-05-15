@@ -11,8 +11,8 @@
       class="border-t border-black p-5"
     >
       <h2>{{ receipt.title }}</h2>
-      <p>person 1: {{ receipt.image_url }}</p>
-      <p>person 2: {{ receipt.image_url }}</p>
+      <p>Perry: {{ receipt.person_1_amount }}</p>
+      <p>Hannah: {{ receipt.person_2_amount }}</p>
       <NuxtLink :to="`/receipts/${receipt.receipt_id}`">見る</NuxtLink>
     </div>
   </div>
@@ -29,6 +29,8 @@ type ReceiptData = {
   image_url: string
   user_who_paid: string
   total_amount: number
+  person_1_amount: number
+  person_2_amount: number
   created_at: string | null
   updated_at: string | null
 }

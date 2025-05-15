@@ -328,7 +328,7 @@ const STEP_1 = 'step1'
 const STEP_2 = 'step2'
 const STEP_3 = 'step3'
 // TODO: Change back to STEP_1 after debugging
-let currentStep = STEP_2
+const currentStep = ref(STEP_1)
 
 const previewImage = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
@@ -346,8 +346,66 @@ const analyzeReceipt = async () => {
   }
   const formData = new FormData()
   formData.append('image', selectedFile.value)
+  try {
+    isLoading.value = true
+    // TODO: maybe axios is better? Or using a composable?
+    const response = await fetch(
+      'http://local.memories.com/api/receipt-info/analyze',
+      {
+        method: 'POST',
+        body: formData
+      }
+    )
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const receiptInfoResponse: ReceiptInfoResponse = await response.json()
+    receiptInfo.value = receiptInfoResponse.receipt_info
+    receiptTotal.value = receiptInfoResponse.receipt_info.receipt_total
+    currentStep.value = STEP_2
+  } catch (error) {
+    console.error('Error analyzing receipt:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const handleOpenAddItemModal = () => {
+  console.log('perry: handleOpenAddItemModal function')
+  isOpenEditModal.value = true
+  isOpenAddItemModal.value = true
+}
+const seeFinalResults = async () => {
+  // TODO: Need validation for items total being high than receipt total
+  console.log('perry: seeFinalResults function: ', {
+    receiptInfo: receiptInfo.value,
+    receiptTotal: receiptTotal.value,
+    perryTotal: Math.ceil(perryTotal.value + bothTotalSplitted.value),
+    hannahTotal: Math.floor(hannahTotal.value + bothTotalSplitted.value),
+    bothTotal: bothTotal.value
+  })
+  const formData = new FormData()
+
+  if (!selectedFile.value) {
+    console.error('No file selected')
+    return
+  }
+  formData.append('image', selectedFile.value)
   formData.append('title', receiptTitle.value)
   formData.append('user_who_paid', userWhoPaid.value)
+  // TODO: total_amountは入ってる？？？
+  // formData.append('total_amount', `${receiptTotal.value}`)
+  formData.append(
+    'person_1_amount',
+    `${Math.ceil(perryTotal.value + bothTotalSplitted.value)}`
+  )
+  formData.append(
+    'person_2_amount',
+    `${Math.floor(hannahTotal.value + bothTotalSplitted.value)}`
+  )
+  // TODO: bought_item追加必須
+  // formData.append('boughtItems', JSON.stringify(receiptInfo.value.items))
+
   try {
     isLoading.value = true
     // TODO: maybe axios is better? Or using a composable?
@@ -361,28 +419,12 @@ const analyzeReceipt = async () => {
     const receiptInfoResponse: ReceiptInfoResponse = await response.json()
     receiptInfo.value = receiptInfoResponse.receipt_info
     receiptTotal.value = receiptInfoResponse.receipt_info.receipt_total
-    currentStep = STEP_2
+    currentStep.value = STEP_3
   } catch (error) {
     console.error('Error analyzing receipt:', error)
   } finally {
     isLoading.value = false
   }
-}
-
-const handleOpenAddItemModal = () => {
-  console.log('perry: handleOpenAddItemModal function')
-  isOpenEditModal.value = true
-  isOpenAddItemModal.value = true
-}
-const seeFinalResults = () => {
-  // TODO: Need validation for items total being high than receipt total
-  console.log('perry: seeFinalResults function: ', {
-    receiptInfo: receiptInfo.value,
-    receiptTotal: receiptTotal.value,
-    perryTotal: perryTotal.value,
-    hannahTotal: hannahTotal.value,
-    bothTotal: bothTotal.value
-  })
 }
 // TODO: any変数型
 const handleOpenEditModal = (event: MouseEvent, data: ItemInfo) => {
