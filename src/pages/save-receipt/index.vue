@@ -82,7 +82,6 @@ TODO:
             type="radio"
             name="who-paid"
             value="perry"
-            checked
           />
           <label for="perry">Perry</label>
         </div>
@@ -107,7 +106,6 @@ TODO:
     </template>
     <template v-else-if="currentStep === STEP_2">
       <h2>Scanned Items</h2>
-      <!-- TODO: 動作確認が終わり次第以下の要素を削除 -->
       <div>
         <ul>
           <li>
@@ -137,7 +135,7 @@ TODO:
               <td>
                 <input
                   :id="`perry-${itemIndex}`"
-                  v-model="item.whoPaid"
+                  v-model="item.who_paid"
                   type="radio"
                   :name="`who-paid-${itemIndex}`"
                   :value="`perry`"
@@ -145,7 +143,7 @@ TODO:
                 <label :for="`perry-${itemIndex}`">P</label>
                 <input
                   :id="`hannah-${itemIndex}`"
-                  v-model="item.whoPaid"
+                  v-model="item.who_paid"
                   type="radio"
                   :name="`who-paid-${itemIndex}`"
                   :value="`hannah`"
@@ -153,18 +151,17 @@ TODO:
                 <label :for="`hannah-${itemIndex}`">H</label>
                 <input
                   :id="`both-${itemIndex}`"
-                  v-model="item.whoPaid"
+                  v-model="item.who_paid"
                   type="radio"
                   :name="`who-paid-${itemIndex}`"
                   :value="`both`"
-                  checked
                 />
                 <label :for="`both-${itemIndex}`">両方</label>
               </td>
               <td>
                 <button
                   :data-index="itemIndex"
-                  :data-user-type="item.whoPaid"
+                  :data-user-type="item.who_paid"
                   @click="(event) => handleOpenEditModal(event, item)"
                 >
                   Edit
@@ -196,7 +193,7 @@ interface ReceiptInfo {
 interface ItemInfo {
   name: string
   price_total: number
-  whoPaid?: string
+  who_paid?: string
 }
 interface ReceiptInfoResponse {
   message: string
@@ -220,99 +217,14 @@ const indexToEdit = ref<number>(0)
 const userToEdit = ref<string>()
 const isDeleteModal = ref(false)
 
-// const receiptInfo = ref<ReceiptInfo>()
-// TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
 const receiptInfo = ref<ReceiptInfo>({
-  items: [
-    {
-      name: 'ハーゲンミニCロウチャクリキーウカ',
-      price_total: 218,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'オリジナルスフラッドオレンジ',
-      price_total: 204,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'オカメ スコイサットS-903',
-      price_total: 264,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'アタックウオシEXヘヤカカ850g',
-      price_total: 308,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'コウサンウオトンジヤ玉150×3',
-      price_total: 78,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'セブンスターリサンゴールド',
-      price_total: 499,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'ワイドハイターEXパワー820ml',
-      price_total: 328,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'サラヤ テイユコット100ムコち56',
-      price_total: 280,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'バナナ',
-      price_total: 256,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'ハウスバイング35g',
-      price_total: 100,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'トマト コツコ',
-      price_total: 398,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'タンノンビオカセイタクブドウ',
-      price_total: 326,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'タンノンビオ シチリアレモン 4コ',
-      price_total: 163,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'コイワイヨーグルトホンボウ400g',
-      price_total: 199,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'ミヤマ イチオシムキチ 200g',
-      price_total: 153,
-      whoPaid: USERS.BOTH.NAME
-    },
-    {
-      name: 'コウサンウオカトリムネニク',
-      price_total: 596,
-      whoPaid: USERS.BOTH.NAME
-    }
-  ],
-  receipt_total: 4626
+  items: [],
+  receipt_total: 0
 })
-// const receiptTotal = ref(0)
-// TODO: 動作確認が終わり次第、上記をコメントアウトし、元に戻す
-const receiptTotal = ref(4626)
+const receiptTotal = ref(0)
 const getUserTotal = (whoPaidName: string) => {
   return receiptInfo.value.items.reduce((total, item, index) => {
-    if (receiptInfo.value.items[index].whoPaid === whoPaidName) {
+    if (receiptInfo.value.items[index].who_paid === whoPaidName) {
       return total + item.price_total
     }
     return total
@@ -327,7 +239,6 @@ const bothTotalSplitted = computed(() => bothTotal.value / 2)
 const STEP_1 = 'step1'
 const STEP_2 = 'step2'
 const STEP_3 = 'step3'
-// TODO: Change back to STEP_1 after debugging
 const currentStep = ref(STEP_1)
 
 const previewImage = (event: Event) => {
@@ -360,7 +271,16 @@ const analyzeReceipt = async () => {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     const receiptInfoResponse: ReceiptInfoResponse = await response.json()
-    receiptInfo.value = receiptInfoResponse.receipt_info
+    receiptInfo.value.items = receiptInfoResponse.receipt_info.items.map(
+      (receiptItem) => {
+        return {
+          name: receiptItem.name,
+          price_total: receiptItem.price_total,
+          who_paid: USERS.BOTH.NAME
+        }
+      }
+    )
+
     receiptTotal.value = receiptInfoResponse.receipt_info.receipt_total
     currentStep.value = STEP_2
   } catch (error) {
@@ -393,8 +313,7 @@ const seeFinalResults = async () => {
   formData.append('image', selectedFile.value)
   formData.append('title', receiptTitle.value)
   formData.append('user_who_paid', userWhoPaid.value)
-  // TODO: total_amountは入ってる？？？
-  // formData.append('total_amount', `${receiptTotal.value}`)
+  formData.append('total_amount', `${receiptTotal.value}`)
   formData.append(
     'person_1_amount',
     `${Math.ceil(perryTotal.value + bothTotalSplitted.value)}`
@@ -403,8 +322,7 @@ const seeFinalResults = async () => {
     'person_2_amount',
     `${Math.floor(hannahTotal.value + bothTotalSplitted.value)}`
   )
-  // TODO: bought_item追加必須
-  // formData.append('boughtItems', JSON.stringify(receiptInfo.value.items))
+  formData.append('bought_items', JSON.stringify(receiptInfo.value.items))
 
   try {
     isLoading.value = true
@@ -426,7 +344,6 @@ const seeFinalResults = async () => {
     isLoading.value = false
   }
 }
-// TODO: any変数型
 const handleOpenEditModal = (event: MouseEvent, data: ItemInfo) => {
   isOpenEditModal.value = true
   console.log('perry: handleOpenEditModal function: ', {
