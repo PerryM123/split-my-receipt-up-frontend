@@ -181,7 +181,7 @@ TODO:
   </div>
 </template>
 <script setup lang="ts">
-import { USERS } from '~/constants'
+import { USERS } from '@/constants'
 import CommonModal from '@/components/organisms/CommonModal.vue'
 import CommonButton from '@/components/atoms/CommonButton.vue'
 
