@@ -72,11 +72,11 @@ TODO:
     <img v-if="isLoading" src="/loading.gif" alt="Analyzing Receipt" />
     <SavePreparation
       v-else-if="currentStep === STEP_1"
-      v-model:userWhoPaid="userWhoPaid"
+      v-model:user-who-paid="userWhoPaid"
       :image-src="imageSrc"
       :selected-file="selectedFile"
-      @previewImageEmitTestTodo="previewImage"
-      @analyzeReceiptEmitTestTodo="analyzeReceipt"
+      @preview-image-emit-test-todo="previewImage"
+      @move-to-step-two="moveToStepTwo"
     />
     <template v-else-if="currentStep === STEP_2">
       <h2>Scanned Items</h2>
@@ -215,7 +215,9 @@ const bothTotalSplitted = computed(() => bothTotal.value / 2)
 const STEP_1 = 'step1'
 const STEP_2 = 'step2'
 const STEP_3 = 'step3'
-const currentStep = ref(STEP_1)
+// TODO: Is there a better way to write this?
+type Steps = typeof STEP_1 | typeof STEP_2 | typeof STEP_3
+const currentStep = ref<Steps>(STEP_1)
 
 const previewImage = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
@@ -224,47 +226,6 @@ const previewImage = (event: Event) => {
   }
   imageSrc.value = URL.createObjectURL(file)
   selectedFile.value = file
-}
-
-// TODO: This might be better in SavePreparation??
-const analyzeReceipt = async () => {
-  if (!selectedFile.value) {
-    console.error('No file selected')
-    return
-  }
-  const formData = new FormData()
-  formData.append('image', selectedFile.value)
-  try {
-    isLoading.value = true
-    // TODO: maybe axios is better? Or using a composable?
-    const response = await fetch(
-      'http://local.memories.com/api/receipt-info/analyze',
-      {
-        method: 'POST',
-        body: formData
-      }
-    )
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    const receiptInfoResponse: ReceiptInfoResponse = await response.json()
-    receiptInfo.value.items = receiptInfoResponse.receipt_info.items.map(
-      (receiptItem) => {
-        return {
-          name: receiptItem.name,
-          price_total: receiptItem.price_total,
-          who_paid: USERS.BOTH.NAME
-        }
-      }
-    )
-
-    receiptTotal.value = receiptInfoResponse.receipt_info.receipt_total
-    currentStep.value = STEP_2
-  } catch (error) {
-    console.error('Error analyzing receipt:', error)
-  } finally {
-    isLoading.value = false
-  }
 }
 
 const handleOpenAddItemModal = () => {
@@ -376,5 +337,9 @@ const handleAcceptDeleteConfirmation = () => {
 const handleCancelDeleteConfirmation = () => {
   isDeleteModal.value = false
   closeModal()
+}
+const moveToStepTwo = () => {
+  console.log('perry: step 222222')
+  currentStep.value = STEP_2
 }
 </script>

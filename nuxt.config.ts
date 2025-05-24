@@ -2,6 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      apiBaseLocal: process.env.API_BASE_LOCAL,
+      apiBaseLan: process.env.API_BASE_LAN
+    }
+  },
   srcDir: 'src/',
   modules: [
     '@nuxt/eslint',

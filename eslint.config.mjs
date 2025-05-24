@@ -3,6 +3,7 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt({
   rules: {
+    // TODO: consider turning this back on
     'vue/multi-word-component-names': 'off',
     'vue/html-self-closing': 'off',
     'object-curly-newline': [
