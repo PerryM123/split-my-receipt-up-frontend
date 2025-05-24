@@ -1,8 +1,10 @@
 <template>
   <div>
+    <NuxtLoadingIndicator :height="10" :throttle="0" />
     <!-- TODO: Use NuxtTemplate -->
-    <NuxtLoadingIndicator :height="10" :throttle="0"/>
-    <NuxtPage />
+    <div class="p-5">
+      <NuxtPage />
+    </div>
   </div>
 </template>
 <script setup lang="ts">

@@ -67,43 +67,17 @@ TODO:
         </template>
       </template>
     </CommonModal>
+    <PageTitle>レシート保存</PageTitle>
+    <!-- TODO: Maybe we can use fallback instead?? -->
     <img v-if="isLoading" src="/loading.gif" alt="Analyzing Receipt" />
-    <template v-else-if="currentStep === STEP_1">
-      <!-- TODO: Make a component of the 1st step -->
-      <h2>レシート保存</h2>
-      <p>Receipt Title</p>
-      <input v-model="receiptTitle" />
-      <fieldset>
-        <legend>Who paid?</legend>
-        <div>
-          <input
-            id="perry"
-            v-model="userWhoPaid"
-            type="radio"
-            name="who-paid"
-            value="perry"
-          />
-          <label for="perry">Perry</label>
-        </div>
-        <div>
-          <input
-            id="hannah"
-            v-model="userWhoPaid"
-            type="radio"
-            name="who-paid"
-            value="hannah"
-          />
-          <label for="hannah">Hannah</label>
-        </div>
-      </fieldset>
-      <div>
-        <h2>Receipt Photo</h2>
-        <input type="file" accept=".jpg,.jpeg" @change="previewImage" />
-        <img v-if="imageSrc" :src="imageSrc" alt="Selected Receipt" />
-        <p v-else>no image...</p>
-        <button :disabled="!selectedFile" @click="analyzeReceipt">分析</button>
-      </div>
-    </template>
+    <SavePreparation
+      v-else-if="currentStep === STEP_1"
+      v-model:userWhoPaid="userWhoPaid"
+      :image-src="imageSrc"
+      :selected-file="selectedFile"
+      @previewImageEmitTestTodo="previewImage"
+      @analyzeReceiptEmitTestTodo="analyzeReceipt"
+    />
     <template v-else-if="currentStep === STEP_2">
       <h2>Scanned Items</h2>
       <div>
@@ -184,6 +158,8 @@ TODO:
 import { USERS } from '@/constants'
 import CommonModal from '@/components/organisms/CommonModal.vue'
 import CommonButton from '@/components/atoms/CommonButton.vue'
+import SavePreparation from '@/components/molecules/SavePreparation.vue'
+import PageTitle from '@/components/atoms/PageTitle.vue'
 
 // TODO: Instead of interface, is it better to change to type instead???
 interface ReceiptInfo {
@@ -250,6 +226,7 @@ const previewImage = (event: Event) => {
   selectedFile.value = file
 }
 
+// TODO: This might be better in SavePreparation??
 const analyzeReceipt = async () => {
   if (!selectedFile.value) {
     console.error('No file selected')

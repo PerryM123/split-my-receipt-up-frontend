@@ -24,5 +24,4 @@
 import type { BoughtItem } from '@/interfaces/receipt'
 
 defineProps<{ boughtItems?: BoughtItem[] }>()
-console.log('sd')
 </script>
