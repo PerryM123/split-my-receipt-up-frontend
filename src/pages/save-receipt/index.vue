@@ -1,6 +1,7 @@
 <!-- 
     TODO:
     - High priority:
+      - [ ] Make component for STEP 3 and STEP 4
       - [ ] Add an edit button incase the Total amount is misread from OpenAI API 
       - [ ] Add validation for input text box and image
       - [ ] Add error pattern for API
@@ -93,9 +94,8 @@
       </template>
     </CommonModal>
     <PageTitle>レシート保存</PageTitle>
-    <img v-if="isLoading" src="/loading.gif" alt="Analyzing Receipt" />
     <SavePreparation
-      v-else-if="currentStep === STEP_1"
+      v-if="currentStep === STEP_1"
       v-model:user-who-paid="userWhoPaid"
       @move-to-step-two="moveToStepTwo"
     />
@@ -209,7 +209,6 @@ import type {
 } from '@/interfaces/receipt'
 
 const DEFAULT_WHO_PAID = USERS.PERRY.NAME
-const isLoading = ref(false)
 const userWhoPaid = ref(DEFAULT_WHO_PAID)
 const isOpenAddItemModal = ref(false)
 const editProductName = ref()

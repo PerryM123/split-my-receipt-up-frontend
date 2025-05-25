@@ -31,6 +31,8 @@ export const useAnalyzeReceipt = () => {
       } else {
         console.error('Unknown error', err)
       }
+    } finally {
+      isLoading.value = false
     }
   }
   const clearErrorMessage = () => {
@@ -40,6 +42,7 @@ export const useAnalyzeReceipt = () => {
   return {
     getReceiptDataFromReceipt,
     clearErrorMessage,
+    isLoading,
     data,
     error
   }
