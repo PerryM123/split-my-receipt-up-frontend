@@ -5,7 +5,6 @@
         <th>Name</th>
         <th>Price</th>
       </tr>
-      <!-- TODO: 以下は仮です -->
       <tr
         v-for="(perryBoughtItem, perryReceiptKey) in boughtItems"
         :key="perryReceiptKey"

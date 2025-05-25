@@ -82,27 +82,44 @@ TODO:
   </div>
 </template>
 <script setup lang="ts">
+import type { MoveToStepTwoPayload } from '@/interfaces/receipt'
+
 defineProps<{
   userWhoPaid: string
 }>()
-const receiptTitle = ref('')
+
 const emit = defineEmits<{
-  moveToStepTwo: [boolean]
+  moveToStepTwo: [MoveToStepTwoPayload]
 }>()
+const receiptTitle = ref('')
 const imageSrc = ref('')
+const selectedFile = ref<File | null>(null)
 const fileSelectRef = ref()
 const analyzeButtonRef = ref()
-const selectedFile = ref<File | null>(null)
 
-// TODO: prettier and eslint are conflicting here
-const { getReceiptDataFromReceipt, clearErrorMessage, error } =
-  useAnalyzeReceipt()
+const {
+  getReceiptDataFromReceipt,
+  clearErrorMessage,
+  error,
+  data: receiptData
+} = useAnalyzeReceipt()
 
 const analyzeReceipt = async (selectedFile: File | null) => {
   console.log('perry: analyzeReceipt: props.selectedFile: ', selectedFile)
   await getReceiptDataFromReceipt(selectedFile)
   if (!error.value) {
-    emit('moveToStepTwo', true)
+    console.log('perry: receiptData.value: ', receiptData.value)
+    if (receiptData.value) {
+      emit('moveToStepTwo', {
+        receiptInfo: {
+          // TODO: There might be a better way to write this
+          items: receiptData.value?.receipt_info.items,
+          receipt_total: receiptData.value?.receipt_info.receipt_total
+        },
+        receiptTitle: receiptTitle.value,
+        selectedFile
+      })
+    }
   }
 }
 const getErrorMessage = () => {

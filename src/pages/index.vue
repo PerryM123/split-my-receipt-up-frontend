@@ -2,8 +2,6 @@
   <div>
     <PageTitle>Split Me Up Before You Go-Go</PageTitle>
     <div class="mt-16">
-      <!-- TODO: There must be a way to order the tailwind classes with an extension and preitter
-         -->
       <NuxtLink
         v-for="(link, linkKey) in linkInfo"
         :key="linkKey"

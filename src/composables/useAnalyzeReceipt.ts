@@ -1,7 +1,8 @@
+import type { ReceiptInfoResponse } from '@/interfaces/receipt'
 import { ref } from 'vue'
 
 export const useAnalyzeReceipt = () => {
-  const data = ref<string | null>(null)
+  const data = ref<ReceiptInfoResponse | null>(null)
   const error = ref<string | null>(null)
   const isLoading = ref<boolean>(false)
 
@@ -16,7 +17,7 @@ export const useAnalyzeReceipt = () => {
     formData.append('image', imageFile)
     isLoading.value = true
     try {
-      await $fetch('http://local.memories.com/api/receipt-info/analyze', {
+      data.value = await $fetch(`${getApiBase()}/api/receipt-info/analyze`, {
         method: 'POST',
         body: formData
       })
@@ -36,5 +37,10 @@ export const useAnalyzeReceipt = () => {
     error.value = ''
   }
 
-  return { getReceiptDataFromReceipt, clearErrorMessage, data, error }
+  return {
+    getReceiptDataFromReceipt,
+    clearErrorMessage,
+    data,
+    error
+  }
 }
