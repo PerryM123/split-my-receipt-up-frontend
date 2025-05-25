@@ -53,17 +53,25 @@ TODO:
     </div>
     <div class="mt-5">
       <h2 class="text-2xl font-bold">Receipt Photo</h2>
-      <input class="mt-3" type="file" accept=".jpg,.jpeg" />
+      <input
+        ref="fileSelectRef"
+        class="mt-3"
+        type="file"
+        accept=".jpg,.jpeg"
+        @change="previewImage"
+      />
       <div class="mt-3">
         <img v-if="imageSrc" :src="imageSrc" alt="Selected Receipt" />
         <p
           v-else
           class="flex h-80 max-h-80 max-w-80 items-center justify-center border border-black text-2xl"
+          @click="openFileSelection"
         >
           no image...
         </p>
       </div>
       <button
+        ref="analyzeButtonRef"
         :disabled="!selectedFile"
         class="mt-5 block w-full rounded border border-solid border-black bg-gray-300 px-5 py-5 text-center transition-all duration-700 first:mt-0 hover:opacity-30"
         @click="analyzeReceipt(selectedFile)"
@@ -74,23 +82,28 @@ TODO:
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   userWhoPaid: string
-  imageSrc: string
-  selectedFile: File | null
 }>()
 const receiptTitle = ref('')
 const emit = defineEmits<{
   moveToStepTwo: [boolean]
 }>()
+const imageSrc = ref('')
+const fileSelectRef = ref()
+const analyzeButtonRef = ref()
+const selectedFile = ref<File | null>(null)
+
 // TODO: prettier and eslint are conflicting here
 const { getReceiptDataFromReceipt, clearErrorMessage, error } =
   useAnalyzeReceipt()
 
 const analyzeReceipt = async (selectedFile: File | null) => {
-  console.log('perry: analyzeReceipt: props.selectedFile: ', props.selectedFile)
+  console.log('perry: analyzeReceipt: props.selectedFile: ', selectedFile)
   await getReceiptDataFromReceipt(selectedFile)
-  emit('moveToStepTwo', true)
+  if (!error.value) {
+    emit('moveToStepTwo', true)
+  }
 }
 const getErrorMessage = () => {
   return 'Unknown error occurred'
@@ -100,5 +113,16 @@ const handlePayerChange = () => {
 }
 const handleReceiptTitleChange = () => {
   clearErrorMessage()
+}
+const previewImage = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (!file) {
+    return
+  }
+  imageSrc.value = URL.createObjectURL(file)
+  selectedFile.value = file
+}
+const openFileSelection = () => {
+  fileSelectRef.value?.click()
 }
 </script>

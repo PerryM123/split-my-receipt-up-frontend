@@ -73,9 +73,6 @@ TODO:
     <SavePreparation
       v-else-if="currentStep === STEP_1"
       v-model:user-who-paid="userWhoPaid"
-      :image-src="imageSrc"
-      :selected-file="selectedFile"
-      @preview-image-emit-test-todo="previewImage"
       @move-to-step-two="moveToStepTwo"
     />
     <template v-else-if="currentStep === STEP_2">
@@ -178,8 +175,6 @@ interface ReceiptInfoResponse {
 }
 
 const DEFAULT_WHO_PAID = USERS.PERRY.NAME
-const imageSrc = ref('')
-const selectedFile = ref<File | null>(null)
 const isLoading = ref(false)
 const receiptTitle = ref('')
 const userWhoPaid = ref(DEFAULT_WHO_PAID)
@@ -218,15 +213,6 @@ const STEP_3 = 'step3'
 // TODO: Is there a better way to write this?
 type Steps = typeof STEP_1 | typeof STEP_2 | typeof STEP_3
 const currentStep = ref<Steps>(STEP_1)
-
-const previewImage = (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (!file) {
-    return
-  }
-  imageSrc.value = URL.createObjectURL(file)
-  selectedFile.value = file
-}
 
 const handleOpenAddItemModal = () => {
   console.log('perry: handleOpenAddItemModal function')
