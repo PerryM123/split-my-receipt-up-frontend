@@ -49,5 +49,7 @@ const handleClickBlackOverlay = () => {
   position: fixed;
   z-index: 100;
   opacity: 0.7;
+  top: 0;
+  left: 0;
 }
 </style>
