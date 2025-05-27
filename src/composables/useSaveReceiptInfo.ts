@@ -61,6 +61,10 @@ export const useSaveReceiptInfo = () => {
         body: formData
       })
     } catch (err) {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      })
       if (err instanceof Error) {
         error.value = err.message
       } else {
@@ -75,8 +79,13 @@ export const useSaveReceiptInfo = () => {
     // currentStep.value = STEP_3
   }
 
+  const clearErrorMessage = () => {
+    error.value = ''
+  }
+
   return {
     saveReceiptData,
+    clearErrorMessage,
     isLoading,
     data,
     error

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <template v-if="isLoading">
-      <!-- TODO: Maybe make this into an atom component -->
-      <img src="/loading.gif" alt="Analyzing Receipt" />
-    </template>
+    <LoadingIcon v-if="isLoading" />
     <template v-else>
+      <ErrorMessage v-if="error">
+        {{ getErrorMessage() }}
+      </ErrorMessage>
       <CommonModal
         :is-modal-open="isOpenEditModal || isEditTotalModelOpen"
         @handle-click-black-overlay="handleClickBlackOverlay"
@@ -165,11 +165,9 @@
 import CommonModal from '@/components/molecules/CommonModal.vue'
 import CommonButton from '@/components/atoms/CommonButton.vue'
 import { USERS } from '@/constants'
-import type {
-  ItemInfo,
-  ReceiptInfo,
-  ReceiptInfoResponse
-} from '@/interfaces/receipt'
+import type { ItemInfo, ReceiptInfo } from '@/interfaces/receipt'
+import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
+import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
 
 // TODO: Eslint conflict again...
 const { receiptTotal, receiptInfo, selectedFile, receiptTitle, userWhoPaid } =
@@ -181,7 +179,11 @@ const { receiptTotal, receiptInfo, selectedFile, receiptTitle, userWhoPaid } =
     userWhoPaid: string
   }>()
 
-const { saveReceiptData, isLoading, data } = useSaveReceiptInfo()
+const emit = defineEmits<{
+  'update:receipt-info': [ReceiptInfo]
+  'update:receipt-total': [number]
+}>()
+const { saveReceiptData, isLoading, data, error } = useSaveReceiptInfo()
 
 const isDeleteModal = ref(false)
 const isEditTotalModelOpen = ref(false)
@@ -348,9 +350,8 @@ const handleCancelDeleteConfirmation = () => {
   isDeleteModal.value = false
   closeModal()
 }
-
-const emit = defineEmits<{
-  'update:receipt-info': [ReceiptInfo]
-  'update:receipt-total': [number]
-}>()
+// TODO: This is placeholder
+const getErrorMessage = () => {
+  return 'Unknown error occurred'
+}
 </script>

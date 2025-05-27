@@ -3,17 +3,12 @@ TODO:
 - Add: if I hit enter, it will focus to the next input  
 -->
 <template>
-  <template v-if="isLoading">
-    <!-- TODO: Maybe make this into an atom component -->
-    <img src="/loading.gif" alt="Analyzing Receipt" />
-  </template>
+  <LoadingIcon v-if="isLoading" />
   <template v-else>
     <div class="mt-5">
-      <div v-if="error" class="mb-4">
-        <p class="rounded border border-red-500 bg-red-100 p-3">
-          {{ getErrorMessage() }}
-        </p>
-      </div>
+      <ErrorMessage v-if="error">
+        {{ getErrorMessage() }}
+      </ErrorMessage>
       <div>
         <p class="text-2xl font-bold">Receipt Title</p>
         <input
@@ -71,7 +66,7 @@ TODO:
           <img v-if="imageSrc" :src="imageSrc" alt="Selected Receipt" />
           <p
             v-else
-            class="flex h-80 max-h-80 max-w-80 items-center justify-center border border-black text-2xl"
+            class="flex h-80 max-h-80 w-full items-center justify-center border border-black text-2xl"
             @click="openFileSelection"
           >
             no image...
@@ -91,6 +86,8 @@ TODO:
 </template>
 <script setup lang="ts">
 import type { MoveToStepTwoPayload } from '@/interfaces/receipt'
+import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
+import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
 
 defineProps<{
   userWhoPaid: string
@@ -131,6 +128,7 @@ const analyzeReceipt = async (selectedFile: File | null) => {
     }
   }
 }
+// TODO: This is placeholder
 const getErrorMessage = () => {
   return 'Unknown error occurred'
 }

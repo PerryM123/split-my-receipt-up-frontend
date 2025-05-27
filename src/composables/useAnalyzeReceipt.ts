@@ -35,6 +35,7 @@ export const useAnalyzeReceipt = () => {
       isLoading.value = false
     }
   }
+
   const clearErrorMessage = () => {
     error.value = ''
   }
