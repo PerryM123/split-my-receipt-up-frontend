@@ -42,9 +42,10 @@
       :user-who-paid
       @move-to-step-three="moveToStepThree"
     />
-    <template v-else-if="currentStep === STEP_3">
-      <div>this is step 3</div>
-    </template>
+    <ReceiptSavedSuccessfully
+      :receipt-title="receiptTitle"
+      :receipt-id="receiptId"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -53,10 +54,12 @@ import SavePreparation from '@/components/organisms/SavePreparation.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
 import type {
   ItemInfo,
+  MoveToStepThreePayload,
   MoveToStepTwoPayload,
   ReceiptInfo
 } from '@/interfaces/receipt'
 import ReceiptOrganizer from '@/components/organisms/ReceiptOrganizer.vue'
+import ReceiptSavedSuccessfully from '@/components/organisms/ReceiptSavedSuccessfully.vue'
 
 const DEFAULT_WHO_PAID = USERS.PERRY.NAME
 const userWhoPaid = ref<string>(DEFAULT_WHO_PAID)
@@ -177,7 +180,7 @@ const moveToStepTwo = (payload: MoveToStepTwoPayload) => {
     receiptTitle.value = payload.receiptTitle
   }
 }
-const moveToStepThree = (payload: number) => {
+const moveToStepThree = (payload: MoveToStepThreePayload) => {
   console.log('perry: moveToStepThree: payload: ', payload)
   currentStep.value = STEP_3
   // TODO

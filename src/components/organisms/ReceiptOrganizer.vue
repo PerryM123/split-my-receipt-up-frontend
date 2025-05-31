@@ -2,6 +2,7 @@
  TODO:
  - organize methods, computed functions and refs, etc
  - Make an error pattern for if the sum of listed items is somehow larger than the receiptTotal
+ - Add an error screen incase SSR does not go well
 -->
 <template>
   <div>
@@ -170,7 +171,11 @@
 import CommonModal from '@/components/molecules/CommonModal.vue'
 import CommonButton from '@/components/atoms/CommonButton.vue'
 import { USERS } from '@/constants'
-import type { ItemInfo, ReceiptInfo } from '@/interfaces/receipt'
+import type {
+  ItemInfo,
+  MoveToStepThreePayload,
+  ReceiptInfo
+} from '@/interfaces/receipt'
 import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
 import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
 
@@ -187,7 +192,7 @@ const { receiptTotal, receiptInfo, selectedFile, receiptTitle, userWhoPaid } =
 const emit = defineEmits<{
   'update:receipt-info': [ReceiptInfo]
   'update:receipt-total': [number]
-  moveToStepThree: [number]
+  moveToStepThree: [MoveToStepThreePayload]
 }>()
 const { saveReceiptData, isLoading, data, error } = useSaveReceiptInfo()
 
@@ -239,7 +244,10 @@ const seeFinalResults = async () => {
   })
   console.log('perry: data: ', data)
   // TODO
-  emit('moveToStepThree', 0)
+  emit('moveToStepThree', {
+    receiptId: 0,
+    receiptTitle
+  })
 }
 const handleOpenEditModal = (event: MouseEvent, data: ItemInfo) => {
   isOpenEditModal.value = true
