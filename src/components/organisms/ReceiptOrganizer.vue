@@ -58,8 +58,8 @@
           <div class="menuItem">
             <p class="menuTitle">Total</p>
             <input
-              ref="fakeTotalRef"
-              v-model="fakeTotal"
+              ref="newReceiptTotalRef"
+              v-model="newReceiptTotal"
               class="inputBox"
               type="number"
               min="0"
@@ -200,8 +200,8 @@ const userToEdit = ref<string>()
 const editProductNameRef = ref()
 const editPriceRef = ref()
 const indexToEdit = ref<number>(0)
-const fakeTotalRef = ref(false)
-const fakeTotal = ref(0)
+const newReceiptTotalRef = ref(false)
+const newReceiptTotal = ref(0)
 const perryTotal = computed(() => getUserTotal(USERS.PERRY.NAME))
 const hannahTotal = computed(() => getUserTotal(USERS.HANNAH.NAME))
 const bothTotal = computed(
@@ -214,7 +214,7 @@ const handleOpenAddItemModal = () => {
 }
 const handleOpenEditTotalModal = () => {
   isEditTotalModelOpen.value = true
-  fakeTotal.value = receiptTotal
+  newReceiptTotal.value = receiptTotal
 }
 const seeFinalResults = async () => {
   console.log('perry: seeFinalResults function: ', {
@@ -335,7 +335,7 @@ const handleEditItem = () => {
   closeModal()
 }
 const handleEditReceiptTotal = () => {
-  emit('update:receipt-total', fakeTotal.value)
+  emit('update:receipt-total', newReceiptTotal.value)
   closeModal()
 }
 const editPriceEnterKey = () => {
