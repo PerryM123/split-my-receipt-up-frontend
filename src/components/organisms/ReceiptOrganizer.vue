@@ -1,3 +1,7 @@
+<!-- 
+ TODO:
+ - organize methods, computed functions and refs, etc
+-->
 <template>
   <div>
     <LoadingIcon v-if="isLoading" />
@@ -182,6 +186,7 @@ const { receiptTotal, receiptInfo, selectedFile, receiptTitle, userWhoPaid } =
 const emit = defineEmits<{
   'update:receipt-info': [ReceiptInfo]
   'update:receipt-total': [number]
+  moveToStepThree: [number]
 }>()
 const { saveReceiptData, isLoading, data, error } = useSaveReceiptInfo()
 
@@ -232,6 +237,8 @@ const seeFinalResults = async () => {
     boughtItems: receiptInfo.items
   })
   console.log('perry: data: ', data)
+  // TODO
+  emit('moveToStepThree', 0)
 }
 const handleOpenEditModal = (event: MouseEvent, data: ItemInfo) => {
   isOpenEditModal.value = true

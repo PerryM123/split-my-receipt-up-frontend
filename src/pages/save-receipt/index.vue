@@ -40,6 +40,7 @@
       :selected-file
       :receipt-title
       :user-who-paid
+      @move-to-step-three="moveToStepThree"
     />
     <template v-else-if="currentStep === STEP_3">
       <div>this is step 3</div>
@@ -175,5 +176,10 @@ const moveToStepTwo = (payload: MoveToStepTwoPayload) => {
     selectedFile.value = payload.selectedFile
     receiptTitle.value = payload.receiptTitle
   }
+}
+const moveToStepThree = (payload: number) => {
+  console.log('perry: moveToStepThree: payload: ', payload)
+  currentStep.value = STEP_3
+  // TODO
 }
 </script>
