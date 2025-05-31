@@ -335,7 +335,7 @@ const handleEditItem = () => {
   closeModal()
 }
 const handleEditReceiptTotal = () => {
-  emit('update:receipt-total', receiptTotal)
+  emit('update:receipt-total', fakeTotal.value)
   closeModal()
 }
 const editPriceEnterKey = () => {
