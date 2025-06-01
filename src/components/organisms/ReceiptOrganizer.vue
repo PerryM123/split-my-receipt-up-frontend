@@ -194,7 +194,12 @@ const emit = defineEmits<{
   'update:receipt-total': [number]
   moveToStepThree: [MoveToStepThreePayload]
 }>()
-const { saveReceiptData, isLoading, data, error } = useSaveReceiptInfo()
+const {
+  saveReceiptData,
+  isLoading,
+  data: savedReceiptData,
+  error
+} = useSaveReceiptInfo()
 
 const isDeleteModal = ref(false)
 const isEditTotalModelOpen = ref(false)
@@ -242,10 +247,12 @@ const seeFinalResults = async () => {
     bothTotalSplitted: bothTotalSplitted.value,
     boughtItems: receiptInfo.items
   })
-  console.log('perry: data: ', data)
-  // TODO
+  if (!savedReceiptData.value?.receipt_id) {
+    console.error('Receipt ID does not exist')
+    return
+  }
   emit('moveToStepThree', {
-    receiptId: 0,
+    receiptId: savedReceiptData.value?.receipt_id,
     receiptTitle
   })
 }

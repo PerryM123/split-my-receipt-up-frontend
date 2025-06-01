@@ -43,6 +43,7 @@
       @move-to-step-three="moveToStepThree"
     />
     <ReceiptSavedSuccessfully
+      v-else-if="currentStep === STEP_3"
       :receipt-title="receiptTitle"
       :receipt-id="receiptId"
     />
@@ -53,7 +54,6 @@ import { USERS } from '@/constants'
 import SavePreparation from '@/components/organisms/SavePreparation.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
 import type {
-  ItemInfo,
   MoveToStepThreePayload,
   MoveToStepTwoPayload,
   ReceiptInfo
@@ -70,6 +70,7 @@ const receiptInfo = ref<ReceiptInfo>({
   receipt_total: 0
 })
 const receiptTotal = ref(0)
+const receiptId = ref<number>()
 const selectedFile = ref<File | null>(null)
 const receiptTitle = ref('')
 const STEP_1 = 'step1'
@@ -181,8 +182,8 @@ const moveToStepTwo = (payload: MoveToStepTwoPayload) => {
   }
 }
 const moveToStepThree = (payload: MoveToStepThreePayload) => {
-  console.log('perry: moveToStepThree: payload: ', payload)
   currentStep.value = STEP_3
-  // TODO
+  receiptId.value = payload.receiptId
+  receiptTitle.value = payload.receiptTitle
 }
 </script>

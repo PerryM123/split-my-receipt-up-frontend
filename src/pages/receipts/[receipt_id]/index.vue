@@ -45,23 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import type { BoughtItem } from '@/interfaces/receipt'
+import type { ReceiptInfoDetailsResponse } from '@/interfaces/receipt'
 import { useRoute } from 'vue-router'
 import { USERS } from '@/constants'
 import ItemTable from '@/components/atoms/ItemTable.vue'
 
-type ReceiptInfoDetailsResponse = {
-  receipt_id: number
-  title: string
-  image_url: string
-  user_who_paid: string
-  total_amount: number
-  person_1_amount: number
-  person_2_amount: number
-  person_1_bought_items: BoughtItem[]
-  person_2_bought_items: BoughtItem[]
-  both_bought_items: BoughtItem[]
-}
 if (import.meta.server) {
   console.log('This is a server-side log')
 }

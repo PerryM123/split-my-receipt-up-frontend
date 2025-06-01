@@ -1,8 +1,8 @@
-import type { ItemInfo, ReceiptInfoResponse } from '@/interfaces/receipt'
+import type { ItemInfo, ReceiptInfoDetailsResponse } from '@/interfaces/receipt'
 import { ref } from 'vue'
 
 export const useSaveReceiptInfo = () => {
-  const data = ref<ReceiptInfoResponse | null>(null)
+  const data = ref<ReceiptInfoDetailsResponse | null>(null)
   const error = ref<string | null>(null)
   const isLoading = ref<boolean>(false)
 
@@ -73,10 +73,6 @@ export const useSaveReceiptInfo = () => {
     } finally {
       isLoading.value = false
     }
-    // const receiptInfoResponse: ReceiptInfoResponse = await response.json()
-    // receiptInfo = receiptInfoResponse.receipt_info
-    // receiptTotal = receiptInfoResponse.receipt_info.receipt_total
-    // currentStep.value = STEP_3
   }
 
   const clearErrorMessage = () => {
