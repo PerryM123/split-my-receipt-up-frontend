@@ -10,3 +10,16 @@ export const getApiBase = () => {
   }
   return config.public.apiBaseLocal
 }
+
+// TODO: Need to finish this
+// export const getImageUrlBase = () => {
+// const config = useRuntimeConfig()
+// if (import.meta.client) {
+//   const hostname = window.location.hostname
+//   if (hostname === 'localhost' || hostname === '127.0.0.1') {
+//     return config.public.apiBaseLocal
+//   }
+//   return config.public.apiBaseLan
+// }
+// return config.public.apiBaseLocal
+// }

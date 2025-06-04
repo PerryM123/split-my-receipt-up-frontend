@@ -8,44 +8,51 @@
 -->
 <template>
   <div>
-    <h2>{{ receiptDetails?.title }}</h2>
+    <h2>{{ receiptData?.title }}</h2>
     <ul>
       <li>
-        {{ USERS.PERRY.DISPLAY_NAME }}: {{ receiptDetails?.person_1_amount }}
+        {{ USERS.PERRY.DISPLAY_NAME }}: {{ receiptData?.person_1_amount }}
       </li>
       <li>
-        {{ USERS.HANNAH.DISPLAY_NAME }}: {{ receiptDetails?.person_2_amount }}
+        {{ USERS.HANNAH.DISPLAY_NAME }}: {{ receiptData?.person_2_amount }}
       </li>
       <li>{{ USERS.BOTH.DISPLAY_NAME }}: TODO</li>
     </ul>
     <hr />
     <div>
       <h3>
-        {{ USERS.PERRY.DISPLAY_NAME }}: {{ receiptDetails?.person_1_amount }}
+        {{ USERS.PERRY.DISPLAY_NAME }}: {{ receiptData?.person_1_amount }}
       </h3>
-      <ItemTable :bought-items="receiptDetails?.person_1_bought_items" />
+      <ItemTable :bought-items="receiptData?.person_1_bought_items" />
     </div>
     <hr />
     <div>
       <h3>
-        {{ USERS.HANNAH.DISPLAY_NAME }}: {{ receiptDetails?.person_2_amount }}
+        {{ USERS.HANNAH.DISPLAY_NAME }}: {{ receiptData?.person_2_amount }}
       </h3>
-      <ItemTable :bought-items="receiptDetails?.person_2_bought_items" />
+      <ItemTable :bought-items="receiptData?.person_2_bought_items" />
     </div>
     <hr />
     <div>
       <h3>{{ USERS.BOTH.DISPLAY_NAME }}: TODO</h3>
-      <ItemTable :bought-items="receiptDetails?.both_bought_items" />
+      <ItemTable :bought-items="receiptData?.both_bought_items" />
     </div>
     <hr />
     <div>
-      <img :src="receiptDetails?.image_url" />
+      <!-- TODO: Make it so that the backend sends over the url without the hostname and let the frontend decide which s3 to send it off to -->
+      <img
+        :src="
+          receiptData?.image_url.replace(
+            'http://minio:9000',
+            'http://192.168.1.15:9000'
+          )
+        "
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ReceiptInfoDetailsResponse } from '@/interfaces/receipt'
 import { useRoute } from 'vue-router'
 import { USERS } from '@/constants'
 import ItemTable from '@/components/atoms/ItemTable.vue'
@@ -57,27 +64,15 @@ if (import.meta.client) {
   console.log('This is a client-side log')
 }
 
-const isLoading = ref(false)
 const route = useRoute()
 const receiptId = route.params.receipt_id
-const receiptDetails = ref<ReceiptInfoDetailsResponse>()
-try {
-  isLoading.value = true
-  // TODO: maybe axios is better? Or using a composable?
-  const response = await fetch(
-    `http://local.memories.com/api/receipt-info/${receiptId}`,
-    { method: 'GET' }
-  )
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`)
-  }
-  const receiptInfoDetailsResponse: ReceiptInfoDetailsResponse =
-    await response.json()
-  receiptDetails.value = receiptInfoDetailsResponse
-  console.log(receiptDetails.value)
-} catch (error) {
-  console.error('Error analyzing receipt:', error)
-} finally {
-  isLoading.value = false
-}
+
+const {
+  getReceiptData,
+  isLoading,
+  data: receiptData,
+  error
+} = useGetReceiptInfo()
+
+await getReceiptData(Number(receiptId))
 </script>

@@ -6,6 +6,30 @@ export const useSaveReceiptInfo = () => {
   const error = ref<string | null>(null)
   const isLoading = ref<boolean>(false)
 
+  const getReceiptData = async (receiptId: number) => {
+    console.log('perry: function getReceiptData')
+
+    try {
+      isLoading.value = true
+      data.value = await $fetch(
+        `${getApiBase()}/api/receipt-info/${receiptId}`,
+        { method: 'GET' }
+      )
+    } catch (err) {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      })
+      if (err instanceof Error) {
+        error.value = err.message
+      } else {
+        console.error('Unknown error', err)
+      }
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   const saveReceiptData = async (payload: {
     selectedFile: File | null
     receiptTitle: string
@@ -81,6 +105,7 @@ export const useSaveReceiptInfo = () => {
 
   return {
     saveReceiptData,
+    getReceiptData,
     clearErrorMessage,
     isLoading,
     data,
