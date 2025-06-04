@@ -30,7 +30,7 @@ TODO:
                 name="who-paid"
                 value="perry"
                 :checked="userWhoPaid === 'perry'"
-                @change="handlePayerChange()"
+                @change="handlePayerChange"
               />
               <label class="cursor-pointer pl-2 text-xl" for="perry"
                 >Perry</label
@@ -44,7 +44,7 @@ TODO:
                 name="who-paid"
                 value="hannah"
                 :checked="userWhoPaid === 'hannah'"
-                @change="handlePayerChange()"
+                @change="handlePayerChange"
               />
               <label class="cursor-pointer pl-2 text-xl" for="hannah"
                 >Hannah</label
@@ -132,8 +132,10 @@ const analyzeReceipt = async (selectedFile: File | null) => {
 const getErrorMessage = () => {
   return 'Unknown error occurred'
 }
-const handlePayerChange = () => {
+const handlePayerChange = (event: Event) => {
   clearErrorMessage()
+  const target = event.target as HTMLInputElement
+  emit('update:userWhoPaid', target.value)
 }
 const handleReceiptTitleChange = () => {
   clearErrorMessage()
