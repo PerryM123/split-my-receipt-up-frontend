@@ -95,6 +95,7 @@ defineProps<{
 
 const emit = defineEmits<{
   moveToStepTwo: [MoveToStepTwoPayload]
+  'update:userWhoPaid': [string]
 }>()
 const receiptTitle = ref('')
 const imageSrc = ref('')
