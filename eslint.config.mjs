@@ -1,7 +1,10 @@
+import prettierConfig from 'eslint-plugin-prettier/recommended'
+
 // @ts-check
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt({
+  prettierConfig,
   rules: {
     // TODO: consider turning this back on
     'vue/multi-word-component-names': 'off',
