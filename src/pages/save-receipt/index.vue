@@ -54,6 +54,7 @@ import { USERS } from '@/constants'
 import SavePreparation from '@/components/organisms/SavePreparation.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
 import type {
+  ItemInfo,
   MoveToStepThreePayload,
   MoveToStepTwoPayload,
   ReceiptInfo
@@ -83,100 +84,16 @@ const currentStep = ref<Steps>(STEP_1)
 const moveToStepTwo = (payload: MoveToStepTwoPayload) => {
   currentStep.value = STEP_2
   if (payload.receiptInfo) {
-    // receiptTotal.value = payload.receiptInfo?.receipt_total
-    // TODO: Testing. When finished, comment out the line above
-    receiptTotal.value = 4626
-    // receiptInfo.value.items = payload.receiptInfo.items.map(
-    //   (receipt: ItemInfo) => {
-    //     return {
-    //       ...receipt,
-    //       who_paid: USERS.BOTH.NAME
-    //     }
-    //   }
-    // )
-    // TODO: Testing. When finished, comment out the line above
-    receiptInfo.value.items = [
-      {
-        name: 'ハーゲンミニCロウチャクリキーウカ',
-        price_total: 218,
-        who_paid: 'both'
-      },
-      {
-        name: 'オリジナルスフラッドオレンジ',
-        price_total: 204,
-        who_paid: 'both'
-      },
-      {
-        name: 'オカメ スコイサットS-903',
-        price_total: 264,
-        who_paid: 'both'
-      },
-      {
-        name: 'アタックウオシEXヘヤカカ850g',
-        price_total: 308,
-        who_paid: 'both'
-      },
-      {
-        name: 'コウサンウオトンジヤ玉150×3',
-        price_total: 78,
-        who_paid: 'both'
-      },
-      {
-        name: 'セブンスターリサンゴールド',
-        price_total: 499,
-        who_paid: 'both'
-      },
-      {
-        name: 'ワイドハイターEXパワー820ml',
-        price_total: 328,
-        who_paid: 'both'
-      },
-      {
-        name: 'サラヤ テイユコット100ムコち56',
-        price_total: 280,
-        who_paid: 'both'
-      },
-      {
-        name: 'バナナ',
-        price_total: 256,
-        who_paid: 'both'
-      },
-      {
-        name: 'ハウスバイング35g',
-        price_total: 100,
-        who_paid: 'both'
-      },
-      {
-        name: 'トマト コツコ',
-        price_total: 398,
-        who_paid: 'both'
-      },
-      {
-        name: 'タンノンビオカセイタクブドウ',
-        price_total: 326,
-        who_paid: 'both'
-      },
-      {
-        name: 'タンノンビオ シチリアレモン 4コ',
-        price_total: 163,
-        who_paid: 'both'
-      },
-      {
-        name: 'コイワイヨーグルトホンボウ400g',
-        price_total: 199,
-        who_paid: 'both'
-      },
-      {
-        name: 'ミヤマ イチオシムキチ 200g',
-        price_total: 153,
-        who_paid: 'both'
-      },
-      {
-        name: 'コウサンウオカトリムネニク',
-        price_total: 596,
-        who_paid: 'both'
+    receiptTotal.value = payload.receiptInfo?.receipt_total
+    receiptInfo.value.items = payload.receiptInfo.items.map(
+      (receipt: ItemInfo) => {
+        return {
+          ...receipt,
+          who_paid: USERS.BOTH.NAME
+        }
       }
-    ]
+    )
+
     selectedFile.value = payload.selectedFile
     receiptTitle.value = payload.receiptTitle
   }
