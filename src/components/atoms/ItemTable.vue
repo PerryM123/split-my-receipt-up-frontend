@@ -1,16 +1,17 @@
 <template>
-  <table v-if="boughtItems?.length">
+  <table v-if="boughtItems?.length" class="mt-2 w-full">
     <tbody>
       <tr>
-        <th>Name</th>
-        <th>Price</th>
+        <th class="text-left">Name</th>
+        <th class="text-left">Price</th>
       </tr>
       <tr
         v-for="(perryBoughtItem, perryReceiptKey) in boughtItems"
         :key="perryReceiptKey"
+        class="border-solid border-black [&:not(:last-child)]:border-b"
       >
         <td>{{ perryBoughtItem.name }}</td>
-        <td>{{ formatPrice(perryBoughtItem.price) }}</td>
+        <td class="text-right">{{ formatPrice(perryBoughtItem.price) }}</td>
       </tr>
     </tbody>
   </table>
