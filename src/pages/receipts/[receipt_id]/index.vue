@@ -42,12 +42,7 @@
       <!-- TODO: Make it so that the backend sends over the url without the hostname and let the frontend decide which s3 to send it off to -->
       <img
         class="mt-3"
-        :src="
-          receiptData?.image_url.replace(
-            'http://minio:9000',
-            'http://192.168.1.15:9000'
-          )
-        "
+        :src="`${getImageUrlBase()}/${receiptData?.image_url}`"
       />
     </div>
   </div>

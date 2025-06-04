@@ -5,7 +5,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBaseLocal: process.env.API_BASE_LOCAL,
-      apiBaseLan: process.env.API_BASE_LAN
+      apiBaseLan: process.env.API_BASE_LAN,
+      imageUrlBaseLocal: process.env.IMAGE_URL_BASE_LOCAL,
+      imageUrlBaseLan: process.env.IMAGE_URL_BASE_LAN,
+      awsImageBucket: process.env.AWS_PUBLIC_IMAGE_BUCKET
     }
   },
   srcDir: 'src/',
