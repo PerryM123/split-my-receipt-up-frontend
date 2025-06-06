@@ -60,22 +60,22 @@ const { getReceiptData, data: receiptData } = useGetReceiptInfo()
 
 await getReceiptData(Number(receiptId))
 const perryBoughtItemsTotal = computed(() => {
-  if (!receiptData.value?.both_bought_items) return 0
-  return receiptData.value.both_bought_items.reduce(
-    (sum, item) => sum + item.price,
-    0
-  )
-})
-const hannahBoughtItemsTotal = computed(() => {
   if (!receiptData.value?.person_1_bought_items) return 0
   return receiptData.value.person_1_bought_items.reduce(
     (sum, item) => sum + item.price,
     0
   )
 })
-const bothBoughtItemsTotal = computed(() => {
+const hannahBoughtItemsTotal = computed(() => {
   if (!receiptData.value?.person_2_bought_items) return 0
   return receiptData.value.person_2_bought_items.reduce(
+    (sum, item) => sum + item.price,
+    0
+  )
+})
+const bothBoughtItemsTotal = computed(() => {
+  if (!receiptData.value?.both_bought_items) return 0
+  return receiptData.value.both_bought_items.reduce(
     (sum, item) => sum + item.price,
     0
   )
