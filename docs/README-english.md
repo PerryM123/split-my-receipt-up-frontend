@@ -6,7 +6,7 @@
 Instead of calculating receipts by hand, let's use AI's OCR instead to convert a photo of a receipt into a machine-readable text format and calculate it that way!
 
 ## What I Want to Learn From Making This?
-I am I've never had the chance to work in the backend of web development so I will take this oppurtunity to use Laravel and make an application following Domain-Driven Design (DDD) principles (reference: https://github.com/PerryM123/memories_backend). This repository will be for the frontend and using frontend tools I want to get into. For example: vitest, playwright, tailwindcss, figma, etc）
+I've never had the chance to work in the backend of web development so I will take this oppurtunity to use Laravel and make an application following Domain-Driven Design (DDD) principles (reference: https://github.com/PerryM123/memories_backend). This repository will be for the frontend and using frontend tools I want to get into. For example: vitest, playwright, tailwindcss, figma, etc）
 
 ## Simple Architecture
 ![alt text](/docs/images/simple-architecture.jpg)
