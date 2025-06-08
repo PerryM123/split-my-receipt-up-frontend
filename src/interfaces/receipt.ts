@@ -1,4 +1,4 @@
-export type ReceiptInfoDetailsResponse = {
+export type SplitReceiptInfoResponse = {
   receipt_id: number
   title: string
   image_url: string
@@ -6,6 +6,14 @@ export type ReceiptInfoDetailsResponse = {
   total_amount: number
   person_1_amount: number
   person_2_amount: number
+  created_at: string
+  updated_at: string
+}
+
+export type ReceiptDetailsInfoResponse = SplitReceiptInfoResponse &
+  ReceiptInfoDetailsResponse
+
+export type ReceiptInfoDetailsResponse = {
   person_1_bought_items: BoughtItem[]
   person_2_bought_items: BoughtItem[]
   both_bought_items: BoughtItem[]
@@ -19,8 +27,7 @@ export type BoughtItem = {
   payer_name: string
 }
 
-// TODO: Shouldn't this be the AnalyzeReceiptResponse instead??
-export type ReceiptInfoResponse = {
+export type AnalyzeReceiptResponse = {
   message: string
   receipt_info: ReceiptInfo
   error_info?: string
@@ -49,4 +56,9 @@ export type MoveToStepTwoPayload = {
 export type MoveToStepThreePayload = {
   receiptId: number
   receiptTitle: string
+}
+
+export type ReceiptListInfoResponse = {
+  receipt_data: SplitReceiptInfoResponse[]
+  receipt_count: number
 }

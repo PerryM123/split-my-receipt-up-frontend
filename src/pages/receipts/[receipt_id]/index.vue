@@ -38,8 +38,6 @@
     </div>
     <div class="mt-8">
       <h3 class="text-2xl">レシートの写真</h3>
-
-      <!-- TODO: Make it so that the backend sends over the url without the hostname and let the frontend decide which s3 to send it off to -->
       <img
         class="mt-3"
         :src="`${getImageUrlBase()}/${receiptData?.image_url}`"

@@ -1,57 +1,41 @@
 <template>
   <div>
-    <h1>Receipt List</h1>
-    <!-- TODO: loading icon is not appearing because of ssr??? -->
+    <PageTitle>Receipt List</PageTitle>
     <div v-if="isLoading">
       <img src="/loading.gif" alt="receipt list is now loading" />
     </div>
-    <div
-      v-for="(receipt, receiptInfoKey) in receiptInfoResponse.receipt_data"
-      :key="receiptInfoKey"
-      class="border-t border-black p-5"
-    >
-      <h2>{{ receipt.title }}</h2>
-      <p>Perry: {{ receipt.person_1_amount }}</p>
-      <p>Hannah: {{ receipt.person_2_amount }}</p>
-      <NuxtLink :to="`/receipts/${receipt.receipt_id}`">見る</NuxtLink>
+    <div>
+      <div
+        v-for="(receipt, receiptInfoKey) in receiptPaginationInfo?.receipt_data"
+        :key="receiptInfoKey"
+        class="mt-5 border-gray-400 pt-5 first:mt-0 [&:not(:first-child)]:border-t"
+      >
+        <h2 class="text-xl font-bold">{{ receipt.title }}</h2>
+        <p class="text-sm">
+          <span class="font-bold">Perry: </span>
+          {{ formatPrice(receipt.person_1_amount) }}
+        </p>
+        <p class="text-sm">
+          <span class="font-bold">Hannah: </span>
+          {{ formatPrice(receipt.person_2_amount) }}
+        </p>
+        <NuxtLink
+          :to="`/receipts/${receipt.receipt_id}`"
+          class="mt-4 block rounded-2xl border border-solid border-black bg-gray-300 px-5 py-2 text-center transition-all duration-700 first:mt-0 hover:opacity-30"
+        >
+          見る
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-type ReceiptInfoResponse = {
-  receipt_data: ReceiptData[]
-  total: number
-}
+import PageTitle from '@/components/atoms/PageTitle.vue'
 
-type ReceiptData = {
-  receipt_id: number
-  title: string
-  image_url: string
-  user_who_paid: string
-  total_amount: number
-  person_1_amount: number
-  person_2_amount: number
-  created_at: string | null
-  updated_at: string | null
-}
+const FIRST_PAGE = 1 as const
 
-const currentPage = ref(1)
+const currentPage = ref(FIRST_PAGE)
 const isLoading = ref(false)
-const response = await fetch(
-  `http://local.memories.com/api/receipt-info?page=${currentPage.value}`,
-  {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
-  }
-)
-if (!response.ok) {
-  throw new Error(`HTTP error! status: ${response.status}`)
-}
-const receiptInfoResponse: ReceiptInfoResponse = await response.json()
-console.log('receiptInfoResponse: ', receiptInfoResponse)
-console.log(
-  'receiptInfoResponse.receipt_data: ',
-  receiptInfoResponse.receipt_data
-)
-console.log('receiptInfoResponse.total: ', receiptInfoResponse.total)
+const { data: receiptPaginationInfo, getReceiptListData } = useGetReceiptList()
+await getReceiptListData(currentPage.value)
 </script>

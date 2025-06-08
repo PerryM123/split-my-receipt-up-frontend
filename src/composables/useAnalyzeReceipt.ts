@@ -1,8 +1,8 @@
-import type { ReceiptInfoResponse } from '@/interfaces/receipt'
+import type { AnalyzeReceiptResponse } from '@/interfaces/receipt'
 import { ref } from 'vue'
 
 export const useAnalyzeReceipt = () => {
-  const data = ref<ReceiptInfoResponse | null>(null)
+  const data = ref<AnalyzeReceiptResponse | null>(null)
   const error = ref<string | null>(null)
   const isLoading = ref<boolean>(false)
 
