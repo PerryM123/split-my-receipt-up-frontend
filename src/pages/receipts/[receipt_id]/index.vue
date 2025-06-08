@@ -7,9 +7,7 @@
 -->
 <template>
   <div>
-    <h2 class="text-4xl">
-      {{ receiptData?.title }}
-    </h2>
+    <PageTitle>{{ receiptData?.title }}</PageTitle>
     <h3 class="mt-3 text-lg">
       Payer:
       <span class="text-2xl capitalize">{{ receiptData?.user_who_paid }}</span>
@@ -50,6 +48,7 @@
 import { useRoute } from 'vue-router'
 import { USERS } from '@/constants'
 import ItemTable from '@/components/atoms/ItemTable.vue'
+import PageTitle from '@/components/atoms/PageTitle.vue'
 
 const route = useRoute()
 const receiptId = route.params.receipt_id
