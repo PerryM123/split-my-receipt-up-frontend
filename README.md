@@ -20,7 +20,13 @@
 
 ![alt text](/docs/images/wireframe.jpg)
 
-## ローカル環境構築
+## ローカルについて
+
+### 事前準備
+プロジェクトで固定されてるnodeバージョンが自動的に導入してくれるようにnvm(Node Version Manager)導入は必要で、 手順は以下です。
+- nvm導入の手順: https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
+
+### ローカル環境構築
 
 ```sh
 $ git clone git@github.com:PerryM123/split-my-receipt-up-frontend.git
@@ -30,6 +36,21 @@ $ yarn dev
 # 手元のスマホで見たい場合、以下のコマンドを実行した後表示されるQRを読み取ってください
 $ yarn dev:host
 ```
+
+## E2Eテストの実施方法
+### Step 1
+`.env.e2e-testing.example` を `.env.e2e-testing` にコピー
+
+### Step 2
+E2E用のローカルを起動
+
+```sh
+$ yarn dev:e2e
+# 別タブで
+$ yarn e2e:ui
+```
+
+※ memories_backendのDockerでローカル環境を起動する必要があります([memories_backendのREADME](https://github.com/PerryM123/memories_backend))
 
 # その他
 
