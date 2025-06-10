@@ -1,0 +1,72 @@
+{
+  "message": "Receipt Info Analyzed Successfully",
+  "receipt_info": {
+    "items": [
+      {
+        "name": "\u30cf\u30fc\u30b2\u30f3 \u30df\u30cbC\u30b3\u30a6\u30c1\u30e3\u30af\u30c3\u30ad\u30fc\u30b3\u30a6\u30ac",
+        "price_total": 218
+      },
+      {
+        "name": "\u30aa\u30ea\u30b8\u30ca\u30eb\u30a2\u30a4\u30b9\u30d6\u30e9\u30c3\u30c9\u30aa\u30ec\u30f3\u30b8",
+        "price_total": 204
+      },
+      {
+        "name": "\u30aa\u30ab\u30e1 \u30b9\u30b4\u30a4\u30ca\u30c3\u30c8\u30a6S-903",
+        "price_total": 264
+      },
+      {
+        "name": "\u30a2\u30bf\u30c3\u30af\u30b3\u30a6\u30ad\u30f3EX\u30cf\u30e4\u30e8\u30a6\u30ab\u30a8850g",
+        "price_total": 308
+      },
+      {
+        "name": "\u30b3\u30a6\u30b7\u30e7\u30a6\u30ce\u30c9\u30f3\u30b4\u30b8\u30cd\u30cc150*3",
+        "price_total": 78
+      },
+      {
+        "name": "\u30bb\u30d6\u30b9\u30d7\u30ea\u30b5\u30f3\u30b4\u30fc\u30eb\u30c9",
+        "price_total": 499
+      },
+      {
+        "name": "\u30ef\u30a4\u30c9\u30cf\u30a4\u30bf\u30fcEX\u30d1\u30ef\u30fc820ml",
+        "price_total": 328
+      },
+      {
+        "name": "\u30b5\u30e9\u30b5\u30fc\u30c6\u30a3\u30b3\u30c3\u30c8\u30f3100\u30e0\u30b3\u30a656",
+        "price_total": 280
+      },
+      {
+        "name": "\u30d0\u30ca\u30ca",
+        "price_total": 256
+      },
+      {
+        "name": "\u30cf\u30a6\u30b9\u30d0\u30fc\u30cb\u30af35g",
+        "price_total": 100
+      },
+      {
+        "name": "\u30c8\u30de\u30c8 \u30b3\u30d0\u30b3",
+        "price_total": 398
+      },
+      {
+        "name": "\u30c0\u30be\u30f3\u30d3\u30aa\u30bb\u30a4\u30bf\u30af\u30d6\u30c9\u30a6",
+        "price_total": 326
+      },
+      {
+        "name": "\u30c0\u30be\u30f3\u30d3\u30aa \u30b7\u30c1\u30ea\u30a2\u30ec\u30e2\u30f3 4\u30b3",
+        "price_total": 163
+      },
+      {
+        "name": "\u30b3\u30a4\u30ef\u30a4\u30e8\u30fc\u30b0\u30eb\u30c8\u30b7\u30dc\u30a60 400g",
+        "price_total": 199
+      },
+      {
+        "name": "\u30df\u30e4\u30de \u30a4\u30c1\u30aa\u30b7\u30ad\u30e0\u30c1 200g",
+        "price_total": 153
+      },
+      {
+        "name": "\u30b3\u30af\u30b5\u30f3\u30ef\u30ab\u30c9\u30ea\u30e0\u30cd\u30cb\u30af",
+        "price_total": 596
+      }
+    ],
+    "receipt_total": 4626
+  }
+}

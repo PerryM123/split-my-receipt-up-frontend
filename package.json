@@ -6,12 +6,17 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "dev:host": "nuxt dev --host",
+    "dev:e2e": "nuxt dev --dotenv .env.e2e-testing",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "e2e": "yarn playwright test",
+    "e2e:ui": "yarn playwright test --ui",
+    "e2e:debug": "yarn playwright test --debug",
+    "e2e:codegen": "yarn playwright codegen"
   },
   "dependencies": {
     "@nuxt/eslint": "1.3.0",
@@ -28,6 +33,8 @@
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^24.0.0",
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "sass": "^1.88.0",
