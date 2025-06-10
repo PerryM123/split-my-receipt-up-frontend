@@ -14,10 +14,6 @@
   </div>
 </template>
 <script setup>
-useHead({
-  title: 'Home Page'
-})
-
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
 const linkInfo = ref([
@@ -30,4 +26,7 @@ const linkInfo = ref([
     url: '/receipts'
   }
 ])
+useHead({
+  title: 'Home Page'
+})
 </script>

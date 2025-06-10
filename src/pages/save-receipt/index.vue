@@ -50,9 +50,6 @@
   </div>
 </template>
 <script setup lang="ts">
-useHead({
-  title: 'Save Receipt'
-})
 import { USERS } from '@/constants'
 import SavePreparation from '@/components/organisms/SavePreparation.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
@@ -106,4 +103,7 @@ const moveToStepThree = (payload: MoveToStepThreePayload) => {
   receiptId.value = payload.receiptId
   receiptTitle.value = payload.receiptTitle
 }
+useHead({
+  title: 'Save Receipt'
+})
 </script>

@@ -30,9 +30,6 @@
   </div>
 </template>
 <script setup lang="ts">
-useHead({
-  title: 'Receipt List'
-})
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
 const FIRST_PAGE = 1 as const
@@ -41,4 +38,7 @@ const currentPage = ref(FIRST_PAGE)
 const isLoading = ref(false)
 const { data: receiptPaginationInfo, getReceiptListData } = useGetReceiptList()
 await getReceiptListData(currentPage.value)
+useHead({
+  title: 'Receipt List'
+})
 </script>
