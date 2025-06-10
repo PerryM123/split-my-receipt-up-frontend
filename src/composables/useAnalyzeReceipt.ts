@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 export const useAnalyzeReceipt = () => {
   const data = ref<AnalyzeReceiptResponse | null>(null)
-  const error = ref<string | null>(null)
+  const error = ref()
   const isLoading = ref<boolean>(false)
 
   const getReceiptDataFromReceipt = async (imageFile: File | null) => {
@@ -22,27 +22,14 @@ export const useAnalyzeReceipt = () => {
         body: formData
       })
     } catch (err) {
-      window.scroll({
-        top: 0,
-        behavior: 'smooth'
-      })
-      if (err instanceof Error) {
-        error.value = err.message
-      } else {
-        console.error('Unknown error', err)
-      }
+      error.value = err
     } finally {
       isLoading.value = false
     }
   }
 
-  const clearErrorMessage = () => {
-    error.value = ''
-  }
-
   return {
     getReceiptDataFromReceipt,
-    clearErrorMessage,
     isLoading,
     data,
     error

@@ -6,11 +6,13 @@ TODO:
   <LoadingIcon v-if="isLoading" />
   <template v-else>
     <div class="mt-5">
-      <ErrorMessage v-if="error">
-        {{ getErrorMessage() }}
+      <ErrorMessage v-if="errorMessage || analyzeReceiptError">
+        {{ errorMessage || analyzeReceiptError }}
       </ErrorMessage>
       <div>
-        <p class="text-2xl font-bold">Receipt Title</p>
+        <p class="text-2xl font-bold">
+          Receipt Title<span class="text-red-500">*</span>
+        </p>
         <input
           v-model="receiptTitle"
           class="rounded border border-black p-2"
@@ -19,7 +21,9 @@ TODO:
       </div>
       <div class="mt-5">
         <fieldset>
-          <legend class="text-2xl font-bold">Who paid?</legend>
+          <legend class="text-2xl font-bold">
+            Who paid?<span class="text-red-500">*</span>
+          </legend>
           <div class="flex">
             <!-- TODO: Make this DRY if possible with a v-for -->
             <div class="center flex items-center">
@@ -54,7 +58,9 @@ TODO:
         </fieldset>
       </div>
       <div class="mt-5">
-        <h2 class="text-2xl font-bold">Receipt Photo</h2>
+        <h2 class="text-2xl font-bold">
+          Receipt Photo<span class="text-red-500">*</span>
+        </h2>
         <input
           ref="fileSelectRef"
           class="mt-3"
@@ -74,9 +80,8 @@ TODO:
         </div>
         <button
           ref="analyzeButtonRef"
-          :disabled="!selectedFile"
-          class="mt-5 block w-full rounded border border-solid border-black bg-gray-300 px-5 py-5 text-center transition-all duration-700 first:mt-0 hover:opacity-30"
-          @click="analyzeReceipt(selectedFile)"
+          class="mt-5 block w-full rounded border border-solid border-black bg-gray-300 px-5 py-5 text-center transition-all duration-700 first:mt-0"
+          @click="analyzeReceipt()"
         >
           分析
         </button>
@@ -102,19 +107,28 @@ const imageSrc = ref('')
 const selectedFile = ref<File | null>(null)
 const fileSelectRef = ref()
 const analyzeButtonRef = ref()
+const errorMessage = ref('')
 
 const {
   getReceiptDataFromReceipt,
-  clearErrorMessage,
-  error,
+  error: analyzeReceiptError,
   data: receiptData,
   isLoading
 } = useAnalyzeReceipt()
 
-const analyzeReceipt = async (selectedFile: File | null) => {
-  console.log('perry: analyzeReceipt: props.selectedFile: ', selectedFile)
-  await getReceiptDataFromReceipt(selectedFile)
-  if (!error.value) {
+const analyzeReceipt = async () => {
+  if (!selectedFile.value) {
+    errorMessage.value = 'Please select a receipt you would like to analyze.'
+    scrollToTop()
+    return
+  }
+  if (receiptTitle.value === '') {
+    errorMessage.value = 'Please add a title for the receipt'
+    scrollToTop()
+    return
+  }
+  await getReceiptDataFromReceipt(selectedFile.value)
+  if (!analyzeReceiptError.value) {
     console.log('perry: receiptData.value: ', receiptData.value)
     if (receiptData.value) {
       emit('moveToStepTwo', {
@@ -124,24 +138,24 @@ const analyzeReceipt = async (selectedFile: File | null) => {
           receipt_total: receiptData.value?.receipt_info.receipt_total
         },
         receiptTitle: receiptTitle.value,
-        selectedFile
+        selectedFile: selectedFile.value
       })
     }
+  } else {
+    errorMessage.value =
+      'Failed analyzing image. Please try again at a later time.'
   }
 }
-// TODO: This is placeholder
-const getErrorMessage = () => {
-  return 'Unknown error occurred'
-}
 const handlePayerChange = (event: Event) => {
-  clearErrorMessage()
+  clearErrorMessageTodo()
   const target = event.target as HTMLInputElement
   emit('update:userWhoPaid', target.value)
 }
 const handleReceiptTitleChange = () => {
-  clearErrorMessage()
+  clearErrorMessageTodo()
 }
 const previewImage = (event: Event) => {
+  clearErrorMessageTodo()
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) {
     return
@@ -150,6 +164,16 @@ const previewImage = (event: Event) => {
   selectedFile.value = file
 }
 const openFileSelection = () => {
+  console.log('perry: openFileSelection')
   fileSelectRef.value?.click()
+}
+const clearErrorMessageTodo = () => {
+  errorMessage.value = ''
+}
+const scrollToTop = () => {
+  window.scroll({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 </script>
