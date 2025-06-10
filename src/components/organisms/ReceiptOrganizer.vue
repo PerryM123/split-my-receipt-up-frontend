@@ -1,7 +1,6 @@
 <!-- 
  TODO:
  - organize methods, computed functions and refs, etc
- - Make an error pattern for if the sum of listed items is somehow larger than the receiptTotal
  - Add an error screen incase SSR does not go well
 -->
 <template>

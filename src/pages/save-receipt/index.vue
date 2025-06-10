@@ -1,28 +1,26 @@
 <!-- 
     TODO:
     - High priority:
-      - [ ] Make component for STEP 3 and STEP 4
-      - [ ] Add an edit button incase the Total amount is misread from OpenAI API 
       - [ ] Add validation for input text box and image
       - [ ] Add error pattern for API
       - [ ] Consider having a text box for receipt total amount or an edit button for total amount
-      - [ ] Fix bug where there are odd numbers involved (refer to /docs/odd-numbers-bug.png)
-      - [ ] Need to verify the math at some point since I think the tax is not being divided properly
-      - [ ] Should we just use 
       - [ ] Use <CommonButton> instead of <button>
       - [ ] Make code more DRY
       - [ ] Change naming convention (Edit Item Modal? Add Item Modal? Delete Modal?)
       - [ ] Need validation for items total being high than receipt total
-      - [ ] Fix broken models
+      - [ ] Fix broken model's design
+      - [ ] Use nuxt server api to access backend API
+      - [ ] Add validation for STEP_2:
+        - [ ] Error if the sum of listed items is somehow larger than the receiptTotal
+        - [ ] Edit Item and Edit Price Modal cannot be a decimal or negative
     
     - Low priority:
       - [ ] Need a common header... Need an about page???
-      - [ ] Add design
-      - [ ] Need to convert to atomic design soon
       - [ ] Need to do e2e tests for:
         - Save-Receipt
           - [ ] After scanning receipt, are the totals correct?
           - [ ] Editing the item name and price. The totals are still correct?
+          - [ ] Test error patterns for STEP 1 & 2
     -->
 <template>
   <div>
@@ -77,7 +75,6 @@ const receiptTitle = ref('')
 const STEP_1 = 'step1'
 const STEP_2 = 'step2'
 const STEP_3 = 'step3'
-// TODO: Is there a better way to write this?
 type Steps = typeof STEP_1 | typeof STEP_2 | typeof STEP_3
 const currentStep = ref<Steps>(STEP_1)
 
