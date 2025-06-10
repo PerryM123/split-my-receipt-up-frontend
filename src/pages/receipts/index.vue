@@ -30,6 +30,9 @@
   </div>
 </template>
 <script setup lang="ts">
+useHead({
+  title: 'Receipt List'
+})
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
 const FIRST_PAGE = 1 as const

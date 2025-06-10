@@ -56,6 +56,12 @@ const receiptId = route.params.receipt_id
 const { getReceiptData, data: receiptData } = useGetReceiptInfo()
 
 await getReceiptData(Number(receiptId))
+const pageTitleText = 'Receipt Details'
+useHead({
+  title: receiptData.value?.title
+    ? `${receiptData.value.title} - ${pageTitleText}`
+    : pageTitleText
+})
 const perryBoughtItemsTotal = computed(() => {
   if (!receiptData.value?.person_1_bought_items) return 0
   return receiptData.value.person_1_bought_items.reduce(

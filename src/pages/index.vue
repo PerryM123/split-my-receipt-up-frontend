@@ -14,6 +14,10 @@
   </div>
 </template>
 <script setup>
+useHead({
+  title: 'Home Page'
+})
+
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
 const linkInfo = ref([
