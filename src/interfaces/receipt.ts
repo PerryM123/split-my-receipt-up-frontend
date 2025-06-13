@@ -11,9 +11,9 @@ export type SplitReceiptInfoResponse = {
 }
 
 export type ReceiptDetailsInfoResponse = SplitReceiptInfoResponse &
-  ReceiptInfoDetailsResponse
+  ReceiptBoughtInfoResponse
 
-export type ReceiptInfoDetailsResponse = {
+export type ReceiptBoughtInfoResponse = {
   person_1_bought_items: BoughtItem[]
   person_2_bought_items: BoughtItem[]
   both_bought_items: BoughtItem[]
