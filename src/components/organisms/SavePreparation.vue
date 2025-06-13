@@ -102,20 +102,21 @@ const emit = defineEmits<{
   moveToStepTwo: [MoveToStepTwoPayload]
   'update:userWhoPaid': [string]
 }>()
-const receiptTitle = ref('')
-const imageSrc = ref('')
-const selectedFile = ref<File | null>(null)
-const fileSelectRef = ref()
-const analyzeButtonRef = ref()
-const errorMessage = ref('')
-
+// composables
 const {
   getReceiptDataFromReceipt,
   error: analyzeReceiptError,
   data: receiptData,
   isLoading
 } = useAnalyzeReceipt()
-
+// states
+const receiptTitle = ref('')
+const imageSrc = ref('')
+const selectedFile = ref<File | null>(null)
+const fileSelectRef = ref()
+const analyzeButtonRef = ref()
+const errorMessage = ref('')
+// functions
 const analyzeReceipt = async () => {
   if (!selectedFile.value) {
     errorMessage.value = 'Please select a receipt you would like to analyze.'
@@ -169,11 +170,5 @@ const openFileSelection = () => {
 }
 const clearErrorMessageTodo = () => {
   errorMessage.value = ''
-}
-const scrollToTop = () => {
-  window.scroll({
-    top: 0,
-    behavior: 'smooth'
-  })
 }
 </script>

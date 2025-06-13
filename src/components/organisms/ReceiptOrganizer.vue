@@ -7,8 +7,12 @@
   <div>
     <LoadingIcon v-if="isLoading" />
     <template v-else>
-      <ErrorMessage v-if="error">
-        {{ getErrorMessage() }}
+      <ErrorMessage v-if="errorMessage">
+        {{ errorMessage }}
+      </ErrorMessage>
+      <ErrorMessage v-if="isPriceTotalError">
+        The items sum is larger than the receipt total. Please fix double check
+        the prices
       </ErrorMessage>
       <CommonModal
         :is-modal-open="isOpenEditModal || isEditTotalModelOpen"
@@ -178,7 +182,6 @@ import type {
 import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
 import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
 
-// TODO: Eslint conflict again...
 const { receiptTotal, receiptInfo, selectedFile, receiptTitle, userWhoPaid } =
   defineProps<{
     receiptInfo: ReceiptInfo
@@ -197,9 +200,9 @@ const {
   saveReceiptData,
   isLoading,
   data: savedReceiptData,
-  error
+  error: saveReceiptError
 } = useSaveReceiptInfo()
-
+// states
 const isDeleteModal = ref(false)
 const isEditTotalModelOpen = ref(false)
 const isOpenAddItemModal = ref(false)
@@ -212,12 +215,40 @@ const editPriceRef = ref()
 const indexToEdit = ref<number>(0)
 const newReceiptTotalRef = ref(false)
 const newReceiptTotal = ref(0)
+const errorMessage = ref('')
+// computed functions
 const perryTotal = computed(() => getUserTotal(USERS.PERRY.NAME))
 const hannahTotal = computed(() => getUserTotal(USERS.HANNAH.NAME))
 const bothTotal = computed(
   () => receiptTotal - perryTotal.value - hannahTotal.value
 )
-
+const whoPaidTotals = computed(() => [
+  {
+    name: USERS.PERRY.DISPLAY_NAME,
+    formattedPrice: formatPrice(
+      Math.ceil(perryTotal.value + bothTotalSplitted.value)
+    )
+  },
+  {
+    name: USERS.HANNAH.DISPLAY_NAME,
+    formattedPrice: formatPrice(
+      Math.floor(hannahTotal.value + bothTotalSplitted.value)
+    )
+  },
+  {
+    name: USERS.BOTH.DISPLAY_NAME,
+    formattedPrice: formatPrice(receiptTotal)
+  }
+])
+const bothTotalSplitted = computed(() => bothTotal.value / 2)
+const perryBoughtItemsTotal = computed(() => {
+  if (!receiptInfo.items) return 0
+  return receiptInfo.items.reduce((sum, item) => sum + item.price_total, 0)
+})
+const isPriceTotalError = computed(() => {
+  return perryBoughtItemsTotal.value > receiptTotal
+})
+// functions
 const handleOpenAddItemModal = () => {
   isOpenEditModal.value = true
   isOpenAddItemModal.value = true
@@ -247,7 +278,9 @@ const seeFinalResults = async () => {
     boughtItems: receiptInfo.items
   })
   if (!savedReceiptData.value?.receipt_id) {
-    console.error('Receipt ID does not exist')
+    // TODO: バックエンドと連携しエラーコードでフロントにどのメッセージを出せばいいかを管理するようにしたい
+    errorMessage.value = 'Receipt ID does not exist'
+    scrollToTop()
     return
   }
   emit('moveToStepThree', {
@@ -264,24 +297,6 @@ const handleOpenEditModal = (event: MouseEvent, data: ItemInfo) => {
   editPrice.value = data.price_total
   isOpenEditModal.value = true
 }
-const whoPaidTotals = computed(() => [
-  {
-    name: USERS.PERRY.DISPLAY_NAME,
-    formattedPrice: formatPrice(
-      Math.ceil(perryTotal.value + bothTotalSplitted.value)
-    )
-  },
-  {
-    name: USERS.HANNAH.DISPLAY_NAME,
-    formattedPrice: formatPrice(
-      Math.floor(hannahTotal.value + bothTotalSplitted.value)
-    )
-  },
-  {
-    name: USERS.BOTH.DISPLAY_NAME,
-    formattedPrice: formatPrice(receiptTotal)
-  }
-])
 const totalInfoForWhoPaid = (itemIndex: number) => [
   {
     forLabel: `${USERS.PERRY.NAME}-${itemIndex}`,
@@ -305,7 +320,6 @@ const totalInfoForWhoPaid = (itemIndex: number) => [
     labelText: '両方'
   }
 ]
-const bothTotalSplitted = computed(() => bothTotal.value / 2)
 const getUserTotal = (whoPaidName: string) => {
   return receiptInfo.items.reduce((total, item, index) => {
     if (receiptInfo.items[index].who_paid === whoPaidName) {
@@ -314,7 +328,6 @@ const getUserTotal = (whoPaidName: string) => {
     return total
   }, 0)
 }
-
 const handleClickBlackOverlay = () => {
   closeModal()
 }
@@ -371,9 +384,5 @@ const handleAcceptDeleteConfirmation = () => {
 const handleCancelDeleteConfirmation = () => {
   isDeleteModal.value = false
   closeModal()
-}
-// TODO: This is placeholder
-const getErrorMessage = () => {
-  return 'Unknown error occurred'
 }
 </script>
