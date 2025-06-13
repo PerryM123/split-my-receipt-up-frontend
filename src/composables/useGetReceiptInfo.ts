@@ -1,4 +1,3 @@
-// TODO: Should get, save, analyze be in seperate composables? Or in the same one?
 import type { ReceiptDetailsInfoResponse } from '@/interfaces/receipt'
 import { ref } from 'vue'
 

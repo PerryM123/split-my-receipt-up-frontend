@@ -62,6 +62,7 @@ useHead({
     ? `${receiptData.value.title} - ${pageTitleText}`
     : pageTitleText
 })
+// TODO: DRYに書き換えよう
 const perryBoughtItemsTotal = computed(() => {
   if (!receiptData.value?.person_1_bought_items) return 0
   return receiptData.value.person_1_bought_items.reduce(
