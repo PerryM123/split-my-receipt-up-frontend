@@ -1,26 +1,13 @@
 <!-- 
     TODO:
     - High priority:
-      - [ ] Add validation for input text box and image
-      - [ ] Add error pattern for API
-      - [ ] Consider having a text box for receipt total amount or an edit button for total amount
-      - [ ] Use <CommonButton> instead of <button>
-      - [ ] Make code more DRY
-      - [ ] Change naming convention (Edit Item Modal? Add Item Modal? Delete Modal?)
-      - [ ] Need validation for items total being high than receipt total
       - [ ] Fix broken model's design
       - [ ] Use nuxt server api to access backend API
       - [ ] Add validation for STEP_2:
-        - [ ] Error if the sum of listed items is somehow larger than the receiptTotal
         - [ ] Edit Item and Edit Price Modal cannot be a decimal or negative
     
     - Low priority:
-      - [ ] Need a common header... Need an about page???
-      - [ ] Need to do e2e tests for:
-        - Save-Receipt
-          - [ ] After scanning receipt, are the totals correct?
-          - [ ] Editing the item name and price. The totals are still correct?
-          - [ ] Test error patterns for STEP 1 & 2
+      - [ ] Need a common header...
     -->
 <template>
   <div>
@@ -62,7 +49,11 @@ import ReceiptSavedSuccessfully from '@/components/organisms/ReceiptSavedSuccess
 
 const DEFAULT_WHO_PAID = USERS.PERRY.NAME
 const userWhoPaid = ref<string>(DEFAULT_WHO_PAID)
-
+const STEP_1 = 'step1'
+const STEP_2 = 'step2'
+const STEP_3 = 'step3'
+type Steps = typeof STEP_1 | typeof STEP_2 | typeof STEP_3
+// states
 // TODO: Maybe it's time to consider pinia in this case??? Since receiptInfo, receiptTotal, selectedFile, userWhoPaid, isLoading,  etc are not being used in this file
 const receiptInfo = ref<ReceiptInfo>({
   items: [],
@@ -72,12 +63,8 @@ const receiptTotal = ref(0)
 const receiptId = ref<number>()
 const selectedFile = ref<File | null>(null)
 const receiptTitle = ref('')
-const STEP_1 = 'step1'
-const STEP_2 = 'step2'
-const STEP_3 = 'step3'
-type Steps = typeof STEP_1 | typeof STEP_2 | typeof STEP_3
 const currentStep = ref<Steps>(STEP_1)
-
+// functions
 const moveToStepTwo = (payload: MoveToStepTwoPayload) => {
   currentStep.value = STEP_2
   if (payload.receiptInfo) {
@@ -99,7 +86,38 @@ const moveToStepThree = (payload: MoveToStepThreePayload) => {
   currentStep.value = STEP_3
   receiptId.value = payload.receiptId
   receiptTitle.value = payload.receiptTitle
+  window.onbeforeunload = null
 }
+// lifecycle
+onMounted(() => {
+  // ページを更新すると確認用のalertが表示されるため
+  window.onbeforeunload = function () {
+    return ''
+  }
+  const router = useRouter()
+  router.beforeEach((to, from, next) => {
+    if (
+      from.path === '/save-receipt' &&
+      to.path !== '/save-receipt' &&
+      currentStep.value !== STEP_3
+    ) {
+      const confirmed = window.confirm(
+        'Are you sure you want to leave this page? Your changes may not be saved.'
+      )
+      if (!confirmed) {
+        next(false)
+        return
+      }
+    }
+    next()
+  })
+})
+
+onUnmounted(() => {
+  window.onbeforeunload = null
+})
+
+// Other
 useHead({
   title: 'Save Receipt'
 })
