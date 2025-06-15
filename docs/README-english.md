@@ -52,6 +52,7 @@ $ yarn e2e:ui
 # Milestones
 - [x] ワイヤーフレームとページレイアウトを作成
 - [x] ワイヤーを踏まえ、プロトタイプのアプリを作成
+- [x] huskyのpre-commit＆pre-pushを設定
 - [ ] NuxtとNuxt Server APIにてBFFアーキテクチャを実現
 - [ ] プロトタイプの実装を完了すると`v0.1.0`としてリリース
 - [ ] 簡単なデザインを作成しアプリに反映

@@ -199,8 +199,7 @@ const emit = defineEmits<{
 const {
   saveReceiptData,
   isLoading,
-  data: savedReceiptData,
-  error: saveReceiptError
+  data: savedReceiptData
 } = useSaveReceiptInfo()
 // states
 const isDeleteModal = ref(false)

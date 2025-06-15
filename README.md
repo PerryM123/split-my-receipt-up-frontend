@@ -55,6 +55,7 @@ $ yarn e2e:ui
 # マイルストーン
 - [x] Make wireframes for the page layout
 - [x] Make a prototype of the app based on the wireframe
+- [x] Add husky's pre-commit ＆ pre-push
 - [ ] Complete BFF architecture using Nuxt and Nuxt Server API 
 - [ ] Release the prototype as `v0.1.0`
 - [ ] Add an actual design with a header and footer
