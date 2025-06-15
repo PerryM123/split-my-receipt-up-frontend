@@ -49,6 +49,16 @@ $ yarn e2e:ui
 
 ※ Be sure to have memories_backend local environment running in docker ([memories_backend's README](https://github.com/PerryM123/memories_backend/blob/master/docs/README-english.md))
 
+# Milestones
+- [x] ワイヤーフレームとページレイアウトを作成
+- [x] ワイヤーを踏まえ、プロトタイプのアプリを作成
+- [ ] NuxtとNuxt Server APIにてBFFアーキテクチャを実現
+- [ ] プロトタイプの実装を完了すると`v0.1.0`としてリリース
+- [ ] 簡単なデザインを作成しアプリに反映
+- [ ] アプリについてのランディングページを作成
+- [ ] Google OAuth 2.0を利用してるログインページを作成
+- [ ] Vercelへデプロイ
+
 # Other
 
 ## When running local environment, I get: [Vue Router warn]: No match found for location with path "/.well-known/appspecific/com.chrome.devtools.json"
