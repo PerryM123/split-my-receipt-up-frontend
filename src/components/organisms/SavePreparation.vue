@@ -106,7 +106,6 @@ const emit = defineEmits<{
 const {
   getReceiptDataFromReceipt,
   error: analyzeReceiptError,
-  data: receiptData,
   isLoading
 } = useAnalyzeReceipt()
 // states
@@ -128,15 +127,17 @@ const analyzeReceipt = async () => {
     scrollToTop()
     return
   }
-  await getReceiptDataFromReceipt(selectedFile.value)
+  const { data: receiptData } = await getReceiptDataFromReceipt(
+    selectedFile.value
+  )
   if (!analyzeReceiptError.value) {
-    console.log('perry: receiptData.value: ', receiptData.value)
-    if (receiptData.value) {
+    console.log('perry: receiptData: ', receiptData)
+    if (receiptData) {
       emit('moveToStepTwo', {
         receiptInfo: {
           // TODO: There might be a better way to write this
-          items: receiptData.value?.receipt_info.items,
-          receipt_total: receiptData.value?.receipt_info.receipt_total
+          items: receiptData.receipt_info.items,
+          receipt_total: receiptData.receipt_info.receipt_total
         },
         receiptTitle: receiptTitle.value,
         selectedFile: selectedFile.value

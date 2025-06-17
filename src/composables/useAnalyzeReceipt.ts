@@ -9,23 +9,29 @@ export const useAnalyzeReceipt = () => {
 
   const getReceiptDataFromReceipt = async (imageFile: File | null) => {
     console.log('perry: getReceiptDataFromReceipt: imageFile: ', imageFile)
-    if (!imageFile) return
+    if (!imageFile) return { data: null }
 
     data.value = null
     error.value = null
 
     const formData = new FormData()
     formData.append('image', imageFile)
-    isLoading.value = true
-    try {
-      data.value = await $fetch(`${getApiBase()}/api/receipt-info/analyze`, {
+    const {
+      pending,
+      error: fetchError,
+      data: returnData
+    } = await useAsyncData<AnalyzeReceiptResponse>('analyze-receipt', () =>
+      $fetch('/api/receipt-info/analyze', {
         method: 'POST',
         body: formData
       })
-    } catch (err) {
-      error.value = err
-    } finally {
-      isLoading.value = false
+    )
+    isLoading.value = pending.value
+    if (fetchError.value) {
+      error.value = fetchError.value.message
+    }
+    return {
+      data: returnData.value
     }
   }
 

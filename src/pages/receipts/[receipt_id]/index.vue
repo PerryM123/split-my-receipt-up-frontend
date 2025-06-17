@@ -53,41 +53,41 @@ import PageTitle from '@/components/atoms/PageTitle.vue'
 const route = useRoute()
 const receiptId = route.params.receipt_id
 
-const { getReceiptData, data: receiptData } = useGetReceiptInfo()
+const { getReceiptData } = useGetReceiptInfo()
 
-await getReceiptData(Number(receiptId))
+const { data: receiptData } = await getReceiptData(Number(receiptId))
 const pageTitleText = 'Receipt Details'
 useHead({
-  title: receiptData.value?.title
-    ? `${receiptData.value.title} - ${pageTitleText}`
+  title: receiptData?.title
+    ? `${receiptData.title} - ${pageTitleText}`
     : pageTitleText
 })
 // TODO: DRYに書き換えよう
 const perryBoughtItemsTotal = computed(() => {
-  if (!receiptData.value?.person_1_bought_items) return 0
-  return receiptData.value.person_1_bought_items.reduce(
+  if (!receiptData?.person_1_bought_items) return 0
+  return receiptData.person_1_bought_items.reduce(
     (sum, item) => sum + item.price,
     0
   )
 })
 const hannahBoughtItemsTotal = computed(() => {
-  if (!receiptData.value?.person_2_bought_items) return 0
-  return receiptData.value.person_2_bought_items.reduce(
+  if (!receiptData?.person_2_bought_items) return 0
+  return receiptData.person_2_bought_items.reduce(
     (sum, item) => sum + item.price,
     0
   )
 })
 const bothBoughtItemsTotal = computed(() => {
-  if (!receiptData.value?.both_bought_items) return 0
-  return receiptData.value.both_bought_items.reduce(
+  if (!receiptData?.both_bought_items) return 0
+  return receiptData.both_bought_items.reduce(
     (sum, item) => sum + item.price,
     0
   )
 })
 const otherTotal = computed(() => {
-  if (receiptData.value?.total_amount) {
+  if (receiptData?.total_amount) {
     return (
-      receiptData.value?.total_amount -
+      receiptData?.total_amount -
       perryBoughtItemsTotal.value -
       hannahBoughtItemsTotal.value -
       bothBoughtItemsTotal.value
@@ -99,40 +99,40 @@ const otherTotal = computed(() => {
 })
 
 const personTotals = computed(() => {
-  return receiptData.value
+  return receiptData
     ? [
         {
           displayName: USERS.PERRY.DISPLAY_NAME,
-          amount: receiptData.value?.person_1_amount
+          amount: receiptData?.person_1_amount
         },
         {
           displayName: USERS.HANNAH.DISPLAY_NAME,
-          amount: receiptData.value?.person_2_amount
+          amount: receiptData?.person_2_amount
         },
         {
           displayName: 'Total',
-          amount: receiptData.value?.total_amount
+          amount: receiptData?.total_amount
         }
       ]
     : []
 })
 const allUserBoughtInfo = computed(() => {
-  return receiptData.value
+  return receiptData
     ? [
         {
           displayName: USERS.PERRY.DISPLAY_NAME,
           itemsTotal: perryBoughtItemsTotal.value,
-          boughtItems: receiptData.value.person_1_bought_items
+          boughtItems: receiptData.person_1_bought_items
         },
         {
           displayName: USERS.HANNAH.DISPLAY_NAME,
           itemsTotal: hannahBoughtItemsTotal.value,
-          boughtItems: receiptData.value.person_2_bought_items
+          boughtItems: receiptData.person_2_bought_items
         },
         {
           displayName: USERS.BOTH.DISPLAY_NAME,
           itemsTotal: bothBoughtItemsTotal.value,
-          boughtItems: receiptData.value.both_bought_items
+          boughtItems: receiptData.both_bought_items
         },
         {
           displayName: 'その他（税金、割引など）',

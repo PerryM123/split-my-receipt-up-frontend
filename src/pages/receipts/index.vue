@@ -36,8 +36,10 @@ const FIRST_PAGE = 1 as const
 
 const currentPage = ref(FIRST_PAGE)
 const isLoading = ref(false)
-const { data: receiptPaginationInfo, getReceiptListData } = useGetReceiptList()
-await getReceiptListData(currentPage.value)
+const { getReceiptListData } = useGetReceiptList()
+const { data: receiptPaginationInfo } = await getReceiptListData(
+  currentPage.value
+)
 useHead({
   title: 'Receipt List'
 })

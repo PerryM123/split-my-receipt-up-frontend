@@ -6,30 +6,6 @@ export const useSaveReceiptInfo = () => {
   const error = ref<string | null>(null)
   const isLoading = ref<boolean>(false)
 
-  const getReceiptData = async (receiptId: number) => {
-    console.log('perry: function getReceiptData')
-
-    try {
-      isLoading.value = true
-      data.value = await $fetch(
-        `${getApiBase()}/api/receipt-info/${receiptId}`,
-        { method: 'GET' }
-      )
-    } catch (err) {
-      window.scroll({
-        top: 0,
-        behavior: 'smooth'
-      })
-      if (err instanceof Error) {
-        error.value = err.message
-      } else {
-        console.error('Unknown error', err)
-      }
-    } finally {
-      isLoading.value = false
-    }
-  }
-
   const saveReceiptData = async (payload: {
     selectedFile: File | null
     receiptTitle: string
@@ -55,14 +31,15 @@ export const useSaveReceiptInfo = () => {
       'perry: getReceiptDataFromReceipt: selectedFile: ',
       selectedFile
     )
-    if (!selectedFile) {
-      console.error('No file selected')
-      return
-    }
-
     data.value = null
     error.value = null
-
+    if (!selectedFile) {
+      console.error('No file selected')
+      return {
+        data: data.value,
+        error: error.value
+      }
+    }
     const formData = new FormData()
     formData.append('image', selectedFile)
     formData.append('title', receiptTitle)
@@ -77,25 +54,23 @@ export const useSaveReceiptInfo = () => {
       `${Math.floor(hannahTotal + bothTotalSplitted)}`
     )
     formData.append('bought_items', JSON.stringify(boughtItems))
-
-    try {
-      isLoading.value = true
-      data.value = await $fetch(`${getApiBase()}/api/receipt-info`, {
+    const {
+      data: receiptListData,
+      pending,
+      error: fetchError
+    } = await useAsyncData<ReceiptDetailsInfoResponse>(`save-receipt`, () =>
+      $fetch('/api/receipt-info', {
         method: 'POST',
         body: formData
       })
-    } catch (err) {
-      window.scroll({
-        top: 0,
-        behavior: 'smooth'
-      })
-      if (err instanceof Error) {
-        error.value = err.message
-      } else {
-        console.error('Unknown error', err)
-      }
-    } finally {
-      isLoading.value = false
+    )
+    isLoading.value = pending.value
+    if (fetchError.value) {
+      error.value = fetchError.value.message
+    }
+    return {
+      data: receiptListData.value,
+      error: error.value
     }
   }
 
@@ -105,7 +80,6 @@ export const useSaveReceiptInfo = () => {
 
   return {
     saveReceiptData,
-    getReceiptData,
     clearErrorMessage,
     isLoading,
     data,

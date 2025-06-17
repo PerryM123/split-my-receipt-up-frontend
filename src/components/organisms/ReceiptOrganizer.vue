@@ -196,11 +196,8 @@ const emit = defineEmits<{
   'update:receipt-total': [number]
   moveToStepThree: [MoveToStepThreePayload]
 }>()
-const {
-  saveReceiptData,
-  isLoading,
-  data: savedReceiptData
-} = useSaveReceiptInfo()
+// composables
+const { saveReceiptData, isLoading } = useSaveReceiptInfo()
 // states
 const isDeleteModal = ref(false)
 const isEditTotalModelOpen = ref(false)
@@ -266,7 +263,7 @@ const seeFinalResults = async () => {
   })
 
   // TODO: Check error pattern too...
-  await saveReceiptData({
+  const { data: savedReceiptData } = await saveReceiptData({
     selectedFile,
     receiptTitle,
     userWhoPaid,
@@ -276,14 +273,14 @@ const seeFinalResults = async () => {
     bothTotalSplitted: bothTotalSplitted.value,
     boughtItems: receiptInfo.items
   })
-  if (!savedReceiptData.value?.receipt_id) {
+  if (!savedReceiptData?.receipt_id) {
     // TODO: バックエンドと連携しエラーコードでフロントにどのメッセージを出せばいいかを管理するようにしたい
     errorMessage.value = 'Receipt ID does not exist'
     scrollToTop()
     return
   }
   emit('moveToStepThree', {
-    receiptId: savedReceiptData.value?.receipt_id,
+    receiptId: savedReceiptData?.receipt_id,
     receiptTitle
   })
 }
