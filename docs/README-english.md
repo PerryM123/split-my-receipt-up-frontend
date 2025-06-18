@@ -38,6 +38,10 @@ To use the decided node version for this project, nvm (Node Version Manager) is 
 ```sh
 $ git clone git@github.com:PerryM123/split-my-receipt-up-frontend.git
 $ cd split-my-receipt-up-frontend
+# Setting up env
+$ cp .env.example .env
+$ cp .env.e2e-testing.example .env.e2e-testing
+# local
 $ yarn
 $ yarn dev
 # If you want to check on your phone, run the command below and scan the QR code 

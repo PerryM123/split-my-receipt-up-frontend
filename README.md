@@ -37,6 +37,10 @@ OpenAI APIを利用するとトークンがかかるので動作確認用のモ�
 ```sh
 $ git clone git@github.com:PerryM123/split-my-receipt-up-frontend.git
 $ cd split-my-receipt-up-frontend
+# envファイルの準備
+$ cp .env.example .env
+$ cp .env.e2e-testing.example .env.e2e-testing
+# local
 $ yarn
 $ yarn dev
 # 手元のスマホで見たい場合、以下のコマンドを実行した後表示されるQRを読み取ってください
