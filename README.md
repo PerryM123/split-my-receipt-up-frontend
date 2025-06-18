@@ -9,8 +9,14 @@
 僕は今までフロントエンド開発しかやったことがなく、あまりバックエンドの知識が深くなく、本格的にバックエンド開発をする機会もなく、バックエンドチームともっと話し合いできるように「バックエンドはどう動いてるか？バックエンドだと何を考慮するべきか？」ということを学ぶ目標をしてます。
 なのでLaravelでドメイン駆動設計(DDD)を実践しつつ気になるフロントエンドツールとフレームワーク（vitest、playwright、tailwindcss、figmaなど）を活用します！
 
-今のリポジトリはフロントエンド用で、バックエンド側は以下です！
+## 関連リポジトリ
+
+### フロントエンド側
 - [PerryM123/memories_backend](https://github.com/PerryM123/memories_backend)
+
+### MOCK環境
+OpenAI APIを利用するとトークンがかかるので動作確認用のモック環境を用意しました。
+- [PerryM123/OpenAI API Mock Environment (Split My Receipt Up)](https://github.com/PerryM123/open-ai-api-mock-environment)
 
 ## 簡単なアーキテクチャ設計
 ![alt text](/docs/images/simple-architecture.jpg)

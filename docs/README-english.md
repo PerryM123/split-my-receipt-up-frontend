@@ -8,6 +8,16 @@ Instead of calculating receipts by hand, let's use AI's OCR instead to convert a
 ## What I Want to Learn From Making This?
 I've never had the chance to work in the backend of web development so I will take this oppurtunity to use Laravel and make an application following Domain-Driven Design (DDD) principles (reference: https://github.com/PerryM123/memories_backend). This repository will be for the frontend and using frontend tools I want to get into. For example: vitest, playwright, tailwindcss, figma, etc）
 
+## Related Repositories
+
+### Backend:
+- [PerryM123/memories_backend](https://github.com/PerryM123/memories_backend)
+
+### Mock Environment
+
+Since using OpenAI API requires tokens, this mock environment will act as OpenAI during my development progress.
+- [PerryM123/OpenAI API Mock Environment (Split My Receipt Up)](https://github.com/PerryM123/open-ai-api-mock-environment/blob/master/docs/README-english.md)
+
 ## Simple Architecture
 ![alt text](/docs/images/simple-architecture.jpg)
 
