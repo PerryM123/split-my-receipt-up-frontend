@@ -18,7 +18,7 @@ I've never had the chance to work in the backend of web development so I will ta
 Since using OpenAI API requires tokens, this mock environment will act as OpenAI during my development progress.
 - [PerryM123/OpenAI API Mock Environment (Split My Receipt Up)](https://github.com/PerryM123/open-ai-api-mock-environment/blob/master/docs/README-english.md)
 
-## Simple Architecture
+## Simple BFF Architecture
 ![alt text](/docs/images/simple-architecture.jpg)
 
 ## Wireframe

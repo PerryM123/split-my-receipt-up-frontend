@@ -18,7 +18,7 @@
 OpenAI APIを利用するとトークンがかかるので動作確認用のモック環境を用意しました。
 - [PerryM123/OpenAI API Mock Environment (Split My Receipt Up)](https://github.com/PerryM123/open-ai-api-mock-environment)
 
-## 簡単なアーキテクチャ設計
+## 簡単なBFFアーキテクチャ設計
 ![alt text](/docs/images/simple-architecture.jpg)
 
 ## ワイヤーフレーム
