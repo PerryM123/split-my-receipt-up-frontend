@@ -16,22 +16,22 @@ export const useAnalyzeReceipt = () => {
 
     const formData = new FormData()
     formData.append('image', imageFile)
-    const {
-      pending,
-      error: fetchError,
-      data: returnData
-    } = await useAsyncData<AnalyzeReceiptResponse>('analyze-receipt', () =>
-      $fetch('/api/receipt-info/analyze', {
-        method: 'POST',
-        body: formData
-      })
-    )
-    isLoading.value = pending.value
-    if (fetchError.value) {
-      error.value = fetchError.value.message
-    }
-    return {
-      data: returnData.value
+    isLoading.value = true
+    try {
+      const response = await $fetch<AnalyzeReceiptResponse>(
+        '/api/receipt-info/analyze',
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
+      data.value = response
+      return { data: response }
+    } catch (err: unknown) {
+      error.value = err instanceof Error ? err.message : 'Unknown error'
+      return { data: null }
+    } finally {
+      isLoading.value = false
     }
   }
 
@@ -40,5 +40,6 @@ export const useAnalyzeReceipt = () => {
     isLoading,
     data,
     error
+    // pending
   }
 }

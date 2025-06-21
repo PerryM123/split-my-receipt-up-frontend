@@ -54,17 +54,15 @@ export const useSaveReceiptInfo = () => {
       `${Math.floor(hannahTotal + bothTotalSplitted)}`
     )
     formData.append('bought_items', JSON.stringify(boughtItems))
-    const {
-      data: receiptListData,
-      pending,
-      error: fetchError
-    } = await useAsyncData<ReceiptDetailsInfoResponse>(`save-receipt`, () =>
-      $fetch('/api/receipt-info', {
-        method: 'POST',
-        body: formData
-      })
-    )
-    isLoading.value = pending.value
+    isLoading.value = true
+    const { data: receiptListData, error: fetchError } =
+      await useAsyncData<ReceiptDetailsInfoResponse>(`save-receipt`, () =>
+        $fetch('/api/receipt-info', {
+          method: 'POST',
+          body: formData
+        })
+      )
+    isLoading.value = false
     if (fetchError.value) {
       error.value = fetchError.value.message
     }

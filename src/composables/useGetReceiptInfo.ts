@@ -8,20 +8,19 @@ export const useGetReceiptInfo = () => {
 
   const getReceiptData = async (receiptId: number) => {
     console.log('perry: function getReceiptData')
-    const {
-      data: receiptDetailsData,
-      pending,
-      error: fetchError
-    } = await useAsyncData(`receipt-id-${receiptId}`, () =>
-      $fetch<ReceiptDetailsInfoResponse>(`/api/receipt-info/${receiptId}`, {
-        method: 'GET',
-        params: {
-          pages: receiptId
-        },
-        headers: { 'Content-Type': 'application/json' }
-      })
+    isLoading.value = true
+    const { data: receiptDetailsData, error: fetchError } = await useAsyncData(
+      `receipt-id-${receiptId}`,
+      () =>
+        $fetch<ReceiptDetailsInfoResponse>(`/api/receipt-info/${receiptId}`, {
+          method: 'GET',
+          params: {
+            pages: receiptId
+          },
+          headers: { 'Content-Type': 'application/json' }
+        })
     )
-    isLoading.value = pending.value
+    isLoading.value = false
     if (fetchError.value) {
       error.value = fetchError.value.message
     }
