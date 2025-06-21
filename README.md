@@ -10,7 +10,8 @@
 なのでLaravelでドメイン駆動設計(DDD)を実践しつつ気になるフロントエンドツールとフレームワーク（vitest、playwright、tailwindcss、figmaなど）を活用します！
 
 ## 動作の例
-![alt text](/docs/video/sample-video.mp4)
+[![Watch the video](assets/video-thumb.png)](https://www.youtube.com/watch?v=GeD19DSKCcA)
+
 
 ## 関連リポジトリ
 
