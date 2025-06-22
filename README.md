@@ -2,6 +2,8 @@
 
 ※ [English README.md is here！](/docs/README-english.md)👈
 
+![alt text](/docs/images/sample-video.gif)
+
 ## なぜ作ってるか
 レシートを見て手動で計算するよりAIのOCR（文字認識）でレシートの文字を取得し計算してくれるアプリは制作したいです！
 
