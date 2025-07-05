@@ -13,7 +13,7 @@ I've never had the chance to work in the backend of web development so I will ta
 ## Related Repositories
 
 ### API Documentation Repository (Swagger)
-- [/PerryM123/split-my-receipt-up-swagger-doc](https://github.com/PerryM123/split-my-receipt-up-swagger-doc)
+- [PerryM123/split-my-receipt-up-swagger-doc](https://github.com/PerryM123/split-my-receipt-up-swagger-doc)
 
 ### Backend:
 - [PerryM123/memories_backend](https://github.com/PerryM123/memories_backend)
