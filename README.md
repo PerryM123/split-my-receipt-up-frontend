@@ -13,6 +13,9 @@
 
 ## 関連リポジトリ
 
+### API仕様書リポジトリ (Swagger)
+- [/PerryM123/split-my-receipt-up-swagger-doc](https://github.com/PerryM123/split-my-receipt-up-swagger-doc)
+
 ### バックエンド側
 - [PerryM123/memories_backend](https://github.com/PerryM123/memories_backend)
 
