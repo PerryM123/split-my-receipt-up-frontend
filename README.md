@@ -13,7 +13,7 @@
 
 ## 関連リポジトリ
 
-### フロントエンド側
+### バックエンド側
 - [PerryM123/memories_backend](https://github.com/PerryM123/memories_backend)
 
 ### MOCK環境
