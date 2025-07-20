@@ -2,7 +2,7 @@
 
 ※ [日本語のREADME.mdはここ！](./../README.md)👈
 
-![alt text](/docs/images/sample-video.gif)
+![alt text](/docs/images/new-sample-video.gif)
 
 ## Why am I Making This?
 Instead of calculating receipts by hand, let's use AI's OCR instead to convert a photo of a receipt into a machine-readable text format and calculate it that way!
@@ -72,9 +72,9 @@ $ yarn e2e:ui
 - [x] ワイヤーフレームとページレイアウトを作成
 - [x] ワイヤーを踏まえ、プロトタイプのアプリを作成
 - [x] huskyのpre-commit＆pre-pushを設定
-- [ ] NuxtとNuxt Server APIにてBFFアーキテクチャを実現
-- [ ] プロトタイプの実装を完了すると`v0.1.0`としてリリース
-- [ ] 簡単なデザインを作成しアプリに反映
+- [x] NuxtとNuxt Server APIにてBFFアーキテクチャを実現
+- [x] プロトタイプの実装を完了すると`v0.1.0`としてリリース
+- [x] 簡単なデザインを作成しアプリに反映
 - [ ] アプリについてのランディングページを作成
 - [ ] Google OAuth 2.0を利用してるログインページを作成
 - [ ] Vercelへデプロイ

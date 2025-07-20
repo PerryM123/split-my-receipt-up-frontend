@@ -50,6 +50,10 @@ import { USERS } from '@/constants'
 import ItemTable from '@/components/atoms/ItemTable.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
+definePageMeta({
+  layout: 'common-layout'
+})
+
 const route = useRoute()
 const receiptId = route.params.receipt_id
 

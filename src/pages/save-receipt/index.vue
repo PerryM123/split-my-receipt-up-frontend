@@ -11,7 +11,9 @@
     -->
 <template>
   <div>
-    <PageTitle>レシート保存</PageTitle>
+    <PageTitle class="mb-6 text-center text-3xl font-bold leading-tight">
+      レシート保存
+    </PageTitle>
     <SavePreparation
       v-if="currentStep === STEP_1"
       v-model:user-who-paid="userWhoPaid"
@@ -46,6 +48,10 @@ import type {
 } from '@/interfaces/receipt'
 import ReceiptOrganizer from '@/components/organisms/ReceiptOrganizer.vue'
 import ReceiptSavedSuccessfully from '@/components/organisms/ReceiptSavedSuccessfully.vue'
+
+definePageMeta({
+  layout: 'common-layout'
+})
 
 const DEFAULT_WHO_PAID = USERS.PERRY.NAME
 const userWhoPaid = ref<string>(DEFAULT_WHO_PAID)
@@ -116,7 +122,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.onbeforeunload = null
 })
-
 // Other
 useHead({
   title: 'Save Receipt'
