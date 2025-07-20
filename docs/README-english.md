@@ -2,7 +2,8 @@
 
 ※ [日本語のREADME.mdはここ！](./../README.md)👈
 
-![alt text](/docs/images/sample-video.gif)
+<!-- TODO: gifを更新 -->
+![alt text](/docs/images/new-sample-video.gif)
 
 ## Why am I Making This?
 Instead of calculating receipts by hand, let's use AI's OCR instead to convert a photo of a receipt into a machine-readable text format and calculate it that way!
