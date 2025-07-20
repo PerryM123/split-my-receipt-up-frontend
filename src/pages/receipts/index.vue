@@ -17,17 +17,18 @@
           <span class="font-bold">Hannah: </span>
           {{ formatPrice(receipt.person_2_amount) }}
         </p>
-        <NuxtLink
+        <BaseButton
           :to="`/receipts/${receipt.receipt_id}`"
-          class="mt-4 block rounded-2xl border border-solid border-black bg-gray-300 px-5 py-2 text-center transition-all duration-700 first:mt-0 hover:opacity-30"
+          class="mt-4 px-5 py-2 first:mt-0"
         >
           見る
-        </NuxtLink>
+        </BaseButton>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import BaseButton from '@/components/atoms/BaseButton.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
 definePageMeta({

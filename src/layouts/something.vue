@@ -1,6 +1,6 @@
 <!-- TODO: ファイル名 -->
 <template>
-  <div class="flex items-center p-5">
+  <div class="p-5">
     <slot />
   </div>
 </template>
