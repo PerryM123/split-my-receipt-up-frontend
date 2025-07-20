@@ -1,20 +1,29 @@
 <template>
-  <div>
-    <PageTitle>Split Me Up Before You Go-Go</PageTitle>
-    <div class="mt-16">
-      <NuxtLink
+  <div class="flex h-screen items-center justify-center">
+    <div
+      class="mx-5 w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl"
+    >
+      <PageTitle class="mb-6 text-center text-3xl font-bold leading-tight">
+        Split My Receipt Up
+      </PageTitle>
+      <BaseButton
         v-for="(link, linkKey) in linkInfo"
         :key="linkKey"
         :to="link.url"
-        class="mt-5 block rounded border border-solid border-black bg-gray-300 px-5 py-5 text-center transition-all duration-700 first:mt-0 hover:opacity-30"
+        :secondary="link.secondary"
       >
         {{ link.linkText }}
-      </NuxtLink>
+      </BaseButton>
     </div>
+    <!--
+    <div class="mt-16">
+      
+    </div> -->
   </div>
 </template>
 <script setup>
 import PageTitle from '@/components/atoms/PageTitle.vue'
+import BaseButton from '@/components/atoms/BaseButton.vue'
 
 const linkInfo = ref([
   {
@@ -23,7 +32,8 @@ const linkInfo = ref([
   },
   {
     linkText: 'レシート一覧',
-    url: '/receipts'
+    url: '/receipts',
+    secondary: true
   }
 ])
 useHead({
