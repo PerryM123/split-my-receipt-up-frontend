@@ -19,5 +19,10 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/test-utils',
     '@nuxtjs/tailwindcss'
-  ]
+  ],
+  app: {
+    head: {
+      meta: [{ name: 'theme-color', content: '#0d9488' }]
+    }
+  }
 })
