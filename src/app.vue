@@ -4,8 +4,10 @@
       <NuxtLoadingIndicator :height="10" :throttle="0" />
     </ClientOnly>
     <!-- TODO: Use NuxtTemplate -->
-    <div class="bg-gray-100">
-      <NuxtPage />
+    <div class="h-full min-h-screen bg-gray-100">
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
     </div>
   </div>
 </template>

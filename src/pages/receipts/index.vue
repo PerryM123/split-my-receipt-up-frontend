@@ -30,6 +30,10 @@
 <script setup lang="ts">
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
+definePageMeta({
+  layout: 'something'
+})
+
 const FIRST_PAGE = 1 as const
 
 const currentPage = ref(FIRST_PAGE)

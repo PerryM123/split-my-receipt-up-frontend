@@ -29,7 +29,7 @@ TODO:
             <div class="center flex items-center">
               <input
                 id="perry"
-                class="h-5 w-5 cursor-pointer"
+                class="h-5 w-5 cursor-pointer accent-teal-500"
                 type="radio"
                 name="who-paid"
                 value="perry"
@@ -43,7 +43,7 @@ TODO:
             <div class="center ml-5 flex items-center">
               <input
                 id="hannah"
-                class="h-5 w-5 cursor-pointer"
+                class="h-5 w-5 cursor-pointer accent-teal-500"
                 type="radio"
                 name="who-paid"
                 value="hannah"
@@ -72,19 +72,19 @@ TODO:
           <img v-if="imageSrc" :src="imageSrc" alt="Selected Receipt" />
           <p
             v-else
-            class="flex h-80 max-h-80 w-full items-center justify-center border border-black text-2xl"
+            class="flex h-80 max-h-80 w-full items-center justify-center border border-black bg-white text-2xl"
             @click="openFileSelection"
           >
             no image...
           </p>
         </div>
-        <button
+        <BaseButton
           ref="analyzeButtonRef"
-          class="mt-5 block w-full rounded border border-solid border-black bg-gray-300 px-5 py-5 text-center transition-all duration-700 first:mt-0"
+          class="mt-4"
           @click="analyzeReceipt()"
         >
           分析
-        </button>
+        </BaseButton>
       </div>
     </div>
   </template>
@@ -93,6 +93,7 @@ TODO:
 import type { MoveToStepTwoPayload } from '@/interfaces/receipt'
 import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
 import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
+import BaseButton from '@/components/atoms/BaseButton.vue'
 
 defineProps<{
   userWhoPaid: string

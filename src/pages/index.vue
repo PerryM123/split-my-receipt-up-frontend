@@ -3,22 +3,17 @@
     <div
       class="mx-5 w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl"
     >
-      <PageTitle class="mb-6 text-center text-3xl font-bold leading-tight">
-        Split My Receipt Up
-      </PageTitle>
+      <PageTitle class="mb-6"> Split My Receipt Up </PageTitle>
       <BaseButton
         v-for="(link, linkKey) in linkInfo"
         :key="linkKey"
+        class="mb-4"
         :to="link.url"
         :secondary="link.secondary"
       >
         {{ link.linkText }}
       </BaseButton>
     </div>
-    <!--
-    <div class="mt-16">
-      
-    </div> -->
   </div>
 </template>
 <script setup>

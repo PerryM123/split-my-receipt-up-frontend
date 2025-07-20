@@ -85,27 +85,22 @@
         <li
           v-for="(itemTotal, keyTotal) in whoPaidTotals"
           :key="keyTotal"
-          class="text-4xl"
+          class="text-2xl"
         >
           {{ itemTotal.name }}:
           {{ itemTotal.formattedPrice }}
         </li>
       </ul>
-      <div class="mt-5 text-center">
-        <button
-          class="mt-5 w-40 rounded-full border border-solid border-black bg-gray-300 px-1 py-1 text-center font-bold transition-all duration-700 first:mt-0 hover:opacity-30"
-          @click="handleOpenEditTotalModal"
-        >
-          Edit Total
-        </button>
-      </div>
-      <div class="mt-5 text-center">
-        <button
-          class="mt-5 w-40 rounded-full border border-solid border-black bg-gray-300 px-1 py-1 text-center font-bold transition-all duration-700 first:mt-0 hover:opacity-30"
-          @click="handleOpenAddItemModal"
-        >
-          Add Item
-        </button>
+      <div
+        v-for="(buttonItem, key) in ButtonList"
+        :key="key"
+        class="mt-5 flex justify-center"
+      >
+        <div class="w-[200px]">
+          <BaseButton class="py-1" small @click="buttonItem.clickFunction">
+            {{ buttonItem.buttonName }}
+          </BaseButton>
+        </div>
       </div>
       <table class="mt-4 w-full">
         <tbody>
@@ -137,7 +132,7 @@
                     <input
                       :id="user.forLabel"
                       v-model="item.who_paid"
-                      class="block h-5 w-5"
+                      class="block h-5 w-5 accent-teal-500"
                       type="radio"
                       :name="user.name"
                       :value="user.inputValue"
@@ -146,26 +141,23 @@
                 </span>
               </div>
             </td>
-            <td>
-              <button
-                class="ml-3 mt-5 rounded-full border border-solid border-black bg-gray-300 px-2 py-1 text-center font-bold transition-all duration-700 first:mt-0 hover:opacity-30"
+            <td class="py-2">
+              <BaseButton
+                class="ml-3 w-auto px-2 py-1"
                 :data-index="itemIndex"
                 :data-user-type="item.who_paid"
-                @click="(event) => handleOpenEditModal(event, item)"
+                @click="(event: MouseEvent) => handleOpenEditModal(event, item)"
               >
                 Edit
-              </button>
+              </BaseButton>
             </td>
           </tr>
         </tbody>
       </table>
       <div class="mt-5 text-center">
-        <button
-          class="mt-5 w-full rounded-full border border-solid border-black bg-gray-300 px-1 py-4 text-center font-bold transition-all duration-700 first:mt-0 hover:opacity-30"
-          @click="seeFinalResults"
-        >
+        <BaseButton class="mt-5" @click="seeFinalResults">
           See Final Result
-        </button>
+        </BaseButton>
       </div>
     </template>
   </div>
@@ -181,6 +173,7 @@ import type {
 } from '@/interfaces/receipt'
 import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
 import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
+import BaseButton from '@/components/atoms/BaseButton.vue'
 
 const { receiptTotal, receiptInfo, selectedFile, receiptTitle, userWhoPaid } =
   defineProps<{
@@ -275,7 +268,7 @@ const seeFinalResults = async () => {
   })
   if (!savedReceiptData?.receipt_id) {
     // TODO: バックエンドと連携しエラーコードでフロントにどのメッセージを出せばいいかを管理するようにしたい
-    errorMessage.value = 'Receipt ID does not exist'
+    errorMessage.value = 'An error occurred. Please try again at another time.'
     scrollToTop()
     return
   }
@@ -381,4 +374,15 @@ const handleCancelDeleteConfirmation = () => {
   isDeleteModal.value = false
   closeModal()
 }
+// HTML Details
+const ButtonList = [
+  {
+    buttonName: 'Edit Total',
+    clickFunction: handleOpenEditTotalModal
+  },
+  {
+    buttonName: 'Add Item',
+    clickFunction: handleOpenAddItemModal
+  }
+]
 </script>
