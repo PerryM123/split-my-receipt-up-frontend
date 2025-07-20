@@ -1,8 +1,3 @@
-<!-- 
- TODO:
- - organize methods, computed functions and refs, etc
- - Add an error screen incase SSR does not go well
--->
 <template>
   <div>
     <LoadingIcon v-if="isLoading" />
@@ -255,7 +250,6 @@ const seeFinalResults = async () => {
     bothTotal: bothTotal.value
   })
 
-  // TODO: Check error pattern too...
   const { data: savedReceiptData } = await saveReceiptData({
     selectedFile,
     receiptTitle,
@@ -267,7 +261,6 @@ const seeFinalResults = async () => {
     boughtItems: receiptInfo.items
   })
   if (!savedReceiptData?.receipt_id) {
-    // TODO: バックエンドと連携しエラーコードでフロントにどのメッセージを出せばいいかを管理するようにしたい
     errorMessage.value = 'An error occurred. Please try again at another time.'
     scrollToTop()
     return

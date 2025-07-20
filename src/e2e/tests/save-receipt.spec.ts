@@ -49,7 +49,6 @@ test('Test validation in step 1 when Image Analyze API fails', async ({
 test('Adding Receipt. Check receipt details after adding. Check Receipt List for confirmation', async ({
   page
 }) => {
-  // TODO: Need to add error pattern for STEP 2
   await page.route('**/api/receipt-info/analyze', async (route) => {
     await route.fulfill({
       status: 201,

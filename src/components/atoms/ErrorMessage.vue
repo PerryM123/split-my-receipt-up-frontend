@@ -5,6 +5,3 @@
     </p>
   </div>
 </template>
-<script lang="ts" setup>
-// TODO: defineSlot should be used here???
-</script>

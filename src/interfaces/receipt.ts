@@ -43,7 +43,6 @@ export type ItemInfo = {
   who_paid?: string
 }
 
-// TODO: Need a better name
 export type MoveToStepTwoPayload = {
   receiptInfo: {
     items: Array<ItemInfo>
@@ -52,7 +51,6 @@ export type MoveToStepTwoPayload = {
   receiptTitle: string
   selectedFile: File | null
 }
-// TODO: Need a better name
 export type MoveToStepThreePayload = {
   receiptId: number
   receiptTitle: string

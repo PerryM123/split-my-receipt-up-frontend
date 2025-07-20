@@ -1,7 +1,3 @@
-<!-- 
-TODO: 
-- Add: if I hit enter, it will focus to the next input  
--->
 <template>
   <LoadingIcon v-if="isLoading" />
   <template v-else>
@@ -136,7 +132,6 @@ const analyzeReceipt = async () => {
     if (receiptData) {
       emit('moveToStepTwo', {
         receiptInfo: {
-          // TODO: There might be a better way to write this
           items: receiptData.receipt_info.items,
           receipt_total: receiptData.receipt_info.receipt_total
         },
@@ -150,15 +145,15 @@ const analyzeReceipt = async () => {
   }
 }
 const handlePayerChange = (event: Event) => {
-  clearErrorMessageTodo()
+  clearErrorMessage()
   const target = event.target as HTMLInputElement
   emit('update:userWhoPaid', target.value)
 }
 const handleReceiptTitleChange = () => {
-  clearErrorMessageTodo()
+  clearErrorMessage()
 }
 const previewImage = (event: Event) => {
-  clearErrorMessageTodo()
+  clearErrorMessage()
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) {
     return
@@ -170,7 +165,7 @@ const openFileSelection = () => {
   console.log('perry: openFileSelection')
   fileSelectRef.value?.click()
 }
-const clearErrorMessageTodo = () => {
+const clearErrorMessage = () => {
   errorMessage.value = ''
 }
 </script>

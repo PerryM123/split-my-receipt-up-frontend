@@ -1,4 +1,3 @@
-// TODO: テストは追加必須
 export const getApiBase = () => {
   const config = useRuntimeConfig()
   if (import.meta.client) {

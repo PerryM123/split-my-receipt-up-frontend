@@ -3,7 +3,6 @@ import { ref } from 'vue'
 
 export const useAnalyzeReceipt = () => {
   const data = ref<AnalyzeReceiptResponse | null>(null)
-  // TODO: 変数型は検討中
   const error = ref()
   const isLoading = ref<boolean>(false)
 
