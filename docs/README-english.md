@@ -2,7 +2,6 @@
 
 ※ [日本語のREADME.mdはここ！](./../README.md)👈
 
-<!-- TODO: gifを更新 -->
 ![alt text](/docs/images/new-sample-video.gif)
 
 ## Why am I Making This?
