@@ -1,9 +1,7 @@
 <template>
   <div>
     <PageTitle>Receipt List</PageTitle>
-    <div v-if="isLoading">
-      <img src="/loading.gif" alt="receipt list is now loading" />
-    </div>
+    <LoadingIcon v-if="isLoading" />
     <div>
       <div
         v-for="(receipt, receiptInfoKey) in receiptPaginationInfo?.receipt_data"
