@@ -50,7 +50,7 @@ import ReceiptOrganizer from '@/components/organisms/ReceiptOrganizer.vue'
 import ReceiptSavedSuccessfully from '@/components/organisms/ReceiptSavedSuccessfully.vue'
 
 definePageMeta({
-  layout: 'something'
+  layout: 'common-layout'
 })
 
 const DEFAULT_WHO_PAID = USERS.PERRY.NAME

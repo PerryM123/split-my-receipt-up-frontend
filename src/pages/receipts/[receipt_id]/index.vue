@@ -51,7 +51,7 @@ import ItemTable from '@/components/atoms/ItemTable.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
 definePageMeta({
-  layout: 'something'
+  layout: 'common-layout'
 })
 
 const route = useRoute()

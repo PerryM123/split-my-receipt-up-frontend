@@ -32,7 +32,7 @@ import BaseButton from '@/components/atoms/BaseButton.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
 
 definePageMeta({
-  layout: 'something'
+  layout: 'common-layout'
 })
 
 const FIRST_PAGE = 1 as const
