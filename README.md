@@ -71,9 +71,9 @@ $ yarn e2e:ui
 - [x] Make wireframes for the page layout
 - [x] Make a prototype of the app based on the wireframe
 - [x] Add husky's pre-commit ＆ pre-push
-- [ ] Complete BFF architecture using Nuxt and Nuxt Server API 
-- [ ] Release the prototype as `v0.1.0`
-- [ ] Add an actual design with a header and footer
+- [x] Complete BFF architecture using Nuxt and Nuxt Server API 
+- [x] Release the prototype as `v0.1.0`
+- [x] Add an actual design with a header and footer
 - [ ] Make a landing page for the app
 - [ ] Integrate a login page using Google OAuth 2.0
 - [ ] Deploy to Vercel
