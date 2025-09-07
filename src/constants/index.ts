@@ -12,3 +12,7 @@ export const USERS = {
     NAME: 'both'
   }
 } as const
+export const RECEIPT_ORDER = {
+  NEWEST: 'newest',
+  OLDEST: 'oldest'
+} as const

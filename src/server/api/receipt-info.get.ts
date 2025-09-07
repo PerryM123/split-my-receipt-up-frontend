@@ -1,12 +1,22 @@
-import { createError, defineEventHandler, setResponseStatus } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getQuery,
+  setResponseStatus
+} from 'h3'
 import { $fetch, FetchError } from 'ofetch'
 
 export default defineEventHandler(async (event) => {
+  const { pages, sort_by } = getQuery(event)
   try {
     const response = await $fetch(
       `${process.env.MEMORIES_BACKEND_URL}/api/receipt-info`,
       {
         method: 'GET',
+        params: {
+          pages,
+          sort_by
+        },
         headers: {
           Authorization: `Bearer ${process.env.BEARER_TOKEN}`
         }

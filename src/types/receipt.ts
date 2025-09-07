@@ -63,4 +63,5 @@ export type ReceiptListInfoResponse = {
   receipt_count: number
 }
 
-export type ReceiptOrder = (typeof RECEIPT_ORDER)[keyof typeof RECEIPT_ORDER]
+export type ReceiptDisplayOrder =
+  (typeof RECEIPT_ORDER)[keyof typeof RECEIPT_ORDER]
