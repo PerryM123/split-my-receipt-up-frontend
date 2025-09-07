@@ -1,4 +1,4 @@
-import type { AnalyzeReceiptResponse } from '@/interfaces/receipt'
+import type { AnalyzeReceiptResponse } from '@/types/receipt'
 import { ref } from 'vue'
 
 export const useAnalyzeReceipt = () => {

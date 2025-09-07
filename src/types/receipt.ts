@@ -1,3 +1,5 @@
+import type { RECEIPT_ORDER } from '@/constants'
+
 export type SplitReceiptInfoResponse = {
   receipt_id: number
   title: string
@@ -60,3 +62,5 @@ export type ReceiptListInfoResponse = {
   receipt_data: SplitReceiptInfoResponse[]
   receipt_count: number
 }
+
+export type ReceiptOrder = (typeof RECEIPT_ORDER)[keyof typeof RECEIPT_ORDER]

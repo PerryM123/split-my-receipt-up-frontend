@@ -165,7 +165,7 @@ import type {
   ItemInfo,
   MoveToStepThreePayload,
   ReceiptInfo
-} from '@/interfaces/receipt'
+} from '@/types/receipt'
 import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
 import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
 import BaseButton from '@/components/atoms/BaseButton.vue'

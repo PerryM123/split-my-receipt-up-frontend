@@ -1,4 +1,4 @@
-import type { ReceiptListInfoResponse } from '@/interfaces/receipt'
+import type { ReceiptListInfoResponse } from '@/types/receipt'
 import { ref } from 'vue'
 
 export const useGetReceiptList = () => {
