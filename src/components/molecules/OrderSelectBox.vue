@@ -4,21 +4,17 @@
   >
     <p>{{ receiptCount }}件</p>
     <div>
-      <label for="order-select">Sort by:</label>
-      <select
-        id="order-select"
-        name="receipt-display-order"
-        class="ml-2 rounded border border-gray-400 p-1"
-        @change="changeReceiptOrder"
-      >
-        <option value="newest">Newest</option>
-        <option value="oldest">Oldest</option>
-      </select>
+      <DropDownMenu
+        :label="'Sort by:'"
+        :options="['Newest', 'Oldest']"
+        @update-selected-option="changeReceiptOrder"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import type { ReceiptDisplayOrder } from '@/types/receipt'
+import DropDownMenu from '@/components/atoms/DropDownMenu.vue'
 
 defineProps<{
   receiptCount: number
@@ -27,8 +23,8 @@ const emit = defineEmits<{
   'order-changed': [ReceiptDisplayOrder]
 }>()
 
-const changeReceiptOrder = (event: Event) => {
-  const selectElement = event.target as HTMLSelectElement
-  emit('order-changed', selectElement.value as ReceiptDisplayOrder)
+const changeReceiptOrder = (updatedOption: ReceiptDisplayOrder) => {
+  console.log('perry: changeReceiptOrder: updatedOption: ', updatedOption)
+  emit('order-changed', updatedOption)
 }
 </script>

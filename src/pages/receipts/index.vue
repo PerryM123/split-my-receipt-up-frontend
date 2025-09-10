@@ -66,11 +66,10 @@ const { data: receiptPaginationInfo } = await getReceiptListData(
 )
 receiptInfo.value = receiptPaginationInfo
 // methods
-const orderChangedTodo = async (receiptDisplayOrder: ReceiptDisplayOrder) => {
-  console.log('perry: orderChddangedTodo: valueTodo: ', receiptDisplayOrder)
+const orderChangedTodo = async (receiptDisplayOrder: string) => {
   const { data: receiptPaginationInfo } = await getReceiptListData(
     currentPage.value,
-    receiptDisplayOrder
+    receiptDisplayOrder as ReceiptDisplayOrder
   )
   console.log('perry: receiptInfo.value: ', receiptInfo.value)
   receiptInfo.value = receiptPaginationInfo
