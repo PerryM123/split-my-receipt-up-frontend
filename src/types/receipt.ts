@@ -61,6 +61,7 @@ export type MoveToStepThreePayload = {
 export type ReceiptListInfoResponse = {
   receipt_data: SplitReceiptInfoResponse[]
   receipt_count: number
+  page_count: number
 }
 
 export type ReceiptDisplayOrder =
