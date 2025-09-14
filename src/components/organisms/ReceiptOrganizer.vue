@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LoadingIcon v-if="isLoading" />
+    <LoadingFullScreen v-if="isLoading" />
     <template v-else>
       <ErrorMessage v-if="errorMessage">
         {{ errorMessage }}
@@ -167,8 +167,8 @@ import type {
   ReceiptInfo
 } from '@/types/receipt'
 import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
-import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
 import BaseButton from '@/components/atoms/BaseButton.vue'
+import LoadingFullScreen from '@/components/molecules/LoadingFullScreen.vue'
 
 const { receiptTotal, receiptInfo, selectedFile, receiptTitle, userWhoPaid } =
   defineProps<{
