@@ -16,17 +16,19 @@
   </select>
 </template>
 <script lang="ts" setup>
+import type { ReceiptDisplayOrder } from '@/types/receipt'
+
 defineProps<{
   label: string
   options: string[]
 }>()
 const emit = defineEmits<{
-  'update-selected-option': [string]
+  'update-selected-option': [ReceiptDisplayOrder]
 }>()
 
 const changeOption = (event: Event) => {
   console.log('perry: changeOption: changeOption: ', event)
   const selectElement = event.target as HTMLSelectElement
-  emit('update-selected-option', selectElement.value)
+  emit('update-selected-option', selectElement.value as ReceiptDisplayOrder)
 }
 </script>
