@@ -125,20 +125,28 @@ const maxDisplayCount = computed(() =>
 )
 // methods
 const changeListOrder = async (receiptDisplayOrder: ReceiptDisplayOrder) => {
-  const { data: receiptPaginationInfo } = await getReceiptListData(
-    FIRST_PAGE,
-    receiptDisplayOrder as ReceiptDisplayOrder
-  )
-  receiptInfo.value = receiptPaginationInfo
-  sortOrder.value = receiptDisplayOrder
-  currentPage.value = FIRST_PAGE
-  await navigateTo({
-    path: route.path,
-    query: {
-      ...route.query,
-      page: FIRST_PAGE
-    }
-  })
+  isLoading.value = true
+  try {
+    const { data: receiptPaginationInfo } = await getReceiptListData(
+      FIRST_PAGE,
+      receiptDisplayOrder as ReceiptDisplayOrder
+    )
+    receiptInfo.value = receiptPaginationInfo
+    sortOrder.value = receiptDisplayOrder
+    currentPage.value = FIRST_PAGE
+    await navigateTo({
+      path: route.path,
+      query: {
+        ...route.query,
+        page: FIRST_PAGE
+      }
+    })
+  } catch (error) {
+    // TODO: エラーパターン追加必須
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 const changePage = async (clickedPageNumber: number) => {
   isLoading.value = true
