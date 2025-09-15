@@ -4,15 +4,15 @@
     <div>
       <OrderSelectBox
         :receipt-count="receiptInfo?.receipt_count || 0"
-        :min-count-todo="minCountTodo"
-        :max-count-todo="maxCountTodo"
+        :min-display-count="minDisplayCount"
+        :max-display-count="maxDisplayCount"
         class="mt-5"
-        @order-changed="orderChangedTodo"
+        @order-changed="changeListOrder"
       />
       <div v-if="isLoading" class="mt-5 flex items-center justify-center">
         <LoadingIcon />
       </div>
-      <template v-else>
+      <div v-else>
         <div
           v-for="(receipt, receiptInfoKey) in receiptInfo?.receipt_data"
           :key="receiptInfoKey"
@@ -33,13 +33,12 @@
           </p>
           <BaseButton
             :to="`/receipts/${receipt.receipt_id}`"
-            class="mt-4 px-5 py-2 first:mt-0"
+            class="mt-4 px-5 py-2"
           >
             見る
           </BaseButton>
         </div>
-      </template>
-      <!-- TODO: コンポーネント化する必要ある -->
+      </div>
       <div
         class="mt-5 flex items-center justify-between border-t border-gray-400 pt-4"
       >
@@ -115,20 +114,20 @@ const isOnFirstPage = computed(() => currentPage.value === FIRST_PAGE)
 const isOnLastPage = computed(
   () => currentPage.value === receiptInfo.value?.page_count
 )
-const minCountTodo = computed(
+const minDisplayCount = computed(
   () =>
     currentPage.value * MAX_RECEIPT_LIST_ITEMS_PER_PAGE -
     OFFSET_FOR_MIN_COUNT_TODO
 )
-const maxCountTodo = computed(() =>
+const maxDisplayCount = computed(() =>
   isOnLastPage.value
     ? receiptInfo.value?.receipt_count
     : currentPage.value * MAX_RECEIPT_LIST_ITEMS_PER_PAGE
 )
 // methods
-const orderChangedTodo = async (receiptDisplayOrder: ReceiptDisplayOrder) => {
+const changeListOrder = async (receiptDisplayOrder: ReceiptDisplayOrder) => {
   console.log(
-    'perry: orderChangedTodo: receiptDisplayOrder: ',
+    'perry: changeListOrder: receiptDisplayOrder: ',
     receiptDisplayOrder
   )
   const { data: receiptPaginationInfo } = await getReceiptListData(
@@ -138,11 +137,18 @@ const orderChangedTodo = async (receiptDisplayOrder: ReceiptDisplayOrder) => {
   receiptInfo.value = receiptPaginationInfo
   sortOrder.value = receiptDisplayOrder
   currentPage.value = FIRST_PAGE
+  await navigateTo({
+    path: route.path,
+    query: {
+      ...route.query,
+      page: FIRST_PAGE
+    }
+  })
 }
 const changePage = async (clickedPageNumber: number) => {
   isLoading.value = true
   try {
-    // TODO: Double check how navigateTo works
+    // TODO: Double check how navigateTo works with navigation history
     await navigateTo({
       path: route.path,
       query: {
@@ -158,7 +164,7 @@ const changePage = async (clickedPageNumber: number) => {
     receiptInfo.value = receiptPaginationInfo
   } catch (error) {
     // TODO: エラーパターン追加必須
-    console.log('perry: error: ', error)
+    console.error(error)
   } finally {
     isLoading.value = false
   }

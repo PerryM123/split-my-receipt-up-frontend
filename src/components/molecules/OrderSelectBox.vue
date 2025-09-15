@@ -4,8 +4,8 @@
   >
     <p>
       {{ receiptCount }}件{{
-        minCountTodo && maxCountTodo
-          ? `中 ${minCountTodo}-${maxCountTodo}件`
+        minDisplayCount && maxDisplayCount
+          ? `中 ${minDisplayCount}-${maxDisplayCount}件`
           : ''
       }}
     </p>
@@ -24,8 +24,8 @@ import DropDownMenu from '@/components/atoms/DropDownMenu.vue'
 
 defineProps<{
   receiptCount: number
-  minCountTodo?: number
-  maxCountTodo?: number
+  minDisplayCount?: number
+  maxDisplayCount?: number
 }>()
 const emit = defineEmits<{
   'order-changed': [ReceiptDisplayOrder]
