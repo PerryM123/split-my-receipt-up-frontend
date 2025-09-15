@@ -89,7 +89,7 @@ const route = useRoute()
 // constants
 const FIRST_PAGE = 1 as const
 const MAX_RECEIPT_LIST_ITEMS_PER_PAGE = 10 as const
-const OFFSET_FOR_MIN_COUNT_TODO = 9
+const OFFSET_FOR_MIN_COUNT = 9
 // state
 const receiptInfo = ref<ReceiptListInfoResponse | null>()
 const currentPage = ref<number>(
@@ -116,8 +116,7 @@ const isOnLastPage = computed(
 )
 const minDisplayCount = computed(
   () =>
-    currentPage.value * MAX_RECEIPT_LIST_ITEMS_PER_PAGE -
-    OFFSET_FOR_MIN_COUNT_TODO
+    currentPage.value * MAX_RECEIPT_LIST_ITEMS_PER_PAGE - OFFSET_FOR_MIN_COUNT
 )
 const maxDisplayCount = computed(() =>
   isOnLastPage.value
@@ -126,10 +125,6 @@ const maxDisplayCount = computed(() =>
 )
 // methods
 const changeListOrder = async (receiptDisplayOrder: ReceiptDisplayOrder) => {
-  console.log(
-    'perry: changeListOrder: receiptDisplayOrder: ',
-    receiptDisplayOrder
-  )
   const { data: receiptPaginationInfo } = await getReceiptListData(
     FIRST_PAGE,
     receiptDisplayOrder as ReceiptDisplayOrder

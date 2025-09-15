@@ -32,7 +32,6 @@ const emit = defineEmits<{
 }>()
 
 const changeReceiptOrder = (updatedOption: ReceiptDisplayOrder) => {
-  console.log('perry: changeReceiptOrder: updatedOption: ', updatedOption)
   emit('order-changed', updatedOption)
 }
 </script>

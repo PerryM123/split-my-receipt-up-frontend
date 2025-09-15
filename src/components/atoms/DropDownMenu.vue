@@ -27,7 +27,6 @@ const emit = defineEmits<{
 }>()
 
 const changeOption = (event: Event) => {
-  console.log('perry: changeOption: changeOption: ', event)
   const selectElement = event.target as HTMLSelectElement
   emit('update-selected-option', selectElement.value as ReceiptDisplayOrder)
 }
