@@ -1,21 +1,45 @@
-import type { ReceiptListInfoResponse } from '@/interfaces/receipt'
+import { RECEIPT_ORDER } from '@/constants'
+import type {
+  ReceiptListInfoResponse,
+  ReceiptDisplayOrder
+} from '@/types/receipt'
 import { ref } from 'vue'
+
+const SORT_TYPE = {
+  ASCENDING: 'asc',
+  DESCENDING: 'desc'
+} as const
 
 export const useGetReceiptList = () => {
   const data = ref<ReceiptListInfoResponse | null>(null)
   const error = ref<string | null>(null)
   const isLoading = ref<boolean>(false)
 
-  const getReceiptListData = async (pageNumber: number) => {
-    console.log('perry: function getReceiptData')
+  const getSortByOrderParam = (sortOrder: ReceiptDisplayOrder) => {
+    switch (sortOrder) {
+      case RECEIPT_ORDER.NEWEST:
+        return SORT_TYPE.DESCENDING
+      case RECEIPT_ORDER.OLDEST:
+        return SORT_TYPE.ASCENDING
+      default:
+        return SORT_TYPE.DESCENDING
+    }
+  }
+
+  const getReceiptListData = async (
+    pageNumber: number,
+    sortOrder: ReceiptDisplayOrder
+  ) => {
     isLoading.value = true
+    // TODO: dev tools error: useGetReceiptListInfo.ts:39 [nuxt] [useAsyncData] Component is already mounted, please use $fetch instead. See
     const { data: receiptListData, error: fetchError } = await useAsyncData(
-      `receipt-list-${pageNumber}`,
+      `receipt-list-${pageNumber}-${sortOrder}`,
       () =>
         $fetch<ReceiptListInfoResponse>('/api/receipt-info', {
           method: 'GET',
           params: {
-            pages: pageNumber
+            page: pageNumber,
+            sort_by: getSortByOrderParam(sortOrder)
           },
           headers: { 'Content-Type': 'application/json' }
         })

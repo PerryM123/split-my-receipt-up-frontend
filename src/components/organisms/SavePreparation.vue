@@ -1,5 +1,5 @@
 <template>
-  <LoadingIcon v-if="isLoading" />
+  <LoadingFullScreen v-if="isLoading" />
   <template v-else>
     <div class="mt-5">
       <ErrorMessage v-if="errorMessage || analyzeReceiptError">
@@ -86,10 +86,10 @@
   </template>
 </template>
 <script setup lang="ts">
-import type { MoveToStepTwoPayload } from '@/interfaces/receipt'
+import type { MoveToStepTwoPayload } from '@/types/receipt'
 import ErrorMessage from '@/components/atoms/ErrorMessage.vue'
-import LoadingIcon from '@/components/atoms/LoadingIcon.vue'
 import BaseButton from '@/components/atoms/BaseButton.vue'
+import LoadingFullScreen from '@/components/molecules/LoadingFullScreen.vue'
 
 defineProps<{
   userWhoPaid: string

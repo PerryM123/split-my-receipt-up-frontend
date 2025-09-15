@@ -198,7 +198,7 @@ test('Adding Receipt. Check receipt details after adding. Check Receipt List for
   await expect(page.getByRole('heading', { name: 'Test Title' })).toBeVisible()
   await expect(page.getByText('Perry: 3,113円')).toBeVisible()
   await expect(page.getByText('Hannah: 2,553円')).toBeVisible()
-  await page.getByRole('link', { name: '見る' }).nth(3).click()
+  await page.getByRole('link', { name: '見る' }).nth(0).click()
   await expect(
     page.getByRole('heading', { name: 'Test Title 2982580523' })
   ).toBeVisible()

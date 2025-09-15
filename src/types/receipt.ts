@@ -1,3 +1,5 @@
+import type { RECEIPT_ORDER } from '@/constants'
+
 export type SplitReceiptInfoResponse = {
   receipt_id: number
   title: string
@@ -59,4 +61,8 @@ export type MoveToStepThreePayload = {
 export type ReceiptListInfoResponse = {
   receipt_data: SplitReceiptInfoResponse[]
   receipt_count: number
+  page_count: number
 }
+
+export type ReceiptDisplayOrder =
+  (typeof RECEIPT_ORDER)[keyof typeof RECEIPT_ORDER]

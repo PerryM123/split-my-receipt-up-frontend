@@ -45,7 +45,7 @@ import type {
   MoveToStepThreePayload,
   MoveToStepTwoPayload,
   ReceiptInfo
-} from '@/interfaces/receipt'
+} from '@/types/receipt'
 import ReceiptOrganizer from '@/components/organisms/ReceiptOrganizer.vue'
 import ReceiptSavedSuccessfully from '@/components/organisms/ReceiptSavedSuccessfully.vue'
 

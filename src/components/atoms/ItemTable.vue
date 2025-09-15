@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BoughtItem } from '@/interfaces/receipt'
+import type { BoughtItem } from '@/types/receipt'
 
 defineProps<{ boughtItems?: BoughtItem[] }>()
 </script>
