@@ -7,14 +7,14 @@ import {
 import { $fetch, FetchError } from 'ofetch'
 
 export default defineEventHandler(async (event) => {
-  const { pages, sort_by } = getQuery(event)
+  const { page, sort_by } = getQuery(event)
   try {
     const response = await $fetch(
       `${process.env.MEMORIES_BACKEND_URL}/api/receipt-info`,
       {
         method: 'GET',
         params: {
-          pages,
+          page,
           sort_by
         },
         headers: {

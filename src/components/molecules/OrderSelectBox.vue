@@ -2,7 +2,13 @@
   <div
     class="flex items-center justify-between border-b border-t border-gray-400 px-1 py-2"
   >
-    <p>{{ receiptCount }}件</p>
+    <p>
+      {{ receiptCount }}件{{
+        minCountTodo && maxCountTodo
+          ? `中 ${minCountTodo}-${maxCountTodo}件`
+          : ''
+      }}
+    </p>
     <div>
       <DropDownMenu
         :label="'Sort by:'"
@@ -18,6 +24,8 @@ import DropDownMenu from '@/components/atoms/DropDownMenu.vue'
 
 defineProps<{
   receiptCount: number
+  minCountTodo?: number
+  maxCountTodo?: number
 }>()
 const emit = defineEmits<{
   'order-changed': [ReceiptDisplayOrder]

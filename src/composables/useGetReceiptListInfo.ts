@@ -34,7 +34,10 @@ export const useGetReceiptList = () => {
     pageNumber: number,
     sortOrder: ReceiptDisplayOrder
   ) => {
-    console.log('perry: function getReceiptData')
+    console.log('perry: function getReceiptData: ', {
+      pageNumber,
+      sortOrder
+    })
     isLoading.value = true
     // TODO: dev tools error: useGetReceiptListInfo.ts:39 [nuxt] [useAsyncData] Component is already mounted, please use $fetch instead. See
     const { data: receiptListData, error: fetchError } = await useAsyncData(
@@ -43,7 +46,7 @@ export const useGetReceiptList = () => {
         $fetch<ReceiptListInfoResponse>('/api/receipt-info', {
           method: 'GET',
           params: {
-            pages: pageNumber,
+            page: pageNumber,
             sort_by: getSortByOrderParam(sortOrder)
           },
           headers: { 'Content-Type': 'application/json' }
