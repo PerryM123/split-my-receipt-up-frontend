@@ -40,10 +40,11 @@ const props = withDefaults(
     class?: string
   }>(),
   {
+    to: '',
     primary: true,
     secondary: false,
     small: false,
-    string: ''
+    class: ''
   }
 )
 
