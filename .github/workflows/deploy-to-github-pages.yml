@@ -2,6 +2,7 @@ name: Deploy Storybook To GitHub Pages
 
 permissions:
   id-token: write
+  pages: write
   contents: read
 
 on:
