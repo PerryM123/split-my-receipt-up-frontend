@@ -1,0 +1,686 @@
+{
+  "appType": "custom",
+  "base": "./",
+  "build": {
+    "assetsDir": "_nuxt/",
+    "copyPublicDir": false,
+    "emptyOutDir": false,
+    "manifest": "manifest.json",
+    "outDir": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/storybook-static",
+    "rollupOptions": {
+      "external": [
+        {
+        }
+      ],
+      "input": {
+        "entry": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/nuxt/dist/app/entry.js"
+      },
+      "output": {
+        "chunkFileNames": "_nuxt/[hash].js",
+        "entryFileNames": "_nuxt/[hash].js"
+      }
+    },
+    "sourcemap": false
+  },
+  "cacheDir": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/.cache/storybook/default/sb-vite",
+  "clearScreen": true,
+  "configFile": false,
+  "css": {
+    "devSourcemap": false,
+    "postcss": {
+      "plugins": [
+        {
+          "postcssPlugin": "tailwindcss/nesting"
+        },
+        {
+          "plugins": [
+            null
+          ],
+          "postcssPlugin": "tailwindcss"
+        },
+        {
+          "options": {
+          },
+          "postcssPlugin": "autoprefixer"
+        },
+        {
+          "plugins": [
+            {
+              "postcssPlugin": "postcss-discard-comments"
+            },
+            {
+              "postcssPlugin": "postcss-minify-gradients"
+            },
+            {
+              "postcssPlugin": "postcss-reduce-initial"
+            },
+            {
+              "postcssPlugin": "postcss-svgo"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-display-values"
+            },
+            {
+              "postcssPlugin": "postcss-reduce-transforms"
+            },
+            {
+              "postcssPlugin": "postcss-colormin"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-timing-functions"
+            },
+            {
+              "postcssPlugin": "postcss-calc"
+            },
+            {
+              "postcssPlugin": "postcss-convert-values"
+            },
+            {
+              "postcssPlugin": "postcss-ordered-values"
+            },
+            {
+              "postcssPlugin": "postcss-minify-selectors"
+            },
+            {
+              "postcssPlugin": "postcss-minify-params"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-charset"
+            },
+            {
+              "postcssPlugin": "postcss-discard-overridden"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-string"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-unicode"
+            },
+            {
+              "postcssPlugin": "postcss-minify-font-values"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-url"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-repeat-style"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-positions"
+            },
+            {
+              "postcssPlugin": "postcss-normalize-whitespace"
+            },
+            {
+              "postcssPlugin": "postcss-merge-longhand"
+            },
+            {
+              "postcssPlugin": "postcss-discard-duplicates"
+            },
+            {
+              "postcssPlugin": "postcss-merge-rules"
+            },
+            {
+              "postcssPlugin": "postcss-discard-empty"
+            },
+            {
+              "postcssPlugin": "postcss-unique-selectors"
+            },
+            {
+              "postcssPlugin": "css-declaration-sorter"
+            },
+            {
+              "postcssPlugin": "cssnano-util-raw-cache"
+            }
+          ],
+          "version": "8.5.3"
+        }
+      ]
+    }
+  },
+  "customLogger": {
+    "hasWarned": false
+  },
+  "define": {
+    "__NUXT_ASYNC_CONTEXT__": false,
+    "__NUXT_VERSION__": "\"3.17.1\"",
+    "__VUE_PROD_HYDRATION_MISMATCH_DETAILS__": false,
+    "import.meta.browser": true,
+    "import.meta.client": "true",
+    "import.meta.dev": false,
+    "import.meta.nitro": false,
+    "import.meta.prerender": false,
+    "import.meta.server": false,
+    "import.meta.test": false,
+    "import.meta.vitest": "undefined",
+    "module.hot": false,
+    "process.browser": true,
+    "process.client": true,
+    "process.dev": false,
+    "process.env.NODE_ENV": "\"production\"",
+    "process.nitro": false,
+    "process.prerender": false,
+    "process.server": false,
+    "process.test": false
+  },
+  "envPrefix": [
+    "VITE_",
+    "STORYBOOK_",
+    "NUXT_"
+  ],
+  "esbuild": {
+    "jsxFactory": "h",
+    "jsxFragment": "Fragment",
+    "target": "esnext",
+    "tsconfigRaw": {
+    }
+  },
+  "experimental": {
+  },
+  "logLevel": "info",
+  "mode": "production",
+  "optimizeDeps": {
+    "entries": [
+      "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/nuxt/dist/app/entry.js"
+    ],
+    "esbuildOptions": {
+      "jsxFactory": "h",
+      "jsxFragment": "Fragment",
+      "target": "esnext",
+      "tsconfigRaw": {
+      }
+    },
+    "exclude": [
+      "vue-demi",
+      "vue",
+      "@vue/runtime-core",
+      "@vue/runtime-dom",
+      "@vue/reactivity",
+      "@vue/shared",
+      "@vue/devtools-api",
+      "vue-router",
+      "vue-demi",
+      "nuxt",
+      "nuxt/app",
+      "@unhead/vue",
+      "consola",
+      "defu",
+      "devalue",
+      "h3",
+      "hookable",
+      "klona",
+      "ofetch",
+      "pathe",
+      "ufo",
+      "unctx",
+      "unenv",
+      "#app-manifest"
+    ],
+    "include": [
+      "@nuxtjs/storybook > @storybook-vue/nuxt > @storybook/vue3 > lodash/kebabCase",
+      "storybook > @storybook/core > jsdoc-type-pratt-parser"
+    ]
+  },
+  "plugins": [
+    {
+      "api": {
+        "include": {
+        },
+        "options": {
+          "compiler": null,
+          "cssDevSourcemap": false,
+          "customElement": {
+          },
+          "isProduction": true,
+          "root": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend",
+          "sourceMap": true
+        },
+        "version": "6.0.0"
+      },
+      "load": {
+        "filter": {
+          "id": [
+            {
+            },
+            {
+            }
+          ]
+        }
+      },
+      "name": "vite:vue",
+      "resolveId": {
+        "filter": {
+          "id": [
+            {
+            },
+            {
+            }
+          ]
+        }
+      },
+      "transform": {
+      }
+    },
+    {
+      "name": "vite:vue-jsx"
+    },
+    {
+      "enforce": "pre",
+      "name": "nuxt:components-loader-pre",
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "load": {
+        "enforce": "pre"
+      },
+      "name": "nuxt:vite-public-dir-resolution",
+      "resolveId": {
+        "enforce": "post"
+      },
+      "vite": {
+        "load": {
+          "enforce": "pre"
+        },
+        "resolveId": {
+          "enforce": "post"
+        }
+      }
+    },
+    {
+      "name": "replace"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata"
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:composable-keys",
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "nuxt:prehydrate-transform",
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "enforce": "pre",
+      "name": "nuxt:layer-aliasing",
+      "resolveId": {
+        "order": "pre"
+      },
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      },
+      "vite": {
+        "resolveId": {
+          "order": "pre"
+        }
+      }
+    },
+    {
+      "enforce": "pre",
+      "name": "nuxt:server-devonly:transform",
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "generateBundle": {
+        "enforce": "post"
+      },
+      "name": "nuxt:fonts:font-family-injection",
+      "vite": {
+        "generateBundle": {
+          "enforce": "post"
+        }
+      }
+    },
+    {
+      "enforce": "pre",
+      "name": "nuxt:vitest:nuxt-root-stub",
+      "vite": {
+      }
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:head:unhead-imports",
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:imports-transform"
+    },
+    {
+      "enforce": "post",
+      "name": "unctx:transform",
+      "transform": {
+        "filter": {
+          "code": {
+            "exclude": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "enforce": "post",
+      "handleHotUpdate": {
+        "order": "post"
+      },
+      "name": "nuxt:pages-macros-transform",
+      "vite": {
+        "handleHotUpdate": {
+          "order": "post"
+        }
+      }
+    },
+    {
+      "apply": "serve",
+      "enforce": "post",
+      "name": "nuxt:dev-style-ssr"
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:runtime-paths-dep"
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:vite-node-server"
+    },
+    {
+      "name": "nuxt:module-preload-polyfill"
+    },
+    {
+      "name": "nuxt:virtual"
+    },
+    {
+      "enforce": "pre",
+      "name": "impound"
+    },
+    {
+      "enforce": "pre",
+      "name": "nuxt:import-protection"
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:resolve-bare-imports"
+    },
+    {
+      "name": "nuxt-fonts-public-assets"
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:route-injection-plugin",
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:components:imports"
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:components-loader"
+    },
+    {
+      "name": "nuxt-server-component-hmr"
+    },
+    {
+      "enforce": "post",
+      "name": "nuxt:tree-shake-composables:transform",
+      "transform": {
+        "filter": {
+          "code": {
+            "include": {
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "replace"
+    },
+    {
+      "name": "ssr-styles",
+      "resolveId": {
+        "order": "pre"
+      }
+    },
+    {
+      "enforce": "pre",
+      "name": "storybook:code-generator-plugin"
+    },
+    {
+      "enforce": "pre",
+      "name": "plugin-csf",
+      "rollup": {
+        "name": "plugin-csf"
+      },
+      "vite": {
+        "enforce": "pre",
+        "name": "plugin-csf"
+      }
+    },
+    {
+      "enforce": "post",
+      "name": "storybook:inject-export-order-plugin"
+    },
+    {
+      "enforce": "post",
+      "name": "storybook:strip-hmr-boundary-plugin"
+    },
+    {
+      "enforce": "post",
+      "name": "storybook:allow-storybook-dir"
+    },
+    {
+      "enforce": "post",
+      "name": "storybook:external-globals-plugin"
+    },
+    {
+      "enforce": "post",
+      "name": "storybook:rollup-plugin-webpack-stats"
+    },
+    {
+      "name": "vite:storybook-inject-mocker-runtime",
+      "resolveId": {
+        "filter": {
+          "id": [
+            {
+            }
+          ]
+        }
+      }
+    },
+    [
+      {
+        "load": {
+          "order": "pre"
+        },
+        "name": "storybook:mock-loader",
+        "transform": {
+          "order": "pre"
+        }
+      },
+      {
+        "name": "storybook:mock-loader-preview"
+      }
+    ],
+    {
+      "name": "storybook:vue-template-compilation"
+    },
+    {
+      "name": "storybook:vue-docgen-plugin"
+    },
+    {
+      "name": "replace"
+    },
+    {
+      "name": "nuxt-runtime-config"
+    }
+  ],
+  "publicDir": false,
+  "resolve": {
+    "alias": {
+      "#app": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/nuxt/dist/app",
+      "#app-manifest": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/mocked-exports/lib/empty.mjs",
+      "#build": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/.nuxt",
+      "#image": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/@nuxt/image/dist/runtime",
+      "#imports": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/.nuxt/imports",
+      "#internal/nitro": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/.nuxt/nitro.client.mjs",
+      "#internal/nuxt/paths": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/.nuxt/paths.mjs",
+      "#shared": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/shared",
+      "#unhead/composables": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/nuxt/dist/head/runtime/composables/v3",
+      "#vue-router": "vue-router",
+      "@": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/src",
+      "@@": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend",
+      "@vue/composition-api": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/nuxt/dist/app/compat/capi",
+      "abort-controller": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/mocked-exports/lib/empty.mjs",
+      "assets": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/src/assets",
+      "public": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/src/public",
+      "vue-demi": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/nuxt/dist/app/compat/vue-demi",
+      "web-streams-polyfill/ponyfill/es2018": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/mocked-exports/lib/empty.mjs",
+      "~": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/src",
+      "~~": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend"
+    },
+    "conditions": [
+      "storybook",
+      "stories",
+      "test",
+      "module",
+      "browser",
+      "development|production"
+    ],
+    "dedupe": [
+      "vue",
+      "@iconify/vue",
+      "vue-router"
+    ],
+    "extensions": [
+      ".mjs",
+      ".js",
+      ".ts",
+      ".jsx",
+      ".tsx",
+      ".json",
+      ".vue"
+    ]
+  },
+  "root": "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend",
+  "server": {
+    "cors": true,
+    "fs": {
+      "allow": [
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/.nuxt",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/src",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/@storybook-vue/nuxt/dist",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/@storybook-vue/nuxt",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/@storybook-vue/nuxt/dist/runtime/plugins",
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/@storybook-vue/nuxt/dist/runtime/components"
+      ]
+    },
+    "hmr": false,
+    "middlewareMode": true,
+    "proxy": {
+      "/__storybook_preview__": {
+        "changeOrigin": false,
+        "secure": false,
+        "target": "/",
+        "ws": true
+      },
+      "^/(_nuxt|_ipx|api/_nuxt_icon|__nuxt_devtools__|__nuxt_island)": {
+        "changeOrigin": true,
+        "secure": false,
+        "target": "http://localhost:3000",
+        "ws": true
+      }
+    },
+    "warmup": {
+      "clientFiles": [
+        "/home/runner/work/split-my-receipt-up-frontend/split-my-receipt-up-frontend/node_modules/nuxt/dist/app/entry.js"
+      ]
+    }
+  },
+  "vue": {
+    "features": {
+      "propsDestructure": true
+    },
+    "isProduction": true,
+    "script": {
+      "hoistStatic": {
+      }
+    },
+    "template": {
+      "compilerOptions": {
+      },
+      "transformAssetUrls": {
+        "image": [
+          "xlink:href",
+          "href"
+        ],
+        "img": [
+          "src"
+        ],
+        "source": [
+          "src"
+        ],
+        "use": [
+          "xlink:href",
+          "href"
+        ],
+        "video": [
+          "src",
+          "poster"
+        ]
+      }
+    }
+  },
+  "vueJsx": {
+  }
+}
