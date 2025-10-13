@@ -5,18 +5,14 @@ on:
 jobs:
   build-and-deploy-storybook:
     runs-on: ubuntu-latest
+    # Job steps
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+      # Manual Checkout
+      - uses: actions/checkout@v3
+      # Set up Node
+      - uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build Storybook page
-        run: |
-          yarn build-storybook
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+          node-version: '16.x'
+      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
+          path: storybook-static
