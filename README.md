@@ -4,6 +4,8 @@
 
 ![alt text](/docs/images/new-sample-video.gif)
 
+※ Storybook Page: https://perrym123.github.io/split-my-receipt-up-frontend/
+
 ## なぜ作ってるか
 レシートを見て手動で計算するよりAIのOCR（文字認識）でレシートの文字を取得し計算してくれるアプリは制作したいです！
 

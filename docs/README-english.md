@@ -4,6 +4,8 @@
 
 ![alt text](/docs/images/new-sample-video.gif)
 
+※ Storybook Page: https://perrym123.github.io/split-my-receipt-up-frontend/
+
 ## Why am I Making This?
 Instead of calculating receipts by hand, let's use AI's OCR instead to convert a photo of a receipt into a machine-readable text format and calculate it that way!
 
