@@ -41,6 +41,8 @@
         :src="`${getImageUrlBase()}/${receiptData?.image_url}`"
       />
     </div>
+    <BaseButton class="mt-4" :to="'/'"> TOP </BaseButton>
+    <BaseButton class="mt-4" :to="'/receipts'"> レシート一覧 </BaseButton>
   </div>
 </template>
 
@@ -49,6 +51,7 @@ import { useRoute } from 'vue-router'
 import { USERS } from '@/constants'
 import ItemTable from '@/components/atoms/ItemTable.vue'
 import PageTitle from '@/components/atoms/PageTitle.vue'
+import BaseButton from '@/components/atoms/BaseButton.vue'
 
 definePageMeta({
   layout: 'common-layout'
