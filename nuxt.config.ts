@@ -12,14 +12,15 @@ export default defineNuxtConfig({
     }
   },
   srcDir: 'src/',
+  serverDir: 'src/server',
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/storybook'
+    '@nuxtjs/storybook',
+    '@nuxtjs/tailwindcss'
   ],
   app: {
     head: {
