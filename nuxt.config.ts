@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@nuxtjs/storybook',
+    ...(process.env.STORYBOOK === 'true' ? ['@nuxtjs/storybook' as const] : []),
     '@nuxtjs/tailwindcss'
   ],
   app: {
