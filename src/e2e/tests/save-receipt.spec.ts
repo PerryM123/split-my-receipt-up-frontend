@@ -16,21 +16,15 @@ const addImageToSaveReceiptPage = async (
   await fileChooser.setFiles('./src/e2e/fixtures/receipt_image.jpg')
 }
 
-test('Test validation in step 1 when Image Analyze API fails', async ({
+test('Test validation in step 1 for missing/invalid JSON Area input', async ({
   page
 }) => {
-  await page.route('**/api/receipt-info/analyze', async (route) => {
-    await route.fulfill({
-      status: 500,
-      body: JSON.stringify({ error: 'Internal Server Error' })
-    })
-  })
   const fileChooserPromise = page.waitForEvent('filechooser')
   await page.goto('http://localhost:3000/')
   await page.getByRole('link', { name: '新規レシート作成' }).click()
   await page.waitForLoadState('networkidle')
-  await page.getByRole('textbox').click()
-  await page.getByRole('textbox').fill('Test Title')
+  await page.getByRole('textbox', { name: 'Receipt Title' }).click()
+  await page.getByRole('textbox', { name: 'Receipt Title' }).fill('Test Title')
   await page.getByRole('button', { name: '分析' }).click()
   await expect(page.getByText('Please select a receipt you')).toBeVisible()
   await page.getByRole('button', { name: 'Choose File' }).click()
@@ -38,9 +32,16 @@ test('Test validation in step 1 when Image Analyze API fails', async ({
   await fileChooser.setFiles('./src/e2e/fixtures/receipt_image.jpg')
   await page.getByRole('button', { name: '分析' }).click()
   await expect(
-    page.getByText('Failed analyzing image. Please try again at a later time.')
+    page.getByText('Please paste the analyzed receipt JSON.')
   ).toBeVisible()
-  await page.getByRole('textbox').clear()
+  await page
+    .getByRole('textbox', { name: 'JSON Area' })
+    .fill('{ not valid json')
+  await page.getByRole('button', { name: '分析' }).click()
+  await expect(
+    page.getByText('Invalid JSON. Please check the format and try again.')
+  ).toBeVisible()
+  await page.getByRole('textbox', { name: 'Receipt Title' }).clear()
   await page.getByRole('button', { name: '分析' }).click()
   await expect(
     page.getByText('Please add a title for the receipt')
@@ -50,21 +51,20 @@ test('Test validation in step 1 when Image Analyze API fails', async ({
 test('Adding Receipt. Check receipt details after adding. Check Receipt List for confirmation', async ({
   page
 }) => {
-  await page.route('**/api/receipt-info/analyze', async (route) => {
-    await route.fulfill({
-      status: 201,
-      body: JSON.stringify(someJson)
-    })
-  })
   const fileChooserPromise = page.waitForEvent('filechooser')
   await page.goto('http://localhost:3000/')
   await page.getByRole('link', { name: '新規レシート作成' }).click()
   await page.waitForLoadState('networkidle')
-  await page.getByRole('textbox').click()
-  await page.getByRole('textbox').fill('Test Title 2982580523')
+  await page.getByRole('textbox', { name: 'Receipt Title' }).click()
+  await page
+    .getByRole('textbox', { name: 'Receipt Title' })
+    .fill('Test Title 2982580523')
   await page.getByRole('radio', { name: 'Hannah' }).check()
   await page.getByRole('button', { name: 'Choose File' }).click()
   await addImageToSaveReceiptPage(fileChooserPromise)
+  await page
+    .getByRole('textbox', { name: 'JSON Area' })
+    .fill(JSON.stringify(someJson))
   await page.getByRole('button', { name: '分析' }).click()
   // Testing inputs are being changed the totals are correct
   await expect(page.getByText('Perry: 2,313円')).toBeVisible()
