@@ -1,12 +1,12 @@
 export const getImageUrlBase = () => {
   const config = useRuntimeConfig()
-  const { imageUrlBaseLocal, imageUrlBaseLan, awsImageBucket } = config.public
+  const { imageUrlBaseLocal, imageUrlBaseLan } = config.public
   if (import.meta.client) {
     const hostname = window.location.hostname
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      return `${imageUrlBaseLocal}/${awsImageBucket}`
+      return `${imageUrlBaseLocal}`
     }
-    return `${imageUrlBaseLan}/${awsImageBucket}`
+    return `${imageUrlBaseLan}`
   }
-  return `${imageUrlBaseLocal}/${awsImageBucket}`
+  return `${imageUrlBaseLocal}`
 }
